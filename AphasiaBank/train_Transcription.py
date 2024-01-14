@@ -67,66 +67,47 @@ class ASR(sb.Brain):
         batch = batch.to(self.device)
         wavs, wav_lens = batch.sig
         tokens_bos, _ = batch.tokens_bos
+        wavs, wav_lens = wavs.to(self.device), wav_lens.to(self.device)
 
         # Add augmentation if specified
         if stage == sb.Stage.TRAIN:
-            if hasattr(self.modules, "env_corrupt"):
-                wavs_noise = self.modules.env_corrupt(wavs, wav_lens)
-                wavs = torch.cat([wavs, wavs_noise], dim=0)
-                wav_lens = torch.cat([wav_lens, wav_lens])
-                tokens_bos = torch.cat([tokens_bos, tokens_bos], dim=0)
-
-        # compute features
-        feats = self.hparams.compute_features(wavs)
-        current_epoch = self.hparams.epoch_counter.current
-        feats = self.modules.normalize(feats, wav_lens, epoch=current_epoch)
-
-        print(feats)
-        # exit()
-
-        if stage == sb.Stage.TRAIN:
             if hasattr(self.hparams, "augmentation"):
-                feats = self.hparams.augmentation(feats)
+                wavs = self.hparams.augmentation(wavs, wav_lens)
 
         # forward modules
-        # print(f"feats: {feats.shape}")
-        src = self.modules.CNN(feats)
+        w2v_out = self.modules.SSL_enc(wavs)
 
-        # enc_out, pred = self.modules.Transformer(
-        #     src, tokens_bos, wav_lens, pad_idx=self.hparams.pad_index,
-        # )
-        enc_out, pred, _ = self.modules.Transformer(
-            src, tokens_bos, wav_lens, pad_idx=self.hparams.pad_index,
+        ## ASR head ##
+        out_ASR, _ = self.modules.Transformer(
+            w2v_out, tokens_bos, wav_lens, pad_idx=self.hparams.pad_index,
         )
-
         # output layer for ctc log-probabilities
-        logits = self.modules.ctc_lin(enc_out)
+        logits = self.modules.ctc_lin(w2v_out)
         p_ctc = self.hparams.log_softmax(logits)
-
         # output layer for seq2seq log-probabilities
-        pred = self.modules.seq_lin(pred)
+        pred = self.modules.seq_lin(out_ASR)
         p_seq = self.hparams.log_softmax(pred)
 
+
         # Compute outputs
-        hyps = None
+        hyps_asr = None
+        hyps_attn = None
         if stage == sb.Stage.TRAIN:
             hyps = None
         elif stage == sb.Stage.VALID:
-            hyps = None
             current_epoch = self.hparams.epoch_counter.current
-            if current_epoch % self.hparams.valid_search_interval == 0:
-                # for the sake of efficiency, we only perform beamsearch with limited capacity
-                # and no LM to give user some idea of how the AM is doing
-                hyps, _ = self.hparams.valid_search(enc_out.detach(), wav_lens)
+            if (current_epoch % self.hparams.valid_search_interval == 0):
+                hyps_asr, _ = self.hparams.valid_search(w2v_out.detach(), wav_lens)
+
         elif stage == sb.Stage.TEST:
-            hyps, _ = self.hparams.test_search(enc_out.detach(), wav_lens)
+            hyps_asr, _ = self.hparams.test_search(w2v_out.detach(), wav_lens)
 
-        return p_ctc, p_seq, wav_lens, hyps
-
+        return p_ctc, p_seq, wav_lens, hyps_asr, hyps_attn
+    
     def compute_objectives(self, predictions, batch, stage):
         """Computes the loss (CTC+NLL) given predictions and targets."""
 
-        (p_ctc, p_seq, wav_lens, hyps) = predictions
+        (p_ctc, p_seq, wav_lens, hyps, hyps_attn) = predictions
 
         ids = batch.id
         tokens_eos, tokens_eos_lens = batch.tokens_eos
@@ -608,6 +589,7 @@ if __name__ == "__main__":
 
     with torch.autograd.detect_anomaly():
         if hparams['train_flag']:
+            print("training model")
             asr_brain.fit(
                 asr_brain.hparams.epoch_counter,
                 train_data,
