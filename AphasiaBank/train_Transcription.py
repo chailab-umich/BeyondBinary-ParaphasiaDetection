@@ -78,7 +78,7 @@ class ASR(sb.Brain):
         w2v_out = self.modules.SSL_enc(wavs)
 
         ## ASR head ##
-        out_ASR, _ = self.modules.Transformer(
+        out_ASR, attn = self.modules.Transformer(
             w2v_out, tokens_bos, wav_lens, pad_idx=self.hparams.pad_index,
         )
         # output layer for ctc log-probabilities
