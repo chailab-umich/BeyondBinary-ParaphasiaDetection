@@ -12,11 +12,11 @@ seed: 2000
 FT_start: FT_start_PLACEHOLDER
 train_flag: train_flag_PLACEHOLDER
 frid_fold: frid_fold_PLACEHOLDER
+loss_optimizer: loss
 
 
-token_type: "bpe" # unigram / bpe
+token_type: "unigram" # unigram / bpe
 output_neurons: output_neurons_PLACEHOLDER
-user_defined_symbols: "[p],[n]"
 
 # Control MTL or STL objective
 MTL_bool: True
@@ -33,6 +33,9 @@ save_folder: !ref <output_folder>/save
 train_log: !ref <output_folder>/train_log.txt
 data_dir: data_dir_PLACEHOLDER
 data_folder: !ref <data_dir>
+
+tb_logs: !ref <output_folder>/tb_logs
+
 
 
 # stages related parameters
@@ -138,7 +141,7 @@ Transformer: !new:speechbrain.lobes.models.transformer.TransformerASR.Transforme
 SSL_enc: !new:speechbrain.lobes.models.huggingface_wav2vec.HuggingFaceWav2Vec2
    source: !ref <wav2vec2_hub>
    output_norm: True
-   freeze: False
+   freeze: freeze_ARCH_PLACEHOLDER
    freeze_feature_extractor: True
    save_path: !ref <save_folder>/wav2vec2_checkpoint
 
@@ -257,6 +260,7 @@ epoch_counter: !new:speechbrain.utils.epoch_loop.EpochCounterWithStopper
    limit_to_stop: 5
    limit_warmup: 5
    direction: "min"
+   
 
 
 augmentation: !new:speechbrain.lobes.augment.TimeDomainSpecAugment

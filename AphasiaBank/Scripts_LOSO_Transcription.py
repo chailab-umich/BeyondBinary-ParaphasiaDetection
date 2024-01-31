@@ -16,6 +16,8 @@ from scipy import stats
 import re
 import socket
 from tqdm import tqdm
+import jiwer
+import Levenshtein as lev
 
 def find_free_port():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -53,11 +55,12 @@ def compute_maj_class(fold,para_type):
     maj_class_utt = utt_counter.most_common()[0][0]
     return maj_class_utt
 
-## TD
+## TD for multi
 def TD_helper(true_labels, predicted_labels):
     TTC = 0
     for i in range(len(true_labels)):
-        if true_labels[i] == 1:
+        # for paraphasia label
+        if true_labels[i] != 'c':
             min_distance_for_label = max(i-0,len(true_labels)-i)
             for j in range(len(predicted_labels)):
                 if true_labels[i] == predicted_labels[j]:
@@ -70,8 +73,8 @@ def TD_helper(true_labels, predicted_labels):
 
     CTT = 0
     for j in range(len(predicted_labels)):
-        if predicted_labels[j] == 1:
-            min_distance_for_label = max(i-0,len(predicted_labels)-i)
+        if predicted_labels[j] != 'c':
+            min_distance_for_label = max(j-0,len(predicted_labels)-j)
             for i in range(len(true_labels)):
                 if true_labels[i] == predicted_labels[j]:
                     # check for min distance
@@ -79,16 +82,24 @@ def TD_helper(true_labels, predicted_labels):
                         min_distance_for_label = abs(i - j)
 
             CTT += min_distance_for_label
-    # print(f"true_labels: {true_labels} | pred: {predicted_labels}")
-    # print(f"CCT: {CTT} | TTC:{TTC}")
-    # exit()
     return TTC + CTT
 
 def compute_temporal_distance(true_labels, predicted_labels):
     # Return list of TDs for each utterance
     TD_per_utt = []
     for true_label, pred_label in zip(true_labels, predicted_labels):
-        TD_per_utt.append(TD_helper(true_label, pred_label))
+        TD_utt = TD_helper(true_label, pred_label)
+        TD_per_utt.append(TD_utt)
+
+        # print(f"true_label: {true_label}")
+        # print(f"pred_label: {pred_label}")
+        # print(f"TD_utt: {TD_utt}\n")
+        # print(f"TD_utt: {TD_utt}")
+        # if TD_utt > 200:
+        #     print(f"true_label: {true_label}")
+        #     print(f"pred_label: {pred_label}")
+        #     exit()
+    
 
     return sum(TD_per_utt) / len(TD_per_utt)
     
@@ -104,20 +115,26 @@ def compute_time_tolerant_scores(true_labels, predicted_labels, n=0):
     FN = 0  # False Negatives
     FP = 0  # False Positives
 
-    
     for utt_true, utt_pred in zip(true_labels, predicted_labels):
+        # print(f"utt_true: {utt_true}")
+        # print(f"utt_pred: {utt_pred}")
+        loc_TP = 0
+        loc_FN = 0
         for i, (true_label, predicted_label) in enumerate(zip(utt_true, utt_pred)):
             neighborhood = utt_pred[max(i-n, 0):min(i+n+1, len(utt_pred))]
 
-            if true_label == 1:
-                if any(label == 1 for label in neighborhood):
+            if true_label != 'c' and true_label != '<eps>':
+                if any(label == true_label for label in neighborhood):
                     TP += 1
+                    loc_TP+=1
                 else:
                     FN += 1
+                    loc_FN+=1
 
-            elif any(label == 1 for label in neighborhood):
+            elif any(label in ['p','n','s']  for label in neighborhood):
                 FP += 1
-
+        # print(f"TP: {loc_TP} | FN: {loc_FN}\n")
+    # exit()
     # Calculating precision and recall
     precision = TP / (TP + FP) if (TP + FP) > 0 else 0
     recall = TP / (TP + FN) if (TP + FN) > 0 else 0
@@ -138,21 +155,21 @@ def extract_wer(wer_file):
 
     return wer_details
   
-def transcription_helper(words, paraphasia):
+def transcription_helper(words):
     # For a given list of words, return list of paraphasias
     paraphasia_list = []
     for i,w in enumerate(words):
         if w.startswith("[") and w.endswith("]"):
             # paraphasia found for previous word
             paraphasia_list.pop(-1)
-            # paraphasia_list.append(w[1:-1])
-            if w[1:-1] == paraphasia:
-                paraphasia_list.append(1)
-            else:
-                paraphasia_list.append(0)
+            
+            # replace previous word label with paraphasia label
+            paraphasia_list.append(w[1:-1])
+        elif w == "<eps>":
+            continue
         else:
             # paraphasia_list.append('C')
-            paraphasia_list.append(0)
+            paraphasia_list.append('c')
 
     return paraphasia_list
     
@@ -174,10 +191,14 @@ def extract_word_level_paraphasias(wer_file,paraphasia):
             elif switch == 1:
                 # ground truth
                 words = [w.strip() for w in line.split(";")]
+                words_no_eps = [w for w in words if w != '<eps>']
                 # print(f"GT words: {words}")
-                paraphasia_list = transcription_helper(words,paraphasia)
+                # print(f"GT words_no_eps: {words_no_eps}")
+                # paraphasia_list = transcription_helper(words)
+                # true_words = words
+                # utt_true = paraphasia_list
                 # print(f"GT paraphasia_list: {paraphasia_list}")
-                y_true.append(paraphasia_list)
+                y_true.append(words_no_eps)
                 switch = 2
 
 
@@ -186,16 +207,185 @@ def extract_word_level_paraphasias(wer_file,paraphasia):
             elif switch ==3:
                 # pred
                 words = [w.strip() for w in line.split(";")]
+                words_no_eps = [w for w in words if w != '<eps>']
                 # print(f"PRED words: {words}")
-                paraphasia_list = transcription_helper(words,paraphasia)
+                # paraphasia_list = transcription_helper(words)
+                # pred_words = words
+                # utt_pred = paraphasia_list
                 # print(f"PRED paraphasia_list: {paraphasia_list}")
-                # if 'p' in paraphasia_list or 'n' in paraphasia_list:
-                    # exit()
-                y_pred.append(paraphasia_list)
+                y_pred.append(words_no_eps)
                 switch = 0
-                # assert len(pred) == len(gt)
+
+                # if len(utt_true) != len(utt_pred):
+                #     print(f"words - gt: {true_words}")
+                #     print(f"words - pred: {pred_words}")
+                #     print(f"paraphasia - gt: {utt_true}")
+                #     print(f"paraphasia - pred: {utt_pred}")
+                #     exit()
 
     return y_true, y_pred
+
+
+### word-level paraphasia extraction ###
+def remove_paraphasia_tags(ytrue_list, ypred_list):
+    pred_tag_list = []
+    true_tag_list = []
+    ytrue_list_nowords = []
+    ypred_list_nowords = []
+    for y_true, y_pred in zip(ytrue_list, ypred_list):
+        
+        def tag_helper(word_list):
+            tag_dict = {}
+            no_tag_word_list = []
+            # print(f"word_list: {word_list}")
+            for i, w in enumerate(word_list):
+                if w.startswith('[') and w.endswith(']'):
+                    # tag found
+                    paraphasia_word = word_list[i-1] # prev word
+
+                    # same tag found => skip (redundant) or first tag is paraphasia
+                    if w == paraphasia_word or i == 0:
+                        continue
+
+                    ptag = w[1:-1]
+                    # print(f"ptag: {ptag}")
+
+                    # add tag
+                    # if paraphasia_word not in tag_dict:
+                    #     tag_dict[paraphasia_word] = []
+                    # pop previous
+                    # print(f"tag_dict[{paraphasia_word}]: {tag_dict[paraphasia_word]}")
+                    tag_dict[paraphasia_word].pop(-1)
+                    tag_dict[paraphasia_word].append(ptag)
+
+
+                else:
+
+                    if w not in tag_dict:
+                        tag_dict[w] = []
+                    tag_dict[w].append('c')
+
+                    no_tag_word_list.append(w)
+            # print(word_list)
+            # print(tag_dict)
+            # exit()
+            return tag_dict,no_tag_word_list
+
+        pred_tags, pred_words = tag_helper(y_pred)
+        true_tags, true_words = tag_helper(y_true)
+
+        pred_tag_list.append(pred_tags)
+        true_tag_list.append(true_tags)
+
+        ytrue_list_nowords.append(true_words)
+        ypred_list_nowords.append(pred_words)
+
+    return ytrue_list_nowords, ypred_list_nowords, true_tag_list, pred_tag_list
+                
+def get_alignment(ytrue_list, ypred_list):
+    ytrue_list_align = []
+    ypred_list_align = []
+    for y_true, y_pred in zip(ytrue_list, ypred_list):
+        # print(f"y_true: {y_true}")
+        # print(f"y_pred: {y_pred}")
+        align_true, align_pred = align_strings_with_editops(y_true, y_pred)
+
+        # print(f"align_true: {align_true}")
+        # print(f"align_pred: {align_pred}")
+        ytrue_list_align.append(align_true.split())
+        ypred_list_align.append(align_pred.split())
+
+    
+    return ytrue_list_align, ypred_list_align
+
+def align_strings_with_editops(true_str, pred_str):
+    # Split the strings into words
+    true_words = true_str
+    pred_words = pred_str
+
+    # Get the edit operations to transform pred_str to true_str
+    edit_operations = lev.editops(pred_words, true_words)
+    # print(edit_operations)
+    aligned_true = []
+    aligned_pred = []
+    i = j = 0
+
+    for op, pred_idx, true_idx in edit_operations:
+        # Catch up to the current position
+        while i < true_idx or j < pred_idx:
+            if i < true_idx:
+                aligned_true.append(true_words[i])
+                i += 1
+            if j < pred_idx:
+                aligned_pred.append(pred_words[j])
+                j += 1
+
+            if i < true_idx or j < pred_idx:
+                aligned_pred.append('<eps>' if i < true_idx else pred_words[j])
+                aligned_true.append('<eps>' if j < pred_idx else true_words[i])
+
+        # Apply the edit operation
+        if op == 'replace':
+            aligned_true.append(true_words[true_idx])
+            aligned_pred.append(pred_words[pred_idx])
+            i += 1
+            j += 1
+        elif op == 'insert':
+            aligned_true.append(true_words[true_idx])
+            aligned_pred.append('<eps>')
+            i += 1
+        elif op == 'delete':
+            aligned_true.append('<eps>')
+            aligned_pred.append(pred_words[pred_idx])
+            j += 1
+
+    # Add remaining words
+    while i < len(true_words):
+        aligned_true.append(true_words[i])
+        i += 1
+
+    while j < len(pred_words):
+        aligned_pred.append(pred_words[j])
+        j += 1
+
+    return ' '.join(aligned_true), ' '.join(aligned_pred)
+
+def reinsert_paraphasia_tags(word_list, tag_list):
+    reconstructed_word_list = []
+    for words, tag_dict in zip(word_list, tag_list):
+        # print(f"words: {words}")
+        # print(f"tag: {tag_dict}")
+
+        reconstructed_word = []
+        for word in words:
+            reconstructed_word.append(word)
+            if word in tag_dict:
+                # print(f"word: {word}")
+                reconstructed_word.append(f'[{tag_dict[word][0]}]')
+                tag_dict[word].pop(0)
+
+        
+        # print(f"reconstructed: {reconstructed_word}")
+        reconstructed_word_list.append(reconstructed_word)
+        # exit()
+    return reconstructed_word_list
+
+
+def extract_paraphasia_class_labels(word_para_list):
+    all_utts = []
+    for word_para in word_para_list:
+        para_list = []
+        for w in word_para:
+            if w.startswith('[') and w.endswith(']'):
+                para_list.append(w[1:-1])
+            elif w == "<eps>":
+                para_list.append('c')
+        all_utts.append(para_list)
+
+    return all_utts
+        
+
+
 
 def get_metrics(fold_dir, paraphasia):
     '''
@@ -207,7 +397,31 @@ def get_metrics(fold_dir, paraphasia):
 
 
     # Extract paraphasia sequence from wer.txt
-    list_list_ytrue, list_list_ypred = extract_word_level_paraphasias(wer_file, paraphasia)
+    # list_list_unaligned_words, list_list_unaligned_words = extract_word_level_paraphasias(wer_file, paraphasia)
+    i=0
+    # remove eps
+    noalign_ytrue, noalign_ypred = extract_word_level_paraphasias(wer_file, paraphasia)
+    # print(f"y_true[0]: {noalign_ytrue[i]}")
+    # print(f"y_pred[0]: {noalign_ypred[i]}")
+
+    # remove paraphasia tags
+    noalign_ytrue, noalign_ypred, true_tag_list, pred_tag_list = remove_paraphasia_tags(noalign_ytrue, noalign_ypred)
+
+    #align non_words
+    align_ytrue, align_ypred = get_alignment(noalign_ytrue, noalign_ypred)
+
+    # re-insert paraphasia tags
+    y_true = reinsert_paraphasia_tags(align_ytrue,true_tag_list)
+    y_pred = reinsert_paraphasia_tags(align_ypred,pred_tag_list)
+
+    # extract word-level paraphasia lists
+    list_list_ytrue = extract_paraphasia_class_labels(y_true)
+    list_list_ypred = extract_paraphasia_class_labels(y_pred)
+
+    # check assertion
+    for y,p in zip(list_list_ytrue, list_list_ypred):
+        assert len(y) == len(p)
+
 
     result_df = pd.DataFrame({
         'wer-err': [wer_details['err']],
@@ -250,7 +464,7 @@ def clean_FT_model_save(path):
     optim_file = f"{abs_directory}/{latest_ckpt}/optimizer.ckpt"
     os.remove(optim_file)
 
-def change_yaml(yaml_src,yaml_target,data_fold_dir,frid_fold,output_neurons,output_dir,w2v_model):
+def change_yaml(yaml_src,yaml_target,data_fold_dir,frid_fold,output_neurons,output_dir,base_model,freeze_arch_bool):
     # copy src to tgt
     shutil.copyfile(yaml_src,yaml_target)
 
@@ -263,7 +477,6 @@ def change_yaml(yaml_src,yaml_target,data_fold_dir,frid_fold,output_neurons,outp
 
     
     # copy original file over to new dir
-    base_model = f"ISresults/Transcription_Proto/S2S-hubert-Transformer-500"
     if not os.path.exists(output_dir):
         print("copying dir")
         shutil.copytree(base_model,output_dir, ignore_dangling_symlinks=True)
@@ -282,7 +495,7 @@ def change_yaml(yaml_src,yaml_target,data_fold_dir,frid_fold,output_neurons,outp
         filedata = filedata.replace('output_PLACEHOLDER', f"{output_dir}")
         filedata = filedata.replace('output_neurons_PLACEHOLDER', f"{output_neurons}")
         filedata = filedata.replace('lr_PLACEHOLDER', f"{lr}")
-
+        filedata = filedata.replace('freeze_ARCH_PLACEHOLDER', f"{freeze_arch_bool}")
 
         with open(yaml_target,'w') as fout:
             fout.write(filedata)
@@ -292,17 +505,21 @@ def change_yaml(yaml_src,yaml_target,data_fold_dir,frid_fold,output_neurons,outp
 if __name__ == "__main__":
     DATA_ROOT = "/home/mkperez/speechbrain/AphasiaBank/data/Fridriksson_para_best_Word"
 
-    TRAIN_FLAG = True
+    TRAIN_FLAG = False
     EVAL_FLAG = True
     OUTPUT_NEURONS=500
-    W2V_MODEL=['wavlm-large', 'wav2vec2-large-960h-lv60-self','hubert-large-ls960-ft'][2]
+    FREEZE_ARCH = False
 
-    EXP_DIR = f"ISresults/Transcription_Scripts/S2S-hubert-Transformer-500"
-
+    if FREEZE_ARCH:
+        EXP_DIR = f"ISresults/Transcription_Scripts/S2S-hubert-Transformer-500"
+        BASE_MODEL = f"ISresults/Transcription_Proto/S2S-hubert-Transformer-500"
+    else:
+        EXP_DIR = f"ISresults/full_FT_Transcription_Scripts/S2S-hubert-Transformer-500"
+        BASE_MODEL = f"ISresults/full_FT_Transcription_Proto/S2S-hubert-Transformer-500"
 
     if TRAIN_FLAG:
-        yaml_src = "/home/mkperez/speechbrain/AphasiaBank/hparams/Scripts_base_transcription.yml"
-        yaml_target = "/home/mkperez/speechbrain/AphasiaBank/hparams/Scripts_transcription.yml"
+        yaml_src = "/home/mkperez/speechbrain/AphasiaBank/hparams/Scripts/transcription_base.yml"
+        yaml_target = "/home/mkperez/speechbrain/AphasiaBank/hparams/Scripts/transcription_final.yml"
         start = time.time()
         
         i=1
@@ -310,7 +527,7 @@ if __name__ == "__main__":
         while i <=12:
             data_fold_dir = f"{DATA_ROOT}/Fold_{i}"
 
-            change_yaml(yaml_src,yaml_target,data_fold_dir,i,OUTPUT_NEURONS,EXP_DIR,W2V_MODEL)
+            change_yaml(yaml_src,yaml_target,data_fold_dir,i,OUTPUT_NEURONS,EXP_DIR,BASE_MODEL,FREEZE_ARCH)
 
             # # launch experiment
             # multi-gpu
@@ -367,6 +584,8 @@ if __name__ == "__main__":
 
         # TD
         TD_per_utt = compute_temporal_distance(list_list_ytrue, list_list_ypred)
+        # print(TD_per_utt)
+        # exit()
 
         with open(f"{results_dir}/Frid_metrics_{PARAPHASIA_EVAL}.txt", 'w') as w:
             for k in ['wer']:

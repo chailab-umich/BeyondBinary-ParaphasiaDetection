@@ -13,8 +13,7 @@ train_flag: True
 # Ngram LM
 lm_weight: 0.60
 ctc_weight_decode: 0.2
-loss_optimizer: acc
-FT_start: False
+loss_optimizer: loss
 
 # stages related parameters
 lr_adam: 1.0e-4
@@ -26,15 +25,14 @@ __set_seed: !apply:torch.manual_seed [!ref <seed>]
 w2v_model: hubert-large-ls960-ft
 wav2vec2_hub: !ref facebook/<w2v_model>
 
-token_type: "bpe" # unigram / bpe
+token_type: "unigram" # unigram / bpe
 output_neurons: 500
-output_folder: !ref ISresults/Transcription_Proto/S2S-hubert-Transformer-<output_neurons>_lr-<lr_adam>
+output_folder: !ref ISresults/ASR-only_Proto/S2S-hubert-Transformer-<output_neurons>
 wer_file: !ref <output_folder>/wer.txt
 save_folder: !ref <output_folder>/save
 train_log: !ref <output_folder>/train_log.txt
 data_dir: /scratch/emilykmp_root/emilykmp1/mkperez/speechbrain/AphasiaBank/data/Proto-clinical/mtl_paraphasia
 data_folder: !ref <data_dir>
-user_defined_symbols: "[p],[n],[s]"
 
 tb_logs: !ref <output_folder>/tb_logs
 
@@ -68,7 +66,7 @@ min_sev_train: -1
 # Empirically, we found that this value should be >= 128.
 # Please, set your parameters accordingly.
 number_of_epochs: 35
-batch_size: 30 # This works for 1x GPU with 40GB with no dynamic batching
+batch_size: 10 # This works for 1x GPU with 40GB with no dynamic batching
 ctc_weight: 0.3
 grad_accumulation_factor: 2
 max_grad_norm: 5.0
@@ -159,7 +157,7 @@ Transformer: !new:speechbrain.lobes.models.transformer.TransformerASR.Transforme
 SSL_enc: !new:speechbrain.lobes.models.huggingface_wav2vec.HuggingFaceWav2Vec2
    source: !ref <wav2vec2_hub>
    output_norm: True
-   freeze: True
+   freeze: False
    freeze_feature_extractor: True
    save_path: !ref <save_folder>/wav2vec2_checkpoint
 

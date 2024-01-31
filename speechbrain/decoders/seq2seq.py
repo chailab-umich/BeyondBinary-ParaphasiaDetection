@@ -1520,6 +1520,22 @@ def batch_filter_seq2seq_output(prediction, eos_id=-1):
         outputs.append(res)
     return outputs
 
+def batch_filter_seq2seq_output_para(prediction, para, eos_id=-1):
+    """
+    Filter prediction based on eos
+    Filter para using final predictions length
+    """
+    outputs = []
+    output_para = []
+    for p, pa in zip(prediction, para):
+        res = filter_seq2seq_output(p.tolist(), eos_id=eos_id)
+        res_para = pa.int().tolist()[:len(res)]
+        # filter para
+        outputs.append(res)
+        output_para.append(res_para)
+
+    return outputs, output_para
+
 
 def filter_seq2seq_output(string_pred, eos_id=-1):
     """Filter the output until the first eos occurs (exclusive).

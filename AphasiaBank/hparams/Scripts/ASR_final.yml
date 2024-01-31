@@ -1,46 +1,45 @@
 # ################################
-# Use attention visualization
-# Model: E2E ASR with Transformer
+# Paraphasia Decoding
 # Encoder: Pretrained SSL Encoder
-# Decoder: Transformer Decoder + (CTC/ATT joint) beamsearch + TransformerLM
+# Decoder: Transformer Decoder + (CTC/ATT joint) beamsearch
 # Augmentation: SpecAugment
-# Taken from Librispeech recipe
 # ################################
 
 # Seed needs to be set at top of yaml, before objects with parameters are made
 seed: 2000
-train_flag: True
-# Ngram LM
-lm_weight: 0.60
-ctc_weight_decode: 0.2
-loss_optimizer: acc
-FT_start: False
 
-# stages related parameters
-lr_adam: 1.0e-4
+# reset LR
+FT_start: True
+train_flag: True
+frid_fold: 12
+loss_optimizer: loss
+
+
+token_type: "unigram" # unigram / bpe
+output_neurons: 500
+
+# Control MTL or STL objective
+MTL_bool: True
+
 
 __set_seed: !apply:torch.manual_seed [!ref <seed>]
-# w2v_model: wavlm-large
-# wav2vec2_hub: !ref microsoft/<w2v_model>
-# w2v_model: wav2vec2-large-960h-lv60-self
 w2v_model: hubert-large-ls960-ft
 wav2vec2_hub: !ref facebook/<w2v_model>
 
-token_type: "bpe" # unigram / bpe
-output_neurons: 500
-output_folder: !ref ISresults/Transcription_Proto/S2S-hubert-Transformer-<output_neurons>_lr-<lr_adam>
+
+output_folder: !ref ISresults/ASR-only_Scripts/S2S-hubert-Transformer-500/Fold-12
 wer_file: !ref <output_folder>/wer.txt
 save_folder: !ref <output_folder>/save
 train_log: !ref <output_folder>/train_log.txt
-data_dir: /scratch/emilykmp_root/emilykmp1/mkperez/speechbrain/AphasiaBank/data/Proto-clinical/mtl_paraphasia
+data_dir: /home/mkperez/speechbrain/AphasiaBank/data/Fridriksson_para_best_Word/Fold_12
 data_folder: !ref <data_dir>
-user_defined_symbols: "[p],[n],[s]"
 
 tb_logs: !ref <output_folder>/tb_logs
 
 
 
-
+# stages related parameters
+lr_adam: 0.0005
 
 # Data files
 train_splits: ["train"]
@@ -52,13 +51,12 @@ train_csv: !ref <data_dir>/train_multi.csv
 valid_csv: !ref <data_dir>/dev_multi.csv
 test_csv: !ref <data_dir>/test_multi.csv
 
-
 # Training parameters
 auto_mix_prec: False
-max_length: 10 # change to 20
-val_max_length: 5
-val_min_length: 1
-min_length: 0.75
+max_length: 18 # change to 20
+val_max_length: 10
+val_min_length: 0.5
+min_length: 0.5
 max_sev_train: 4
 min_sev_train: -1
 
@@ -67,10 +65,10 @@ min_sev_train: -1
 # The global batch size is computed as batch_size * n_gpus * gradient_accumulation.
 # Empirically, we found that this value should be >= 128.
 # Please, set your parameters accordingly.
-number_of_epochs: 35
-batch_size: 30 # This works for 1x GPU with 40GB with no dynamic batching
-ctc_weight: 0.3
-grad_accumulation_factor: 2
+number_of_epochs: 100
+batch_size: 4 # This works for 1x GPU with 40GB with no dynamic batching
+ctc_weight: 0.2
+grad_accumulation_factor: 4
 max_grad_norm: 5.0
 loss_reduction: 'batchmean'
 sorting: ascending
@@ -86,20 +84,6 @@ valid_dataloader_opts:
 test_dataloader_opts:
     batch_size: 1
 
-# This setup works well for V100 32GB GPU, adapts it to your needs.
-# Or turn it off (but training speed will decrease)
-dynamic_batching: False
-max_batch_len: 300 # total seconds of audio (mult by batch size)
-max_batch_len_val: 100 # we reduce it as the beam is much wider (VRAM)
-num_bucket: 200
-
-dynamic_batch_sampler:
-    max_batch_len: !ref <max_batch_len>
-    max_batch_len_val: !ref <max_batch_len_val>
-    num_buckets: !ref <num_bucket>
-    shuffle_ex: True # if true re-creates batches at each epoch shuffling examples.
-    batch_ordering: random
-    max_batch_ex: 64
 
 
 # Feature parameters
@@ -109,7 +93,6 @@ n_mels: 80
 
 
 
-#SP
 ####################### Model parameters ###########################
 # Transformer
 d_model: 1024
@@ -131,10 +114,11 @@ unk_index: 3
 # Decoding parameters
 min_decode_ratio: 0.0
 max_decode_ratio: 1.0
-valid_search_interval: 50
+valid_search_interval: 100
+lm_weight: 0.10
+ctc_weight_decode: 0.2
+test_beam_size: 75
 valid_beam_size: 3
-test_beam_size: 50
-val_attn_ids: ['wright99a-97','MSUC01a-109', 'capilouto33a-494', 'richardson200-69','wright08a-140','ACWT09a-13','adler15a-546','BU10a-508','kurland23b-574','scale05a-91']
 
 ############################## models ################################
 
@@ -153,15 +137,14 @@ Transformer: !new:speechbrain.lobes.models.transformer.TransformerASR.Transforme
     attention_type: regularMHA
     normalize_before: True
     causal: False
-    # ssl_path: !ref <wav2vec2_hub>
-    # save_path: !ref <save_folder>/wav2vec2_checkpoint
 
 SSL_enc: !new:speechbrain.lobes.models.huggingface_wav2vec.HuggingFaceWav2Vec2
    source: !ref <wav2vec2_hub>
    output_norm: True
-   freeze: True
+   freeze: False
    freeze_feature_extractor: True
    save_path: !ref <save_folder>/wav2vec2_checkpoint
+
 
 ctc_lin: !new:speechbrain.nnet.linear.Linear
     input_size: !ref <d_model>
@@ -170,6 +153,7 @@ ctc_lin: !new:speechbrain.nnet.linear.Linear
 seq_lin: !new:speechbrain.nnet.linear.Linear
     input_size: !ref <d_model>
     n_neurons: !ref <output_neurons>
+
 
 normalize: !new:speechbrain.processing.features.InputNormalization
     norm_type: global
@@ -185,12 +169,12 @@ modules:
 model: !new:torch.nn.ModuleList
     - [!ref <SSL_enc>, !ref <Transformer>, !ref <seq_lin>, !ref <ctc_lin>]
 
+
 # define two optimizers here for two-stage training
 Adam: !name:torch.optim.Adam
     lr: !ref <lr_adam>
     betas: (0.9, 0.98)
     eps: 0.000000001
-
 
 valid_search: !new:speechbrain.decoders.S2STransformerBeamSearch
     modules: [!ref <Transformer>, !ref <seq_lin>, !ref <ctc_lin>]
@@ -247,9 +231,6 @@ ctc_cost: !name:speechbrain.nnet.losses.ctc_loss
     blank_index: !ref <blank_index>
     reduction: !ref <loss_reduction>
 
-# seq_cost: !name:speechbrain.nnet.losses.kldiv_loss
-#     label_smoothing: !ref <label_smoothing>
-#     reduction: !ref <loss_reduction>
 
 seq_cost: !name:speechbrain.nnet.losses.nll_loss
    label_smoothing: 0.1
@@ -267,20 +248,20 @@ lr_annealing: !new:speechbrain.nnet.schedulers.NewBobScheduler
 
 checkpointer: !new:speechbrain.utils.checkpoints.Checkpointer
     checkpoints_dir: !ref <save_folder>
+    allow_partial_load: True
     recoverables:
         model: !ref <model>
         lr_annealing: !ref <lr_annealing>
         normalizer: !ref <normalize>
         counter: !ref <epoch_counter>
 
-# epoch_counter: !new:speechbrain.utils.epoch_loop.EpochCounter
-#    limit: !ref <number_of_epochs>
-
 epoch_counter: !new:speechbrain.utils.epoch_loop.EpochCounterWithStopper
    limit: !ref <number_of_epochs>
-   limit_to_stop: 7
+   limit_to_stop: 5
    limit_warmup: 5
-   direction: "max"
+   direction: "min"
+   
+
 
 augmentation: !new:speechbrain.lobes.augment.TimeDomainSpecAugment
    sample_rate: !ref <sample_rate>
@@ -300,4 +281,3 @@ error_rate_computer: !name:speechbrain.utils.metric_stats.ErrorRateStats
 cer_computer: !name:speechbrain.utils.metric_stats.ErrorRateStats
    split_tokens: True
 acc_computer: !name:speechbrain.utils.Accuracy.AccuracyStats
-

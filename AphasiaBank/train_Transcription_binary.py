@@ -634,7 +634,7 @@ def dataio_prepare(hparams,tokenizer):
         transcription_para = aug_para.replace("/c","")
         transcription_para = transcription_para.replace("/n"," [n]")
         transcription_para = transcription_para.replace("/p"," [p]")
-        transcription_para = transcription_para.replace("/s"," [s]")
+        transcription_para = transcription_para.replace("/s","")
         yield transcription_para
         tokens_list = tokenizer.sp.encode_as_ids(transcription_para)
         yield tokens_list
