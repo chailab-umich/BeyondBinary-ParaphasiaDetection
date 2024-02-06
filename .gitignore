@@ -150,6 +150,7 @@ dmypy.json
 # Results folders
 **/results/
 **/ISresults/
+**/batch_logs/
 
 **/data/
 

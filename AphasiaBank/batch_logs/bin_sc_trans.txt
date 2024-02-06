@@ -1,0 +1,949 @@
++ conda activate sb
++ local cmd=activate
++ case "$cmd" in
++ __conda_activate activate sb
++ '[' -n '' ']'
++ local ask_conda
+++ PS1=
+++ __conda_exe shell.posix activate sb
+++ /home/mkperez/.pyenv/versions/miniconda3-latest/bin/conda shell.posix activate sb
++ ask_conda='PS1='\''(sb) '\''
+export PATH='\''/home/mkperez/.pyenv/versions/miniconda3-latest/envs/sb/bin:/home/mkperez/.pyenv/versions/miniconda3-latest/condabin:/usr/local/cuda-10.1/bin:/home/mkperez/.pyenv/shims:/home/mkperez/.pyenv/bin:/home/mkperez/SCTK/bin:/home/mkperez/openssl/bin:/home/mkperez/.pyenv/versions/miniconda3-latest/envs/sb/bin:/home/mkperez/.pyenv/versions/miniconda3-latest/bin:/home/mkperez/.pyenv/versions/miniconda3-latest/condabin:/usr/local/cuda-10.1/bin:/home/mkperez/.pyenv/bin:/home/mkperez/SCTK/bin:/home/mkperez/openssl/bin:/home/mkperez/.vscode-server/bin/f1b07bd25dfad64b0167beb15359ae573aecd2cc/bin/remote-cli:/usr/local/cuda-10.1/bin:/home/mkperez/.pyenv/bin:/home/mkperez/SCTK/bin:/home/mkperez/openssl/bin:/opt/TurboVNC/bin:/sw/pkgs/arc/usertools/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/usr/lpp/mmfs/bin:/opt/ddn/ime/bin:/usr/local/cuda/bin:/z/public/kaldi/src/bin:/z/public/kaldi/tools/openfst/bin:/z/public/kaldi/src/featbin:/z/public/kaldi/src/fgmmbin:/z/public/kaldi/src/fstbin:/z/public/kaldi/src/gmmbin:/z/public/kaldi/src/ivectorbin:/z/public/kaldi/src/kwsbin:/z/public/kaldi/src/latbin:/z/public/kaldi/src/lmbin:/z/public/kaldi/src/nnet2bin:/z/public/kaldi/src/nnet3bin:/z/public/kaldi/src/nnetbin:/z/public/kaldi/src/online2bin:/z/public/kaldi/src/onlinebin:/z/public/kaldi/src/sgmm2bin:/z/public/kaldi/src/sgmmbin:/z/public/kaldi/tools/srilm/bin:/z/public/kaldi/tools/srilm/bin/i686-m64:/home/mkperez/unix-clan/unix/bin:/z/public/openSMILE_jasmine/inst/bin:/z/public/openfst-1.5.4/src/bin:/usr/local/cuda/bin:/z/public/kaldi/src/bin:/z/public/kaldi/tools/openfst/bin:/z/public/kaldi/src/featbin:/z/public/kaldi/src/fgmmbin:/z/public/kaldi/src/fstbin:/z/public/kaldi/src/gmmbin:/z/public/kaldi/src/ivectorbin:/z/public/kaldi/src/kwsbin:/z/public/kaldi/src/latbin:/z/public/kaldi/src/lmbin:/z/public/kaldi/src/nnet2bin:/z/public/kaldi/src/nnet3bin:/z/public/kaldi/src/nnetbin:/z/public/kaldi/src/online2bin:/z/public/kaldi/src/onlinebin:/z/public/kaldi/src/sgmm2bin:/z/public/kaldi/src/sgmmbin:/z/public/kaldi/tools/srilm/bin:/z/public/kaldi/tools/srilm/bin/i686-m64:/home/mkperez/unix-clan/unix/bin:/z/public/openSMILE_jasmine/inst/bin:/z/public/openfst-1.5.4/src/bin:/usr/local/cuda/bin:/z/public/kaldi/src/bin:/z/public/kaldi/tools/openfst/bin:/z/public/kaldi/src/featbin:/z/public/kaldi/src/fgmmbin:/z/public/kaldi/src/fstbin:/z/public/kaldi/src/gmmbin:/z/public/kaldi/src/ivectorbin:/z/public/kaldi/src/kwsbin:/z/public/kaldi/src/latbin:/z/public/kaldi/src/lmbin:/z/public/kaldi/src/nnet2bin:/z/public/kaldi/src/nnet3bin:/z/public/kaldi/src/nnetbin:/z/public/kaldi/src/online2bin:/z/public/kaldi/src/onlinebin:/z/public/kaldi/src/sgmm2bin:/z/public/kaldi/src/sgmmbin:/z/public/kaldi/tools/srilm/bin:/z/public/kaldi/tools/srilm/bin/i686-m64:/home/mkperez/unix-clan/unix/bin:/z/public/openSMILE_jasmine/inst/bin:/z/public/openfst-1.5.4/src/bin'\''
+export CONDA_PREFIX='\''/home/mkperez/.pyenv/versions/miniconda3-latest/envs/sb'\''
+export CONDA_SHLVL='\''2'\''
+export CONDA_DEFAULT_ENV='\''sb'\''
+export CONDA_PROMPT_MODIFIER='\''(sb) '\''
+export CONDA_PREFIX_1='\''/home/mkperez/.pyenv/versions/miniconda3-latest'\''
+export CONDA_EXE='\''/home/mkperez/.pyenv/versions/miniconda3-latest/bin/conda'\''
+export _CE_M='\'''\''
+export _CE_CONDA='\'''\''
+export CONDA_PYTHON_EXE='\''/home/mkperez/.pyenv/versions/miniconda3-latest/bin/python'\'''
++ eval 'PS1='\''(sb) '\''
+export PATH='\''/home/mkperez/.pyenv/versions/miniconda3-latest/envs/sb/bin:/home/mkperez/.pyenv/versions/miniconda3-latest/condabin:/usr/local/cuda-10.1/bin:/home/mkperez/.pyenv/shims:/home/mkperez/.pyenv/bin:/home/mkperez/SCTK/bin:/home/mkperez/openssl/bin:/home/mkperez/.pyenv/versions/miniconda3-latest/envs/sb/bin:/home/mkperez/.pyenv/versions/miniconda3-latest/bin:/home/mkperez/.pyenv/versions/miniconda3-latest/condabin:/usr/local/cuda-10.1/bin:/home/mkperez/.pyenv/bin:/home/mkperez/SCTK/bin:/home/mkperez/openssl/bin:/home/mkperez/.vscode-server/bin/f1b07bd25dfad64b0167beb15359ae573aecd2cc/bin/remote-cli:/usr/local/cuda-10.1/bin:/home/mkperez/.pyenv/bin:/home/mkperez/SCTK/bin:/home/mkperez/openssl/bin:/opt/TurboVNC/bin:/sw/pkgs/arc/usertools/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/usr/lpp/mmfs/bin:/opt/ddn/ime/bin:/usr/local/cuda/bin:/z/public/kaldi/src/bin:/z/public/kaldi/tools/openfst/bin:/z/public/kaldi/src/featbin:/z/public/kaldi/src/fgmmbin:/z/public/kaldi/src/fstbin:/z/public/kaldi/src/gmmbin:/z/public/kaldi/src/ivectorbin:/z/public/kaldi/src/kwsbin:/z/public/kaldi/src/latbin:/z/public/kaldi/src/lmbin:/z/public/kaldi/src/nnet2bin:/z/public/kaldi/src/nnet3bin:/z/public/kaldi/src/nnetbin:/z/public/kaldi/src/online2bin:/z/public/kaldi/src/onlinebin:/z/public/kaldi/src/sgmm2bin:/z/public/kaldi/src/sgmmbin:/z/public/kaldi/tools/srilm/bin:/z/public/kaldi/tools/srilm/bin/i686-m64:/home/mkperez/unix-clan/unix/bin:/z/public/openSMILE_jasmine/inst/bin:/z/public/openfst-1.5.4/src/bin:/usr/local/cuda/bin:/z/public/kaldi/src/bin:/z/public/kaldi/tools/openfst/bin:/z/public/kaldi/src/featbin:/z/public/kaldi/src/fgmmbin:/z/public/kaldi/src/fstbin:/z/public/kaldi/src/gmmbin:/z/public/kaldi/src/ivectorbin:/z/public/kaldi/src/kwsbin:/z/public/kaldi/src/latbin:/z/public/kaldi/src/lmbin:/z/public/kaldi/src/nnet2bin:/z/public/kaldi/src/nnet3bin:/z/public/kaldi/src/nnetbin:/z/public/kaldi/src/online2bin:/z/public/kaldi/src/onlinebin:/z/public/kaldi/src/sgmm2bin:/z/public/kaldi/src/sgmmbin:/z/public/kaldi/tools/srilm/bin:/z/public/kaldi/tools/srilm/bin/i686-m64:/home/mkperez/unix-clan/unix/bin:/z/public/openSMILE_jasmine/inst/bin:/z/public/openfst-1.5.4/src/bin:/usr/local/cuda/bin:/z/public/kaldi/src/bin:/z/public/kaldi/tools/openfst/bin:/z/public/kaldi/src/featbin:/z/public/kaldi/src/fgmmbin:/z/public/kaldi/src/fstbin:/z/public/kaldi/src/gmmbin:/z/public/kaldi/src/ivectorbin:/z/public/kaldi/src/kwsbin:/z/public/kaldi/src/latbin:/z/public/kaldi/src/lmbin:/z/public/kaldi/src/nnet2bin:/z/public/kaldi/src/nnet3bin:/z/public/kaldi/src/nnetbin:/z/public/kaldi/src/online2bin:/z/public/kaldi/src/onlinebin:/z/public/kaldi/src/sgmm2bin:/z/public/kaldi/src/sgmmbin:/z/public/kaldi/tools/srilm/bin:/z/public/kaldi/tools/srilm/bin/i686-m64:/home/mkperez/unix-clan/unix/bin:/z/public/openSMILE_jasmine/inst/bin:/z/public/openfst-1.5.4/src/bin'\''
+export CONDA_PREFIX='\''/home/mkperez/.pyenv/versions/miniconda3-latest/envs/sb'\''
+export CONDA_SHLVL='\''2'\''
+export CONDA_DEFAULT_ENV='\''sb'\''
+export CONDA_PROMPT_MODIFIER='\''(sb) '\''
+export CONDA_PREFIX_1='\''/home/mkperez/.pyenv/versions/miniconda3-latest'\''
+export CONDA_EXE='\''/home/mkperez/.pyenv/versions/miniconda3-latest/bin/conda'\''
+export _CE_M='\'''\''
+export _CE_CONDA='\'''\''
+export CONDA_PYTHON_EXE='\''/home/mkperez/.pyenv/versions/miniconda3-latest/bin/python'\'''
+++ PS1='(sb) '
+++ export PATH=/home/mkperez/.pyenv/versions/miniconda3-latest/envs/sb/bin:/home/mkperez/.pyenv/versions/miniconda3-latest/condabin:/usr/local/cuda-10.1/bin:/home/mkperez/.pyenv/shims:/home/mkperez/.pyenv/bin:/home/mkperez/SCTK/bin:/home/mkperez/openssl/bin:/home/mkperez/.pyenv/versions/miniconda3-latest/envs/sb/bin:/home/mkperez/.pyenv/versions/miniconda3-latest/bin:/home/mkperez/.pyenv/versions/miniconda3-latest/condabin:/usr/local/cuda-10.1/bin:/home/mkperez/.pyenv/bin:/home/mkperez/SCTK/bin:/home/mkperez/openssl/bin:/home/mkperez/.vscode-server/bin/f1b07bd25dfad64b0167beb15359ae573aecd2cc/bin/remote-cli:/usr/local/cuda-10.1/bin:/home/mkperez/.pyenv/bin:/home/mkperez/SCTK/bin:/home/mkperez/openssl/bin:/opt/TurboVNC/bin:/sw/pkgs/arc/usertools/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/usr/lpp/mmfs/bin:/opt/ddn/ime/bin:/usr/local/cuda/bin:/z/public/kaldi/src/bin:/z/public/kaldi/tools/openfst/bin:/z/public/kaldi/src/featbin:/z/public/kaldi/src/fgmmbin:/z/public/kaldi/src/fstbin:/z/public/kaldi/src/gmmbin:/z/public/kaldi/src/ivectorbin:/z/public/kaldi/src/kwsbin:/z/public/kaldi/src/latbin:/z/public/kaldi/src/lmbin:/z/public/kaldi/src/nnet2bin:/z/public/kaldi/src/nnet3bin:/z/public/kaldi/src/nnetbin:/z/public/kaldi/src/online2bin:/z/public/kaldi/src/onlinebin:/z/public/kaldi/src/sgmm2bin:/z/public/kaldi/src/sgmmbin:/z/public/kaldi/tools/srilm/bin:/z/public/kaldi/tools/srilm/bin/i686-m64:/home/mkperez/unix-clan/unix/bin:/z/public/openSMILE_jasmine/inst/bin:/z/public/openfst-1.5.4/src/bin:/usr/local/cuda/bin:/z/public/kaldi/src/bin:/z/public/kaldi/tools/openfst/bin:/z/public/kaldi/src/featbin:/z/public/kaldi/src/fgmmbin:/z/public/kaldi/src/fstbin:/z/public/kaldi/src/gmmbin:/z/public/kaldi/src/ivectorbin:/z/public/kaldi/src/kwsbin:/z/public/kaldi/src/latbin:/z/public/kaldi/src/lmbin:/z/public/kaldi/src/nnet2bin:/z/public/kaldi/src/nnet3bin:/z/public/kaldi/src/nnetbin:/z/public/kaldi/src/online2bin:/z/public/kaldi/src/onlinebin:/z/public/kaldi/src/sgmm2bin:/z/public/kaldi/src/sgmmbin:/z/public/kaldi/tools/srilm/bin:/z/public/kaldi/tools/srilm/bin/i686-m64:/home/mkperez/unix-clan/unix/bin:/z/public/openSMILE_jasmine/inst/bin:/z/public/openfst-1.5.4/src/bin:/usr/local/cuda/bin:/z/public/kaldi/src/bin:/z/public/kaldi/tools/openfst/bin:/z/public/kaldi/src/featbin:/z/public/kaldi/src/fgmmbin:/z/public/kaldi/src/fstbin:/z/public/kaldi/src/gmmbin:/z/public/kaldi/src/ivectorbin:/z/public/kaldi/src/kwsbin:/z/public/kaldi/src/latbin:/z/public/kaldi/src/lmbin:/z/public/kaldi/src/nnet2bin:/z/public/kaldi/src/nnet3bin:/z/public/kaldi/src/nnetbin:/z/public/kaldi/src/online2bin:/z/public/kaldi/src/onlinebin:/z/public/kaldi/src/sgmm2bin:/z/public/kaldi/src/sgmmbin:/z/public/kaldi/tools/srilm/bin:/z/public/kaldi/tools/srilm/bin/i686-m64:/home/mkperez/unix-clan/unix/bin:/z/public/openSMILE_jasmine/inst/bin:/z/public/openfst-1.5.4/src/bin
+++ PATH=/home/mkperez/.pyenv/versions/miniconda3-latest/envs/sb/bin:/home/mkperez/.pyenv/versions/miniconda3-latest/condabin:/usr/local/cuda-10.1/bin:/home/mkperez/.pyenv/shims:/home/mkperez/.pyenv/bin:/home/mkperez/SCTK/bin:/home/mkperez/openssl/bin:/home/mkperez/.pyenv/versions/miniconda3-latest/envs/sb/bin:/home/mkperez/.pyenv/versions/miniconda3-latest/bin:/home/mkperez/.pyenv/versions/miniconda3-latest/condabin:/usr/local/cuda-10.1/bin:/home/mkperez/.pyenv/bin:/home/mkperez/SCTK/bin:/home/mkperez/openssl/bin:/home/mkperez/.vscode-server/bin/f1b07bd25dfad64b0167beb15359ae573aecd2cc/bin/remote-cli:/usr/local/cuda-10.1/bin:/home/mkperez/.pyenv/bin:/home/mkperez/SCTK/bin:/home/mkperez/openssl/bin:/opt/TurboVNC/bin:/sw/pkgs/arc/usertools/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/usr/lpp/mmfs/bin:/opt/ddn/ime/bin:/usr/local/cuda/bin:/z/public/kaldi/src/bin:/z/public/kaldi/tools/openfst/bin:/z/public/kaldi/src/featbin:/z/public/kaldi/src/fgmmbin:/z/public/kaldi/src/fstbin:/z/public/kaldi/src/gmmbin:/z/public/kaldi/src/ivectorbin:/z/public/kaldi/src/kwsbin:/z/public/kaldi/src/latbin:/z/public/kaldi/src/lmbin:/z/public/kaldi/src/nnet2bin:/z/public/kaldi/src/nnet3bin:/z/public/kaldi/src/nnetbin:/z/public/kaldi/src/online2bin:/z/public/kaldi/src/onlinebin:/z/public/kaldi/src/sgmm2bin:/z/public/kaldi/src/sgmmbin:/z/public/kaldi/tools/srilm/bin:/z/public/kaldi/tools/srilm/bin/i686-m64:/home/mkperez/unix-clan/unix/bin:/z/public/openSMILE_jasmine/inst/bin:/z/public/openfst-1.5.4/src/bin:/usr/local/cuda/bin:/z/public/kaldi/src/bin:/z/public/kaldi/tools/openfst/bin:/z/public/kaldi/src/featbin:/z/public/kaldi/src/fgmmbin:/z/public/kaldi/src/fstbin:/z/public/kaldi/src/gmmbin:/z/public/kaldi/src/ivectorbin:/z/public/kaldi/src/kwsbin:/z/public/kaldi/src/latbin:/z/public/kaldi/src/lmbin:/z/public/kaldi/src/nnet2bin:/z/public/kaldi/src/nnet3bin:/z/public/kaldi/src/nnetbin:/z/public/kaldi/src/online2bin:/z/public/kaldi/src/onlinebin:/z/public/kaldi/src/sgmm2bin:/z/public/kaldi/src/sgmmbin:/z/public/kaldi/tools/srilm/bin:/z/public/kaldi/tools/srilm/bin/i686-m64:/home/mkperez/unix-clan/unix/bin:/z/public/openSMILE_jasmine/inst/bin:/z/public/openfst-1.5.4/src/bin:/usr/local/cuda/bin:/z/public/kaldi/src/bin:/z/public/kaldi/tools/openfst/bin:/z/public/kaldi/src/featbin:/z/public/kaldi/src/fgmmbin:/z/public/kaldi/src/fstbin:/z/public/kaldi/src/gmmbin:/z/public/kaldi/src/ivectorbin:/z/public/kaldi/src/kwsbin:/z/public/kaldi/src/latbin:/z/public/kaldi/src/lmbin:/z/public/kaldi/src/nnet2bin:/z/public/kaldi/src/nnet3bin:/z/public/kaldi/src/nnetbin:/z/public/kaldi/src/online2bin:/z/public/kaldi/src/onlinebin:/z/public/kaldi/src/sgmm2bin:/z/public/kaldi/src/sgmmbin:/z/public/kaldi/tools/srilm/bin:/z/public/kaldi/tools/srilm/bin/i686-m64:/home/mkperez/unix-clan/unix/bin:/z/public/openSMILE_jasmine/inst/bin:/z/public/openfst-1.5.4/src/bin
+++ export CONDA_PREFIX=/home/mkperez/.pyenv/versions/miniconda3-latest/envs/sb
+++ CONDA_PREFIX=/home/mkperez/.pyenv/versions/miniconda3-latest/envs/sb
+++ export CONDA_SHLVL=2
+++ CONDA_SHLVL=2
+++ export CONDA_DEFAULT_ENV=sb
+++ CONDA_DEFAULT_ENV=sb
+++ export 'CONDA_PROMPT_MODIFIER=(sb) '
+++ CONDA_PROMPT_MODIFIER='(sb) '
+++ export CONDA_PREFIX_1=/home/mkperez/.pyenv/versions/miniconda3-latest
+++ CONDA_PREFIX_1=/home/mkperez/.pyenv/versions/miniconda3-latest
+++ export CONDA_EXE=/home/mkperez/.pyenv/versions/miniconda3-latest/bin/conda
+++ CONDA_EXE=/home/mkperez/.pyenv/versions/miniconda3-latest/bin/conda
+++ export _CE_M=
+++ _CE_M=
+++ export _CE_CONDA=
+++ _CE_CONDA=
+++ export CONDA_PYTHON_EXE=/home/mkperez/.pyenv/versions/miniconda3-latest/bin/python
+++ CONDA_PYTHON_EXE=/home/mkperez/.pyenv/versions/miniconda3-latest/bin/python
++ __conda_hashr
++ '[' -n '' ']'
++ '[' -n '' ']'
++ hash -r
++ python Scripts_LOSO_Transcription.py
+[W socket.cpp:401] [c10d] The server socket cannot be initialized on [::]:39059 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:39059 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:39059 (errno: 97 - Address family not supported by protocol).
+run_opts: {'debug': False, 'debug_batches': 2, 'debug_epochs': 2, 'debug_persistently': False, 'local_rank': 0, 'device': 'cuda:0', 'data_parallel_backend': False, 'distributed_launch': True, 'distributed_backend': 'nccl', 'find_unused_parameters': True, 'tqdm_colored_bar': False}
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:39059 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:39059 (errno: 97 - Address family not supported by protocol).
+Some weights of the model checkpoint at facebook/hubert-large-ls960-ft were not used when initializing HubertModel: ['lm_head.weight', 'lm_head.bias']
+- This IS expected if you are initializing HubertModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing HubertModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+speechbrain.lobes.models.huggingface_wav2vec - wav2vec 2.0 feature extractor is frozen.
+speechbrain.core - Beginning experiment!
+speechbrain.core - Experiment folder: ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1
+speechbrain.tokenizers.SentencePiece - Tokenizer is already trained.
+speechbrain.tokenizers.SentencePiece - ==== Loading Tokenizer ===
+speechbrain.tokenizers.SentencePiece - Tokenizer path: ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1/save/500_bpe.model
+speechbrain.tokenizers.SentencePiece - Tokenizer vocab_size: 500
+speechbrain.tokenizers.SentencePiece - Tokenizer type: bpe
+speechbrain.core - Info: auto_mix_prec arg from hparam file is used
+speechbrain.core - Info: max_grad_norm arg from hparam file is used
+speechbrain.core - Info: ckpt_interval_minutes arg from hparam file is used
+speechbrain.core - Info: grad_accumulation_factor arg from hparam file is used
+speechbrain.core - 389.7M trainable parameters in ASR
+tokenizer: {0: '<pad>', 1: '<s>', 2: '</s>', 3: '<unk>', 4: '[p]', 5: '[n]', 6: '▁t', 7: 'he', 8: '▁a', 9: '▁the', 10: '▁i', 11: 'nd', 12: '▁s', 13: '▁w', 14: '▁and', 15: '▁o', 16: 're', 17: 'in', 18: '▁b', 19: 'ha', 20: '▁g', 21: '▁c', 22: 'ou', 23: 'er', 24: 'll', 25: '▁m', 26: 'ing', 27: '▁d', 28: '▁he', 29: '▁to', 30: '▁f', 31: '▁wa', 32: '▁l', 33: 'ut', 34: '▁p', 35: '▁it', 36: '▁y', 37: 'hat', 38: 'no', 39: 'ed', 40: '▁was', 41: '▁so', 42: 'it', 43: '▁go', 44: '▁ha', 45: 'me', 46: '▁h', 47: '▁in', 48: '▁that', 49: 'an', 50: '▁we', 51: 'is', 52: '▁she', 53: '▁th', 54: 'ay', 55: 'es', 56: '▁do', 57: '▁of', 58: 'or', 59: '▁k', 60: '▁on', 61: '▁you', 62: 'ar', 63: 'et', 64: 'id', 65: 'en', 66: 'le', 67: '▁no', 68: '▁be', 69: '▁u', 70: 'all', 71: '▁they', 72: 'at', 73: 'st', 74: '▁her', 75: 'se', 76: '▁st', 77: '▁but', 78: 'ver', 79: 'gh', 80: '▁e', 81: '▁is', 82: 'ad', 83: 'ld', 84: 've', 85: 'ic', 86: 'ter', 87: 'her', 88: 'ke', 89: 'ro', 90: 'ir', 91: 'ind', 92: 'nt', 93: '▁re', 94: 'ri', 95: '▁j', 96: '▁kno', 97: 'ot', 98: 'on', 99: 'ac', 100: '▁know', 101: '▁get', 102: '▁my', 103: '▁then', 104: '▁n', 105: '▁had', 106: '▁li', 107: 'ho', 108: '▁wit', 109: '▁with', 110: '▁out', 111: 'ould', 112: 'al', 113: 'ght', 114: 'ly', 115: '▁this', 116: 'lla', 117: '▁there', 118: '▁me', 119: '▁up', 120: 'rella', 121: '▁for', 122: 'pp', 123: 'au', 124: '▁co', 125: 'very', 126: '▁r', 127: '▁ye', 128: '▁all', 129: '▁one', 130: '▁ho', 131: '▁lo', 132: '▁sa', 133: 'mb', 134: 'ce', 135: 'itt', 136: '▁at', 137: 'ok', 138: '▁what', 139: 'od', 140: '▁whe', 141: '▁tw', 142: 'ust', 143: '▁an', 144: 'kay', 145: '▁not', 146: '▁okay', 147: '▁se', 148: '▁some', 149: '▁his', 150: 'hing', 151: '▁don', 152: '▁ball', 153: '▁just', 154: '▁oh', 155: 'ally', 156: 'ack', 157: '▁or', 158: '▁bec', 159: 'other', 160: '▁like', 161: '▁got', 162: 'ss', 163: '▁cind', 164: '▁cinde', 165: 'ry', 166: 'ain', 167: 'ah', 168: '▁two', 169: 'ep', 170: '▁well', 171: '▁litt', 172: '▁little', 173: 'wn', 174: '▁mo', 175: 'ree', 176: '▁can', 177: '▁yeah', 178: '▁did', 179: 'im', 180: 'ause', 181: '▁because', 182: 'king', 183: '▁ne', 184: '▁say', 185: '▁have', 186: 'ime', 187: 'ake', 188: '▁back', 189: '▁ab', 190: 'if', 191: 'art', 192: '▁pe', 193: 'ur', 194: '▁look', 195: 'ell', 196: 'li', 197: 'thing', 198: 'nn', 199: '▁went', 200: '▁time', 201: 'rou', 202: '▁when', 203: '▁very', 204: '▁bo', 205: '▁would', 206: 'out', 207: '▁were', 208: '▁said', 209: '▁ca', 210: '▁as', 211: 'ta', 212: 'ck', 213: '▁pr', 214: '▁him', 215: 'ow', 216: '▁who', 217: 'to', 218: 'ch', 219: '▁down', 220: '▁could', 221: 'read', 222: 'ent', 223: 'ra', 224: 'irl', 225: '▁about', 226: '▁girl', 227: '▁al', 228: 'right', 229: '▁thing', 230: '▁prin', 231: '▁sp', 232: '▁fi', 233: '▁cat', 234: '▁wor', 235: '▁going', 236: 'ther', 237: 'ul', 238: '▁put', 239: 'nna', 240: '▁see', 241: '▁thin', 242: '▁every', 243: '▁man', 244: '▁good', 245: '▁come', 246: 'ion', 247: '▁them', 248: '▁yes', 249: 'om', 250: '▁into', 251: 'ters', 252: '▁step', 253: 'la', 254: '▁le', 255: 'ess', 256: '▁tree', 257: '▁any', 258: '▁prince', 259: 'mp', 260: '▁happ', 261: '▁sc', 262: '▁boy', 263: 'way', 264: '▁fro', 265: '▁take', 266: '▁su', 267: 'ab', 268: '▁here', 269: '▁hou', 270: 'ct', 271: '▁wh', 272: 'ol', 273: 'ight', 274: '▁think', 275: 'un', 276: '▁mother', 277: '▁now', 278: 'ide', 279: '▁really', 280: 'ill', 281: 'ice', 282: '▁didn', 283: 'op', 284: '▁bread', 285: '▁umb', 286: '▁fa', 287: '▁home', 288: '▁rain', 289: '▁umbrella', 290: '▁pro', 291: '▁butter', 292: '▁from', 293: 'mother', 294: '▁try', 295: '▁pl', 296: '▁af', 297: '▁wind', 298: 'ge', 299: '▁want', 300: '▁gu', 301: 'ick', 302: '▁day', 303: '▁are', 304: '▁over', 305: 'anut', 306: '▁peanut', 307: '▁house', 308: '▁window', 309: 'lo', 310: '▁sli', 311: 'pper', 312: 'our', 313: '▁sho', 314: '▁right', 315: '▁slipper', 316: 'el', 317: 'and', 318: 'ress', 319: '▁gonna', 320: 'mber', 321: '▁has', 322: '▁after', 323: 'ng', 324: 'ving', 325: '▁came', 326: '▁by', 327: '▁lad', 328: '▁says', 329: '▁start', 330: '▁off', 331: '▁other', 332: 'ak', 333: '▁dog', 334: '▁de', 335: 'red', 336: 'il', 337: '▁car', 338: 'ven', 339: 'ried', 340: '▁if', 341: 'ather', 342: '▁call', 343: 'ars', 344: '▁jell', 345: 'fe', 346: '▁jelly', 347: 'us', 348: '▁mean', 349: 'as', 350: 'der', 351: '▁something', 352: 'ty', 353: 'augh', 354: 'ne', 355: '▁goes', 356: 'isters', 357: '▁ag', 358: '▁reme', 359: '▁dress', 360: '▁prob', 361: 'round', 362: '▁where', 363: '▁peop', 364: '▁people', 365: '▁remember', 366: 'ig', 367: 'ody', 368: 'ting', 369: '▁three', 370: '▁fe', 371: 'ich', 372: '▁tal', 373: '▁fire', 374: '▁god', 375: '▁stu', 376: '▁ex', 377: '▁hadta', 378: '▁how', 379: '▁hel', 380: 'lf', 381: 'body', 382: 'lass', 383: 'ate', 384: 'hi', 385: 'ine', 386: '▁way', 387: 'qu', 388: '▁wal', 389: 'rough', 390: '▁through', 391: '▁mom', 392: '▁la', 393: '▁father', 394: '▁ro', 395: '▁pre', 396: 'cc', 397: '▁fir', 398: '▁help', 399: 'hool', 400: '▁school', 401: 'urn', 402: '▁around', 403: '▁first', 404: 'ong', 405: '▁work', 406: 'ation', 407: 'ie', 408: 'ily', 409: '▁mar', 410: '▁kind', 411: '▁daugh', 412: '▁dad', 413: 'ife', 414: 'ved', 415: '▁looks', 416: '▁couldn', 417: '▁things', 418: '▁guess', 419: '▁their', 420: '▁fo', 421: '▁ladder', 422: '▁us', 423: '▁glass', 424: '▁com', 425: 'end', 426: '▁find', 427: 'nder', 428: '▁been', 429: '▁gets', 430: 'one', 431: '▁your', 432: '▁ma', 433: '▁dan', 434: '▁trying', 435: '▁thou', 436: 'sp', 437: '▁does', 438: '▁bea', 439: 'est', 440: '▁lot', 441: '▁pu', 442: '▁years', 443: 'ite', 444: '▁per', 445: '▁cha', 446: '▁bet', 447: '▁turn', 448: '▁too', 449: '▁need', 450: '▁beaut', 451: '▁steps', 452: '▁may', 453: '▁tell', 454: '▁fit', 455: '▁fair', 456: '▁beautif', 457: 'ound', 458: 'am', 459: 'ace', 460: '▁beautiful', 461: 'ach', 462: 'age', 463: 'ably', 464: '▁mad', 465: 'ves', 466: '▁make', 467: '▁happen', 468: '▁spe', 469: '▁young', 470: '▁v', 471: 'side', 472: '▁', 473: 'e', 474: 't', 475: 'a', 476: 'o', 477: 'h', 478: 'n', 479: 'i', 480: 's', 481: 'd', 482: 'r', 483: 'l', 484: 'w', 485: 'u', 486: 'y', 487: 'g', 488: 'm', 489: 'c', 490: 'b', 491: 'p', 492: 'f', 493: 'k', 494: "'", 495: 'v', 496: 'j', 497: 'x', 498: 'z', 499: 'q'} | 500
+train_Transcription.py:737: UserWarning: Anomaly Detection has been enabled. This mode will increase the runtime and should only be enabled for debugging.
+  with torch.autograd.detect_anomaly():
+training model
+speechbrain.utils.checkpoints - Loading a checkpoint from ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1/save/CKPT+2024-02-01+09-44-50+00
+epoch_counter:
+ curr: 25
+limit: 100
+last_best_epoch: 0
+limit_to_stop: 5
+limit_warmup: 5
+POST epoch_counter:
+ curr: 25
+limit: 100
+last_best_epoch: 0
+patience: 25
+limit_to_stop: 30
+limit_warmup: 30
+speechbrain.utils.epoch_loop - Going into epoch 26
+  0%|          | 0/178 [00:00<?, ?it/s]q: torch.Size([4, 9, 1024])
+key: torch.Size([4, 98, 1024])
+tgt2: torch.Size([4, 9, 1024])
+  0%|          | 0/178 [00:03<?, ?it/s]
+/home/mkperez/.pyenv/versions/miniconda3-latest/envs/sb/lib/python3.8/site-packages/torch/distributed/launch.py:178: FutureWarning: The module torch.distributed.launch is deprecated
+and will be removed in future. Use torchrun.
+Note that --use_env is set by default in torchrun.
+If your script expects `--local_rank` argument to be set, please
+change it to read from `os.environ['LOCAL_RANK']` instead. See 
+https://pytorch.org/docs/stable/distributed.html#launch-utility for 
+further instructions
+
+  warnings.warn(
+[W socket.cpp:401] [c10d] The server socket cannot be initialized on [::]:52459 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:52459 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:52459 (errno: 97 - Address family not supported by protocol).
+run_opts: {'debug': False, 'debug_batches': 2, 'debug_epochs': 2, 'debug_persistently': False, 'local_rank': 0, 'device': 'cuda:0', 'data_parallel_backend': False, 'distributed_launch': True, 'distributed_backend': 'nccl', 'find_unused_parameters': True, 'tqdm_colored_bar': False}
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:52459 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:52459 (errno: 97 - Address family not supported by protocol).
+Some weights of the model checkpoint at facebook/hubert-large-ls960-ft were not used when initializing HubertModel: ['lm_head.bias', 'lm_head.weight']
+- This IS expected if you are initializing HubertModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing HubertModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+speechbrain.lobes.models.huggingface_wav2vec - wav2vec 2.0 feature extractor is frozen.
+speechbrain.core - Beginning experiment!
+speechbrain.core - Experiment folder: ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1
+speechbrain.tokenizers.SentencePiece - Tokenizer is already trained.
+speechbrain.tokenizers.SentencePiece - ==== Loading Tokenizer ===
+speechbrain.tokenizers.SentencePiece - Tokenizer path: ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1/save/500_bpe.model
+speechbrain.tokenizers.SentencePiece - Tokenizer vocab_size: 500
+speechbrain.tokenizers.SentencePiece - Tokenizer type: bpe
+speechbrain.core - Info: auto_mix_prec arg from hparam file is used
+speechbrain.core - Info: max_grad_norm arg from hparam file is used
+speechbrain.core - Info: ckpt_interval_minutes arg from hparam file is used
+speechbrain.core - Info: grad_accumulation_factor arg from hparam file is used
+speechbrain.core - 389.7M trainable parameters in ASR
+tokenizer: {0: '<pad>', 1: '<s>', 2: '</s>', 3: '<unk>', 4: '[p]', 5: '[n]', 6: '▁t', 7: 'he', 8: '▁a', 9: '▁the', 10: '▁i', 11: 'nd', 12: '▁s', 13: '▁w', 14: '▁and', 15: '▁o', 16: 're', 17: 'in', 18: '▁b', 19: 'ha', 20: '▁g', 21: '▁c', 22: 'ou', 23: 'er', 24: 'll', 25: '▁m', 26: 'ing', 27: '▁d', 28: '▁he', 29: '▁to', 30: '▁f', 31: '▁wa', 32: '▁l', 33: 'ut', 34: '▁p', 35: '▁it', 36: '▁y', 37: 'hat', 38: 'no', 39: 'ed', 40: '▁was', 41: '▁so', 42: 'it', 43: '▁go', 44: '▁ha', 45: 'me', 46: '▁h', 47: '▁in', 48: '▁that', 49: 'an', 50: '▁we', 51: 'is', 52: '▁she', 53: '▁th', 54: 'ay', 55: 'es', 56: '▁do', 57: '▁of', 58: 'or', 59: '▁k', 60: '▁on', 61: '▁you', 62: 'ar', 63: 'et', 64: 'id', 65: 'en', 66: 'le', 67: '▁no', 68: '▁be', 69: '▁u', 70: 'all', 71: '▁they', 72: 'at', 73: 'st', 74: '▁her', 75: 'se', 76: '▁st', 77: '▁but', 78: 'ver', 79: 'gh', 80: '▁e', 81: '▁is', 82: 'ad', 83: 'ld', 84: 've', 85: 'ic', 86: 'ter', 87: 'her', 88: 'ke', 89: 'ro', 90: 'ir', 91: 'ind', 92: 'nt', 93: '▁re', 94: 'ri', 95: '▁j', 96: '▁kno', 97: 'ot', 98: 'on', 99: 'ac', 100: '▁know', 101: '▁get', 102: '▁my', 103: '▁then', 104: '▁n', 105: '▁had', 106: '▁li', 107: 'ho', 108: '▁wit', 109: '▁with', 110: '▁out', 111: 'ould', 112: 'al', 113: 'ght', 114: 'ly', 115: '▁this', 116: 'lla', 117: '▁there', 118: '▁me', 119: '▁up', 120: 'rella', 121: '▁for', 122: 'pp', 123: 'au', 124: '▁co', 125: 'very', 126: '▁r', 127: '▁ye', 128: '▁all', 129: '▁one', 130: '▁ho', 131: '▁lo', 132: '▁sa', 133: 'mb', 134: 'ce', 135: 'itt', 136: '▁at', 137: 'ok', 138: '▁what', 139: 'od', 140: '▁whe', 141: '▁tw', 142: 'ust', 143: '▁an', 144: 'kay', 145: '▁not', 146: '▁okay', 147: '▁se', 148: '▁some', 149: '▁his', 150: 'hing', 151: '▁don', 152: '▁ball', 153: '▁just', 154: '▁oh', 155: 'ally', 156: 'ack', 157: '▁or', 158: '▁bec', 159: 'other', 160: '▁like', 161: '▁got', 162: 'ss', 163: '▁cind', 164: '▁cinde', 165: 'ry', 166: 'ain', 167: 'ah', 168: '▁two', 169: 'ep', 170: '▁well', 171: '▁litt', 172: '▁little', 173: 'wn', 174: '▁mo', 175: 'ree', 176: '▁can', 177: '▁yeah', 178: '▁did', 179: 'im', 180: 'ause', 181: '▁because', 182: 'king', 183: '▁ne', 184: '▁say', 185: '▁have', 186: 'ime', 187: 'ake', 188: '▁back', 189: '▁ab', 190: 'if', 191: 'art', 192: '▁pe', 193: 'ur', 194: '▁look', 195: 'ell', 196: 'li', 197: 'thing', 198: 'nn', 199: '▁went', 200: '▁time', 201: 'rou', 202: '▁when', 203: '▁very', 204: '▁bo', 205: '▁would', 206: 'out', 207: '▁were', 208: '▁said', 209: '▁ca', 210: '▁as', 211: 'ta', 212: 'ck', 213: '▁pr', 214: '▁him', 215: 'ow', 216: '▁who', 217: 'to', 218: 'ch', 219: '▁down', 220: '▁could', 221: 'read', 222: 'ent', 223: 'ra', 224: 'irl', 225: '▁about', 226: '▁girl', 227: '▁al', 228: 'right', 229: '▁thing', 230: '▁prin', 231: '▁sp', 232: '▁fi', 233: '▁cat', 234: '▁wor', 235: '▁going', 236: 'ther', 237: 'ul', 238: '▁put', 239: 'nna', 240: '▁see', 241: '▁thin', 242: '▁every', 243: '▁man', 244: '▁good', 245: '▁come', 246: 'ion', 247: '▁them', 248: '▁yes', 249: 'om', 250: '▁into', 251: 'ters', 252: '▁step', 253: 'la', 254: '▁le', 255: 'ess', 256: '▁tree', 257: '▁any', 258: '▁prince', 259: 'mp', 260: '▁happ', 261: '▁sc', 262: '▁boy', 263: 'way', 264: '▁fro', 265: '▁take', 266: '▁su', 267: 'ab', 268: '▁here', 269: '▁hou', 270: 'ct', 271: '▁wh', 272: 'ol', 273: 'ight', 274: '▁think', 275: 'un', 276: '▁mother', 277: '▁now', 278: 'ide', 279: '▁really', 280: 'ill', 281: 'ice', 282: '▁didn', 283: 'op', 284: '▁bread', 285: '▁umb', 286: '▁fa', 287: '▁home', 288: '▁rain', 289: '▁umbrella', 290: '▁pro', 291: '▁butter', 292: '▁from', 293: 'mother', 294: '▁try', 295: '▁pl', 296: '▁af', 297: '▁wind', 298: 'ge', 299: '▁want', 300: '▁gu', 301: 'ick', 302: '▁day', 303: '▁are', 304: '▁over', 305: 'anut', 306: '▁peanut', 307: '▁house', 308: '▁window', 309: 'lo', 310: '▁sli', 311: 'pper', 312: 'our', 313: '▁sho', 314: '▁right', 315: '▁slipper', 316: 'el', 317: 'and', 318: 'ress', 319: '▁gonna', 320: 'mber', 321: '▁has', 322: '▁after', 323: 'ng', 324: 'ving', 325: '▁came', 326: '▁by', 327: '▁lad', 328: '▁says', 329: '▁start', 330: '▁off', 331: '▁other', 332: 'ak', 333: '▁dog', 334: '▁de', 335: 'red', 336: 'il', 337: '▁car', 338: 'ven', 339: 'ried', 340: '▁if', 341: 'ather', 342: '▁call', 343: 'ars', 344: '▁jell', 345: 'fe', 346: '▁jelly', 347: 'us', 348: '▁mean', 349: 'as', 350: 'der', 351: '▁something', 352: 'ty', 353: 'augh', 354: 'ne', 355: '▁goes', 356: 'isters', 357: '▁ag', 358: '▁reme', 359: '▁dress', 360: '▁prob', 361: 'round', 362: '▁where', 363: '▁peop', 364: '▁people', 365: '▁remember', 366: 'ig', 367: 'ody', 368: 'ting', 369: '▁three', 370: '▁fe', 371: 'ich', 372: '▁tal', 373: '▁fire', 374: '▁god', 375: '▁stu', 376: '▁ex', 377: '▁hadta', 378: '▁how', 379: '▁hel', 380: 'lf', 381: 'body', 382: 'lass', 383: 'ate', 384: 'hi', 385: 'ine', 386: '▁way', 387: 'qu', 388: '▁wal', 389: 'rough', 390: '▁through', 391: '▁mom', 392: '▁la', 393: '▁father', 394: '▁ro', 395: '▁pre', 396: 'cc', 397: '▁fir', 398: '▁help', 399: 'hool', 400: '▁school', 401: 'urn', 402: '▁around', 403: '▁first', 404: 'ong', 405: '▁work', 406: 'ation', 407: 'ie', 408: 'ily', 409: '▁mar', 410: '▁kind', 411: '▁daugh', 412: '▁dad', 413: 'ife', 414: 'ved', 415: '▁looks', 416: '▁couldn', 417: '▁things', 418: '▁guess', 419: '▁their', 420: '▁fo', 421: '▁ladder', 422: '▁us', 423: '▁glass', 424: '▁com', 425: 'end', 426: '▁find', 427: 'nder', 428: '▁been', 429: '▁gets', 430: 'one', 431: '▁your', 432: '▁ma', 433: '▁dan', 434: '▁trying', 435: '▁thou', 436: 'sp', 437: '▁does', 438: '▁bea', 439: 'est', 440: '▁lot', 441: '▁pu', 442: '▁years', 443: 'ite', 444: '▁per', 445: '▁cha', 446: '▁bet', 447: '▁turn', 448: '▁too', 449: '▁need', 450: '▁beaut', 451: '▁steps', 452: '▁may', 453: '▁tell', 454: '▁fit', 455: '▁fair', 456: '▁beautif', 457: 'ound', 458: 'am', 459: 'ace', 460: '▁beautiful', 461: 'ach', 462: 'age', 463: 'ably', 464: '▁mad', 465: 'ves', 466: '▁make', 467: '▁happen', 468: '▁spe', 469: '▁young', 470: '▁v', 471: 'side', 472: '▁', 473: 'e', 474: 't', 475: 'a', 476: 'o', 477: 'h', 478: 'n', 479: 'i', 480: 's', 481: 'd', 482: 'r', 483: 'l', 484: 'w', 485: 'u', 486: 'y', 487: 'g', 488: 'm', 489: 'c', 490: 'b', 491: 'p', 492: 'f', 493: 'k', 494: "'", 495: 'v', 496: 'j', 497: 'x', 498: 'z', 499: 'q'} | 500
+train_Transcription.py:737: UserWarning: Anomaly Detection has been enabled. This mode will increase the runtime and should only be enabled for debugging.
+  with torch.autograd.detect_anomaly():
+training model
+speechbrain.utils.checkpoints - Loading a checkpoint from ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1/save/CKPT+2024-02-01+09-44-50+00
+epoch_counter:
+ curr: 25
+limit: 100
+last_best_epoch: 0
+limit_to_stop: 5
+limit_warmup: 5
+POST epoch_counter:
+ curr: 25
+limit: 100
+last_best_epoch: 0
+patience: 25
+limit_to_stop: 30
+limit_warmup: 30
+speechbrain.utils.epoch_loop - Going into epoch 26
+  0%|          | 0/178 [00:00<?, ?it/s]q: torch.Size([4, 9, 1024])
+key: torch.Size([4, 98, 1024])
+tgt2: torch.Size([4, 9, 1024])
+  0%|          | 0/178 [00:03<?, ?it/s]
+/home/mkperez/.pyenv/versions/miniconda3-latest/envs/sb/lib/python3.8/site-packages/torch/distributed/launch.py:178: FutureWarning: The module torch.distributed.launch is deprecated
+and will be removed in future. Use torchrun.
+Note that --use_env is set by default in torchrun.
+If your script expects `--local_rank` argument to be set, please
+change it to read from `os.environ['LOCAL_RANK']` instead. See 
+https://pytorch.org/docs/stable/distributed.html#launch-utility for 
+further instructions
+
+  warnings.warn(
+[W socket.cpp:401] [c10d] The server socket cannot be initialized on [::]:48105 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:48105 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:48105 (errno: 97 - Address family not supported by protocol).
+run_opts: {'debug': False, 'debug_batches': 2, 'debug_epochs': 2, 'debug_persistently': False, 'local_rank': 0, 'device': 'cuda:0', 'data_parallel_backend': False, 'distributed_launch': True, 'distributed_backend': 'nccl', 'find_unused_parameters': True, 'tqdm_colored_bar': False}
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:48105 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:48105 (errno: 97 - Address family not supported by protocol).
+Some weights of the model checkpoint at facebook/hubert-large-ls960-ft were not used when initializing HubertModel: ['lm_head.weight', 'lm_head.bias']
+- This IS expected if you are initializing HubertModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing HubertModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+speechbrain.lobes.models.huggingface_wav2vec - wav2vec 2.0 feature extractor is frozen.
+speechbrain.core - Beginning experiment!
+speechbrain.core - Experiment folder: ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1
+speechbrain.tokenizers.SentencePiece - Tokenizer is already trained.
+speechbrain.tokenizers.SentencePiece - ==== Loading Tokenizer ===
+speechbrain.tokenizers.SentencePiece - Tokenizer path: ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1/save/500_bpe.model
+speechbrain.tokenizers.SentencePiece - Tokenizer vocab_size: 500
+speechbrain.tokenizers.SentencePiece - Tokenizer type: bpe
+speechbrain.core - Info: auto_mix_prec arg from hparam file is used
+speechbrain.core - Info: max_grad_norm arg from hparam file is used
+speechbrain.core - Info: ckpt_interval_minutes arg from hparam file is used
+speechbrain.core - Info: grad_accumulation_factor arg from hparam file is used
+speechbrain.core - 389.7M trainable parameters in ASR
+tokenizer: {0: '<pad>', 1: '<s>', 2: '</s>', 3: '<unk>', 4: '[p]', 5: '[n]', 6: '▁t', 7: 'he', 8: '▁a', 9: '▁the', 10: '▁i', 11: 'nd', 12: '▁s', 13: '▁w', 14: '▁and', 15: '▁o', 16: 're', 17: 'in', 18: '▁b', 19: 'ha', 20: '▁g', 21: '▁c', 22: 'ou', 23: 'er', 24: 'll', 25: '▁m', 26: 'ing', 27: '▁d', 28: '▁he', 29: '▁to', 30: '▁f', 31: '▁wa', 32: '▁l', 33: 'ut', 34: '▁p', 35: '▁it', 36: '▁y', 37: 'hat', 38: 'no', 39: 'ed', 40: '▁was', 41: '▁so', 42: 'it', 43: '▁go', 44: '▁ha', 45: 'me', 46: '▁h', 47: '▁in', 48: '▁that', 49: 'an', 50: '▁we', 51: 'is', 52: '▁she', 53: '▁th', 54: 'ay', 55: 'es', 56: '▁do', 57: '▁of', 58: 'or', 59: '▁k', 60: '▁on', 61: '▁you', 62: 'ar', 63: 'et', 64: 'id', 65: 'en', 66: 'le', 67: '▁no', 68: '▁be', 69: '▁u', 70: 'all', 71: '▁they', 72: 'at', 73: 'st', 74: '▁her', 75: 'se', 76: '▁st', 77: '▁but', 78: 'ver', 79: 'gh', 80: '▁e', 81: '▁is', 82: 'ad', 83: 'ld', 84: 've', 85: 'ic', 86: 'ter', 87: 'her', 88: 'ke', 89: 'ro', 90: 'ir', 91: 'ind', 92: 'nt', 93: '▁re', 94: 'ri', 95: '▁j', 96: '▁kno', 97: 'ot', 98: 'on', 99: 'ac', 100: '▁know', 101: '▁get', 102: '▁my', 103: '▁then', 104: '▁n', 105: '▁had', 106: '▁li', 107: 'ho', 108: '▁wit', 109: '▁with', 110: '▁out', 111: 'ould', 112: 'al', 113: 'ght', 114: 'ly', 115: '▁this', 116: 'lla', 117: '▁there', 118: '▁me', 119: '▁up', 120: 'rella', 121: '▁for', 122: 'pp', 123: 'au', 124: '▁co', 125: 'very', 126: '▁r', 127: '▁ye', 128: '▁all', 129: '▁one', 130: '▁ho', 131: '▁lo', 132: '▁sa', 133: 'mb', 134: 'ce', 135: 'itt', 136: '▁at', 137: 'ok', 138: '▁what', 139: 'od', 140: '▁whe', 141: '▁tw', 142: 'ust', 143: '▁an', 144: 'kay', 145: '▁not', 146: '▁okay', 147: '▁se', 148: '▁some', 149: '▁his', 150: 'hing', 151: '▁don', 152: '▁ball', 153: '▁just', 154: '▁oh', 155: 'ally', 156: 'ack', 157: '▁or', 158: '▁bec', 159: 'other', 160: '▁like', 161: '▁got', 162: 'ss', 163: '▁cind', 164: '▁cinde', 165: 'ry', 166: 'ain', 167: 'ah', 168: '▁two', 169: 'ep', 170: '▁well', 171: '▁litt', 172: '▁little', 173: 'wn', 174: '▁mo', 175: 'ree', 176: '▁can', 177: '▁yeah', 178: '▁did', 179: 'im', 180: 'ause', 181: '▁because', 182: 'king', 183: '▁ne', 184: '▁say', 185: '▁have', 186: 'ime', 187: 'ake', 188: '▁back', 189: '▁ab', 190: 'if', 191: 'art', 192: '▁pe', 193: 'ur', 194: '▁look', 195: 'ell', 196: 'li', 197: 'thing', 198: 'nn', 199: '▁went', 200: '▁time', 201: 'rou', 202: '▁when', 203: '▁very', 204: '▁bo', 205: '▁would', 206: 'out', 207: '▁were', 208: '▁said', 209: '▁ca', 210: '▁as', 211: 'ta', 212: 'ck', 213: '▁pr', 214: '▁him', 215: 'ow', 216: '▁who', 217: 'to', 218: 'ch', 219: '▁down', 220: '▁could', 221: 'read', 222: 'ent', 223: 'ra', 224: 'irl', 225: '▁about', 226: '▁girl', 227: '▁al', 228: 'right', 229: '▁thing', 230: '▁prin', 231: '▁sp', 232: '▁fi', 233: '▁cat', 234: '▁wor', 235: '▁going', 236: 'ther', 237: 'ul', 238: '▁put', 239: 'nna', 240: '▁see', 241: '▁thin', 242: '▁every', 243: '▁man', 244: '▁good', 245: '▁come', 246: 'ion', 247: '▁them', 248: '▁yes', 249: 'om', 250: '▁into', 251: 'ters', 252: '▁step', 253: 'la', 254: '▁le', 255: 'ess', 256: '▁tree', 257: '▁any', 258: '▁prince', 259: 'mp', 260: '▁happ', 261: '▁sc', 262: '▁boy', 263: 'way', 264: '▁fro', 265: '▁take', 266: '▁su', 267: 'ab', 268: '▁here', 269: '▁hou', 270: 'ct', 271: '▁wh', 272: 'ol', 273: 'ight', 274: '▁think', 275: 'un', 276: '▁mother', 277: '▁now', 278: 'ide', 279: '▁really', 280: 'ill', 281: 'ice', 282: '▁didn', 283: 'op', 284: '▁bread', 285: '▁umb', 286: '▁fa', 287: '▁home', 288: '▁rain', 289: '▁umbrella', 290: '▁pro', 291: '▁butter', 292: '▁from', 293: 'mother', 294: '▁try', 295: '▁pl', 296: '▁af', 297: '▁wind', 298: 'ge', 299: '▁want', 300: '▁gu', 301: 'ick', 302: '▁day', 303: '▁are', 304: '▁over', 305: 'anut', 306: '▁peanut', 307: '▁house', 308: '▁window', 309: 'lo', 310: '▁sli', 311: 'pper', 312: 'our', 313: '▁sho', 314: '▁right', 315: '▁slipper', 316: 'el', 317: 'and', 318: 'ress', 319: '▁gonna', 320: 'mber', 321: '▁has', 322: '▁after', 323: 'ng', 324: 'ving', 325: '▁came', 326: '▁by', 327: '▁lad', 328: '▁says', 329: '▁start', 330: '▁off', 331: '▁other', 332: 'ak', 333: '▁dog', 334: '▁de', 335: 'red', 336: 'il', 337: '▁car', 338: 'ven', 339: 'ried', 340: '▁if', 341: 'ather', 342: '▁call', 343: 'ars', 344: '▁jell', 345: 'fe', 346: '▁jelly', 347: 'us', 348: '▁mean', 349: 'as', 350: 'der', 351: '▁something', 352: 'ty', 353: 'augh', 354: 'ne', 355: '▁goes', 356: 'isters', 357: '▁ag', 358: '▁reme', 359: '▁dress', 360: '▁prob', 361: 'round', 362: '▁where', 363: '▁peop', 364: '▁people', 365: '▁remember', 366: 'ig', 367: 'ody', 368: 'ting', 369: '▁three', 370: '▁fe', 371: 'ich', 372: '▁tal', 373: '▁fire', 374: '▁god', 375: '▁stu', 376: '▁ex', 377: '▁hadta', 378: '▁how', 379: '▁hel', 380: 'lf', 381: 'body', 382: 'lass', 383: 'ate', 384: 'hi', 385: 'ine', 386: '▁way', 387: 'qu', 388: '▁wal', 389: 'rough', 390: '▁through', 391: '▁mom', 392: '▁la', 393: '▁father', 394: '▁ro', 395: '▁pre', 396: 'cc', 397: '▁fir', 398: '▁help', 399: 'hool', 400: '▁school', 401: 'urn', 402: '▁around', 403: '▁first', 404: 'ong', 405: '▁work', 406: 'ation', 407: 'ie', 408: 'ily', 409: '▁mar', 410: '▁kind', 411: '▁daugh', 412: '▁dad', 413: 'ife', 414: 'ved', 415: '▁looks', 416: '▁couldn', 417: '▁things', 418: '▁guess', 419: '▁their', 420: '▁fo', 421: '▁ladder', 422: '▁us', 423: '▁glass', 424: '▁com', 425: 'end', 426: '▁find', 427: 'nder', 428: '▁been', 429: '▁gets', 430: 'one', 431: '▁your', 432: '▁ma', 433: '▁dan', 434: '▁trying', 435: '▁thou', 436: 'sp', 437: '▁does', 438: '▁bea', 439: 'est', 440: '▁lot', 441: '▁pu', 442: '▁years', 443: 'ite', 444: '▁per', 445: '▁cha', 446: '▁bet', 447: '▁turn', 448: '▁too', 449: '▁need', 450: '▁beaut', 451: '▁steps', 452: '▁may', 453: '▁tell', 454: '▁fit', 455: '▁fair', 456: '▁beautif', 457: 'ound', 458: 'am', 459: 'ace', 460: '▁beautiful', 461: 'ach', 462: 'age', 463: 'ably', 464: '▁mad', 465: 'ves', 466: '▁make', 467: '▁happen', 468: '▁spe', 469: '▁young', 470: '▁v', 471: 'side', 472: '▁', 473: 'e', 474: 't', 475: 'a', 476: 'o', 477: 'h', 478: 'n', 479: 'i', 480: 's', 481: 'd', 482: 'r', 483: 'l', 484: 'w', 485: 'u', 486: 'y', 487: 'g', 488: 'm', 489: 'c', 490: 'b', 491: 'p', 492: 'f', 493: 'k', 494: "'", 495: 'v', 496: 'j', 497: 'x', 498: 'z', 499: 'q'} | 500
+train_Transcription.py:737: UserWarning: Anomaly Detection has been enabled. This mode will increase the runtime and should only be enabled for debugging.
+  with torch.autograd.detect_anomaly():
+training model
+speechbrain.utils.checkpoints - Loading a checkpoint from ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1/save/CKPT+2024-02-01+09-44-50+00
+epoch_counter:
+ curr: 25
+limit: 100
+last_best_epoch: 0
+limit_to_stop: 5
+limit_warmup: 5
+POST epoch_counter:
+ curr: 25
+limit: 100
+last_best_epoch: 0
+patience: 25
+limit_to_stop: 30
+limit_warmup: 30
+speechbrain.utils.epoch_loop - Going into epoch 26
+  0%|          | 0/178 [00:00<?, ?it/s]q: torch.Size([4, 9, 1024])
+key: torch.Size([4, 98, 1024])
+tgt2: torch.Size([4, 9, 1024])
+  0%|          | 0/178 [00:03<?, ?it/s]
+/home/mkperez/.pyenv/versions/miniconda3-latest/envs/sb/lib/python3.8/site-packages/torch/distributed/launch.py:178: FutureWarning: The module torch.distributed.launch is deprecated
+and will be removed in future. Use torchrun.
+Note that --use_env is set by default in torchrun.
+If your script expects `--local_rank` argument to be set, please
+change it to read from `os.environ['LOCAL_RANK']` instead. See 
+https://pytorch.org/docs/stable/distributed.html#launch-utility for 
+further instructions
+
+  warnings.warn(
+[W socket.cpp:401] [c10d] The server socket cannot be initialized on [::]:48667 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:48667 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:48667 (errno: 97 - Address family not supported by protocol).
+run_opts: {'debug': False, 'debug_batches': 2, 'debug_epochs': 2, 'debug_persistently': False, 'local_rank': 0, 'device': 'cuda:0', 'data_parallel_backend': False, 'distributed_launch': True, 'distributed_backend': 'nccl', 'find_unused_parameters': True, 'tqdm_colored_bar': False}
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:48667 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:48667 (errno: 97 - Address family not supported by protocol).
+Some weights of the model checkpoint at facebook/hubert-large-ls960-ft were not used when initializing HubertModel: ['lm_head.weight', 'lm_head.bias']
+- This IS expected if you are initializing HubertModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing HubertModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+speechbrain.lobes.models.huggingface_wav2vec - wav2vec 2.0 feature extractor is frozen.
+speechbrain.core - Beginning experiment!
+speechbrain.core - Experiment folder: ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1
+speechbrain.tokenizers.SentencePiece - Tokenizer is already trained.
+speechbrain.tokenizers.SentencePiece - ==== Loading Tokenizer ===
+speechbrain.tokenizers.SentencePiece - Tokenizer path: ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1/save/500_bpe.model
+speechbrain.tokenizers.SentencePiece - Tokenizer vocab_size: 500
+speechbrain.tokenizers.SentencePiece - Tokenizer type: bpe
+speechbrain.core - Info: auto_mix_prec arg from hparam file is used
+speechbrain.core - Info: max_grad_norm arg from hparam file is used
+speechbrain.core - Info: ckpt_interval_minutes arg from hparam file is used
+speechbrain.core - Info: grad_accumulation_factor arg from hparam file is used
+speechbrain.core - 389.7M trainable parameters in ASR
+tokenizer: {0: '<pad>', 1: '<s>', 2: '</s>', 3: '<unk>', 4: '[p]', 5: '[n]', 6: '▁t', 7: 'he', 8: '▁a', 9: '▁the', 10: '▁i', 11: 'nd', 12: '▁s', 13: '▁w', 14: '▁and', 15: '▁o', 16: 're', 17: 'in', 18: '▁b', 19: 'ha', 20: '▁g', 21: '▁c', 22: 'ou', 23: 'er', 24: 'll', 25: '▁m', 26: 'ing', 27: '▁d', 28: '▁he', 29: '▁to', 30: '▁f', 31: '▁wa', 32: '▁l', 33: 'ut', 34: '▁p', 35: '▁it', 36: '▁y', 37: 'hat', 38: 'no', 39: 'ed', 40: '▁was', 41: '▁so', 42: 'it', 43: '▁go', 44: '▁ha', 45: 'me', 46: '▁h', 47: '▁in', 48: '▁that', 49: 'an', 50: '▁we', 51: 'is', 52: '▁she', 53: '▁th', 54: 'ay', 55: 'es', 56: '▁do', 57: '▁of', 58: 'or', 59: '▁k', 60: '▁on', 61: '▁you', 62: 'ar', 63: 'et', 64: 'id', 65: 'en', 66: 'le', 67: '▁no', 68: '▁be', 69: '▁u', 70: 'all', 71: '▁they', 72: 'at', 73: 'st', 74: '▁her', 75: 'se', 76: '▁st', 77: '▁but', 78: 'ver', 79: 'gh', 80: '▁e', 81: '▁is', 82: 'ad', 83: 'ld', 84: 've', 85: 'ic', 86: 'ter', 87: 'her', 88: 'ke', 89: 'ro', 90: 'ir', 91: 'ind', 92: 'nt', 93: '▁re', 94: 'ri', 95: '▁j', 96: '▁kno', 97: 'ot', 98: 'on', 99: 'ac', 100: '▁know', 101: '▁get', 102: '▁my', 103: '▁then', 104: '▁n', 105: '▁had', 106: '▁li', 107: 'ho', 108: '▁wit', 109: '▁with', 110: '▁out', 111: 'ould', 112: 'al', 113: 'ght', 114: 'ly', 115: '▁this', 116: 'lla', 117: '▁there', 118: '▁me', 119: '▁up', 120: 'rella', 121: '▁for', 122: 'pp', 123: 'au', 124: '▁co', 125: 'very', 126: '▁r', 127: '▁ye', 128: '▁all', 129: '▁one', 130: '▁ho', 131: '▁lo', 132: '▁sa', 133: 'mb', 134: 'ce', 135: 'itt', 136: '▁at', 137: 'ok', 138: '▁what', 139: 'od', 140: '▁whe', 141: '▁tw', 142: 'ust', 143: '▁an', 144: 'kay', 145: '▁not', 146: '▁okay', 147: '▁se', 148: '▁some', 149: '▁his', 150: 'hing', 151: '▁don', 152: '▁ball', 153: '▁just', 154: '▁oh', 155: 'ally', 156: 'ack', 157: '▁or', 158: '▁bec', 159: 'other', 160: '▁like', 161: '▁got', 162: 'ss', 163: '▁cind', 164: '▁cinde', 165: 'ry', 166: 'ain', 167: 'ah', 168: '▁two', 169: 'ep', 170: '▁well', 171: '▁litt', 172: '▁little', 173: 'wn', 174: '▁mo', 175: 'ree', 176: '▁can', 177: '▁yeah', 178: '▁did', 179: 'im', 180: 'ause', 181: '▁because', 182: 'king', 183: '▁ne', 184: '▁say', 185: '▁have', 186: 'ime', 187: 'ake', 188: '▁back', 189: '▁ab', 190: 'if', 191: 'art', 192: '▁pe', 193: 'ur', 194: '▁look', 195: 'ell', 196: 'li', 197: 'thing', 198: 'nn', 199: '▁went', 200: '▁time', 201: 'rou', 202: '▁when', 203: '▁very', 204: '▁bo', 205: '▁would', 206: 'out', 207: '▁were', 208: '▁said', 209: '▁ca', 210: '▁as', 211: 'ta', 212: 'ck', 213: '▁pr', 214: '▁him', 215: 'ow', 216: '▁who', 217: 'to', 218: 'ch', 219: '▁down', 220: '▁could', 221: 'read', 222: 'ent', 223: 'ra', 224: 'irl', 225: '▁about', 226: '▁girl', 227: '▁al', 228: 'right', 229: '▁thing', 230: '▁prin', 231: '▁sp', 232: '▁fi', 233: '▁cat', 234: '▁wor', 235: '▁going', 236: 'ther', 237: 'ul', 238: '▁put', 239: 'nna', 240: '▁see', 241: '▁thin', 242: '▁every', 243: '▁man', 244: '▁good', 245: '▁come', 246: 'ion', 247: '▁them', 248: '▁yes', 249: 'om', 250: '▁into', 251: 'ters', 252: '▁step', 253: 'la', 254: '▁le', 255: 'ess', 256: '▁tree', 257: '▁any', 258: '▁prince', 259: 'mp', 260: '▁happ', 261: '▁sc', 262: '▁boy', 263: 'way', 264: '▁fro', 265: '▁take', 266: '▁su', 267: 'ab', 268: '▁here', 269: '▁hou', 270: 'ct', 271: '▁wh', 272: 'ol', 273: 'ight', 274: '▁think', 275: 'un', 276: '▁mother', 277: '▁now', 278: 'ide', 279: '▁really', 280: 'ill', 281: 'ice', 282: '▁didn', 283: 'op', 284: '▁bread', 285: '▁umb', 286: '▁fa', 287: '▁home', 288: '▁rain', 289: '▁umbrella', 290: '▁pro', 291: '▁butter', 292: '▁from', 293: 'mother', 294: '▁try', 295: '▁pl', 296: '▁af', 297: '▁wind', 298: 'ge', 299: '▁want', 300: '▁gu', 301: 'ick', 302: '▁day', 303: '▁are', 304: '▁over', 305: 'anut', 306: '▁peanut', 307: '▁house', 308: '▁window', 309: 'lo', 310: '▁sli', 311: 'pper', 312: 'our', 313: '▁sho', 314: '▁right', 315: '▁slipper', 316: 'el', 317: 'and', 318: 'ress', 319: '▁gonna', 320: 'mber', 321: '▁has', 322: '▁after', 323: 'ng', 324: 'ving', 325: '▁came', 326: '▁by', 327: '▁lad', 328: '▁says', 329: '▁start', 330: '▁off', 331: '▁other', 332: 'ak', 333: '▁dog', 334: '▁de', 335: 'red', 336: 'il', 337: '▁car', 338: 'ven', 339: 'ried', 340: '▁if', 341: 'ather', 342: '▁call', 343: 'ars', 344: '▁jell', 345: 'fe', 346: '▁jelly', 347: 'us', 348: '▁mean', 349: 'as', 350: 'der', 351: '▁something', 352: 'ty', 353: 'augh', 354: 'ne', 355: '▁goes', 356: 'isters', 357: '▁ag', 358: '▁reme', 359: '▁dress', 360: '▁prob', 361: 'round', 362: '▁where', 363: '▁peop', 364: '▁people', 365: '▁remember', 366: 'ig', 367: 'ody', 368: 'ting', 369: '▁three', 370: '▁fe', 371: 'ich', 372: '▁tal', 373: '▁fire', 374: '▁god', 375: '▁stu', 376: '▁ex', 377: '▁hadta', 378: '▁how', 379: '▁hel', 380: 'lf', 381: 'body', 382: 'lass', 383: 'ate', 384: 'hi', 385: 'ine', 386: '▁way', 387: 'qu', 388: '▁wal', 389: 'rough', 390: '▁through', 391: '▁mom', 392: '▁la', 393: '▁father', 394: '▁ro', 395: '▁pre', 396: 'cc', 397: '▁fir', 398: '▁help', 399: 'hool', 400: '▁school', 401: 'urn', 402: '▁around', 403: '▁first', 404: 'ong', 405: '▁work', 406: 'ation', 407: 'ie', 408: 'ily', 409: '▁mar', 410: '▁kind', 411: '▁daugh', 412: '▁dad', 413: 'ife', 414: 'ved', 415: '▁looks', 416: '▁couldn', 417: '▁things', 418: '▁guess', 419: '▁their', 420: '▁fo', 421: '▁ladder', 422: '▁us', 423: '▁glass', 424: '▁com', 425: 'end', 426: '▁find', 427: 'nder', 428: '▁been', 429: '▁gets', 430: 'one', 431: '▁your', 432: '▁ma', 433: '▁dan', 434: '▁trying', 435: '▁thou', 436: 'sp', 437: '▁does', 438: '▁bea', 439: 'est', 440: '▁lot', 441: '▁pu', 442: '▁years', 443: 'ite', 444: '▁per', 445: '▁cha', 446: '▁bet', 447: '▁turn', 448: '▁too', 449: '▁need', 450: '▁beaut', 451: '▁steps', 452: '▁may', 453: '▁tell', 454: '▁fit', 455: '▁fair', 456: '▁beautif', 457: 'ound', 458: 'am', 459: 'ace', 460: '▁beautiful', 461: 'ach', 462: 'age', 463: 'ably', 464: '▁mad', 465: 'ves', 466: '▁make', 467: '▁happen', 468: '▁spe', 469: '▁young', 470: '▁v', 471: 'side', 472: '▁', 473: 'e', 474: 't', 475: 'a', 476: 'o', 477: 'h', 478: 'n', 479: 'i', 480: 's', 481: 'd', 482: 'r', 483: 'l', 484: 'w', 485: 'u', 486: 'y', 487: 'g', 488: 'm', 489: 'c', 490: 'b', 491: 'p', 492: 'f', 493: 'k', 494: "'", 495: 'v', 496: 'j', 497: 'x', 498: 'z', 499: 'q'} | 500
+train_Transcription.py:737: UserWarning: Anomaly Detection has been enabled. This mode will increase the runtime and should only be enabled for debugging.
+  with torch.autograd.detect_anomaly():
+training model
+speechbrain.utils.checkpoints - Loading a checkpoint from ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1/save/CKPT+2024-02-01+09-44-50+00
+epoch_counter:
+ curr: 25
+limit: 100
+last_best_epoch: 0
+limit_to_stop: 5
+limit_warmup: 5
+POST epoch_counter:
+ curr: 25
+limit: 100
+last_best_epoch: 0
+patience: 25
+limit_to_stop: 30
+limit_warmup: 30
+speechbrain.utils.epoch_loop - Going into epoch 26
+  0%|          | 0/178 [00:00<?, ?it/s]q: torch.Size([4, 9, 1024])
+key: torch.Size([4, 98, 1024])
+tgt2: torch.Size([4, 9, 1024])
+  0%|          | 0/178 [00:03<?, ?it/s]
+/home/mkperez/.pyenv/versions/miniconda3-latest/envs/sb/lib/python3.8/site-packages/torch/distributed/launch.py:178: FutureWarning: The module torch.distributed.launch is deprecated
+and will be removed in future. Use torchrun.
+Note that --use_env is set by default in torchrun.
+If your script expects `--local_rank` argument to be set, please
+change it to read from `os.environ['LOCAL_RANK']` instead. See 
+https://pytorch.org/docs/stable/distributed.html#launch-utility for 
+further instructions
+
+  warnings.warn(
+[W socket.cpp:401] [c10d] The server socket cannot be initialized on [::]:57393 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:57393 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:57393 (errno: 97 - Address family not supported by protocol).
+run_opts: {'debug': False, 'debug_batches': 2, 'debug_epochs': 2, 'debug_persistently': False, 'local_rank': 0, 'device': 'cuda:0', 'data_parallel_backend': False, 'distributed_launch': True, 'distributed_backend': 'nccl', 'find_unused_parameters': True, 'tqdm_colored_bar': False}
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:57393 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:57393 (errno: 97 - Address family not supported by protocol).
+Some weights of the model checkpoint at facebook/hubert-large-ls960-ft were not used when initializing HubertModel: ['lm_head.weight', 'lm_head.bias']
+- This IS expected if you are initializing HubertModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing HubertModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+speechbrain.lobes.models.huggingface_wav2vec - wav2vec 2.0 feature extractor is frozen.
+speechbrain.core - Beginning experiment!
+speechbrain.core - Experiment folder: ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1
+speechbrain.tokenizers.SentencePiece - Tokenizer is already trained.
+speechbrain.tokenizers.SentencePiece - ==== Loading Tokenizer ===
+speechbrain.tokenizers.SentencePiece - Tokenizer path: ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1/save/500_bpe.model
+speechbrain.tokenizers.SentencePiece - Tokenizer vocab_size: 500
+speechbrain.tokenizers.SentencePiece - Tokenizer type: bpe
+speechbrain.core - Info: auto_mix_prec arg from hparam file is used
+speechbrain.core - Info: max_grad_norm arg from hparam file is used
+speechbrain.core - Info: ckpt_interval_minutes arg from hparam file is used
+speechbrain.core - Info: grad_accumulation_factor arg from hparam file is used
+speechbrain.core - 389.7M trainable parameters in ASR
+tokenizer: {0: '<pad>', 1: '<s>', 2: '</s>', 3: '<unk>', 4: '[p]', 5: '[n]', 6: '▁t', 7: 'he', 8: '▁a', 9: '▁the', 10: '▁i', 11: 'nd', 12: '▁s', 13: '▁w', 14: '▁and', 15: '▁o', 16: 're', 17: 'in', 18: '▁b', 19: 'ha', 20: '▁g', 21: '▁c', 22: 'ou', 23: 'er', 24: 'll', 25: '▁m', 26: 'ing', 27: '▁d', 28: '▁he', 29: '▁to', 30: '▁f', 31: '▁wa', 32: '▁l', 33: 'ut', 34: '▁p', 35: '▁it', 36: '▁y', 37: 'hat', 38: 'no', 39: 'ed', 40: '▁was', 41: '▁so', 42: 'it', 43: '▁go', 44: '▁ha', 45: 'me', 46: '▁h', 47: '▁in', 48: '▁that', 49: 'an', 50: '▁we', 51: 'is', 52: '▁she', 53: '▁th', 54: 'ay', 55: 'es', 56: '▁do', 57: '▁of', 58: 'or', 59: '▁k', 60: '▁on', 61: '▁you', 62: 'ar', 63: 'et', 64: 'id', 65: 'en', 66: 'le', 67: '▁no', 68: '▁be', 69: '▁u', 70: 'all', 71: '▁they', 72: 'at', 73: 'st', 74: '▁her', 75: 'se', 76: '▁st', 77: '▁but', 78: 'ver', 79: 'gh', 80: '▁e', 81: '▁is', 82: 'ad', 83: 'ld', 84: 've', 85: 'ic', 86: 'ter', 87: 'her', 88: 'ke', 89: 'ro', 90: 'ir', 91: 'ind', 92: 'nt', 93: '▁re', 94: 'ri', 95: '▁j', 96: '▁kno', 97: 'ot', 98: 'on', 99: 'ac', 100: '▁know', 101: '▁get', 102: '▁my', 103: '▁then', 104: '▁n', 105: '▁had', 106: '▁li', 107: 'ho', 108: '▁wit', 109: '▁with', 110: '▁out', 111: 'ould', 112: 'al', 113: 'ght', 114: 'ly', 115: '▁this', 116: 'lla', 117: '▁there', 118: '▁me', 119: '▁up', 120: 'rella', 121: '▁for', 122: 'pp', 123: 'au', 124: '▁co', 125: 'very', 126: '▁r', 127: '▁ye', 128: '▁all', 129: '▁one', 130: '▁ho', 131: '▁lo', 132: '▁sa', 133: 'mb', 134: 'ce', 135: 'itt', 136: '▁at', 137: 'ok', 138: '▁what', 139: 'od', 140: '▁whe', 141: '▁tw', 142: 'ust', 143: '▁an', 144: 'kay', 145: '▁not', 146: '▁okay', 147: '▁se', 148: '▁some', 149: '▁his', 150: 'hing', 151: '▁don', 152: '▁ball', 153: '▁just', 154: '▁oh', 155: 'ally', 156: 'ack', 157: '▁or', 158: '▁bec', 159: 'other', 160: '▁like', 161: '▁got', 162: 'ss', 163: '▁cind', 164: '▁cinde', 165: 'ry', 166: 'ain', 167: 'ah', 168: '▁two', 169: 'ep', 170: '▁well', 171: '▁litt', 172: '▁little', 173: 'wn', 174: '▁mo', 175: 'ree', 176: '▁can', 177: '▁yeah', 178: '▁did', 179: 'im', 180: 'ause', 181: '▁because', 182: 'king', 183: '▁ne', 184: '▁say', 185: '▁have', 186: 'ime', 187: 'ake', 188: '▁back', 189: '▁ab', 190: 'if', 191: 'art', 192: '▁pe', 193: 'ur', 194: '▁look', 195: 'ell', 196: 'li', 197: 'thing', 198: 'nn', 199: '▁went', 200: '▁time', 201: 'rou', 202: '▁when', 203: '▁very', 204: '▁bo', 205: '▁would', 206: 'out', 207: '▁were', 208: '▁said', 209: '▁ca', 210: '▁as', 211: 'ta', 212: 'ck', 213: '▁pr', 214: '▁him', 215: 'ow', 216: '▁who', 217: 'to', 218: 'ch', 219: '▁down', 220: '▁could', 221: 'read', 222: 'ent', 223: 'ra', 224: 'irl', 225: '▁about', 226: '▁girl', 227: '▁al', 228: 'right', 229: '▁thing', 230: '▁prin', 231: '▁sp', 232: '▁fi', 233: '▁cat', 234: '▁wor', 235: '▁going', 236: 'ther', 237: 'ul', 238: '▁put', 239: 'nna', 240: '▁see', 241: '▁thin', 242: '▁every', 243: '▁man', 244: '▁good', 245: '▁come', 246: 'ion', 247: '▁them', 248: '▁yes', 249: 'om', 250: '▁into', 251: 'ters', 252: '▁step', 253: 'la', 254: '▁le', 255: 'ess', 256: '▁tree', 257: '▁any', 258: '▁prince', 259: 'mp', 260: '▁happ', 261: '▁sc', 262: '▁boy', 263: 'way', 264: '▁fro', 265: '▁take', 266: '▁su', 267: 'ab', 268: '▁here', 269: '▁hou', 270: 'ct', 271: '▁wh', 272: 'ol', 273: 'ight', 274: '▁think', 275: 'un', 276: '▁mother', 277: '▁now', 278: 'ide', 279: '▁really', 280: 'ill', 281: 'ice', 282: '▁didn', 283: 'op', 284: '▁bread', 285: '▁umb', 286: '▁fa', 287: '▁home', 288: '▁rain', 289: '▁umbrella', 290: '▁pro', 291: '▁butter', 292: '▁from', 293: 'mother', 294: '▁try', 295: '▁pl', 296: '▁af', 297: '▁wind', 298: 'ge', 299: '▁want', 300: '▁gu', 301: 'ick', 302: '▁day', 303: '▁are', 304: '▁over', 305: 'anut', 306: '▁peanut', 307: '▁house', 308: '▁window', 309: 'lo', 310: '▁sli', 311: 'pper', 312: 'our', 313: '▁sho', 314: '▁right', 315: '▁slipper', 316: 'el', 317: 'and', 318: 'ress', 319: '▁gonna', 320: 'mber', 321: '▁has', 322: '▁after', 323: 'ng', 324: 'ving', 325: '▁came', 326: '▁by', 327: '▁lad', 328: '▁says', 329: '▁start', 330: '▁off', 331: '▁other', 332: 'ak', 333: '▁dog', 334: '▁de', 335: 'red', 336: 'il', 337: '▁car', 338: 'ven', 339: 'ried', 340: '▁if', 341: 'ather', 342: '▁call', 343: 'ars', 344: '▁jell', 345: 'fe', 346: '▁jelly', 347: 'us', 348: '▁mean', 349: 'as', 350: 'der', 351: '▁something', 352: 'ty', 353: 'augh', 354: 'ne', 355: '▁goes', 356: 'isters', 357: '▁ag', 358: '▁reme', 359: '▁dress', 360: '▁prob', 361: 'round', 362: '▁where', 363: '▁peop', 364: '▁people', 365: '▁remember', 366: 'ig', 367: 'ody', 368: 'ting', 369: '▁three', 370: '▁fe', 371: 'ich', 372: '▁tal', 373: '▁fire', 374: '▁god', 375: '▁stu', 376: '▁ex', 377: '▁hadta', 378: '▁how', 379: '▁hel', 380: 'lf', 381: 'body', 382: 'lass', 383: 'ate', 384: 'hi', 385: 'ine', 386: '▁way', 387: 'qu', 388: '▁wal', 389: 'rough', 390: '▁through', 391: '▁mom', 392: '▁la', 393: '▁father', 394: '▁ro', 395: '▁pre', 396: 'cc', 397: '▁fir', 398: '▁help', 399: 'hool', 400: '▁school', 401: 'urn', 402: '▁around', 403: '▁first', 404: 'ong', 405: '▁work', 406: 'ation', 407: 'ie', 408: 'ily', 409: '▁mar', 410: '▁kind', 411: '▁daugh', 412: '▁dad', 413: 'ife', 414: 'ved', 415: '▁looks', 416: '▁couldn', 417: '▁things', 418: '▁guess', 419: '▁their', 420: '▁fo', 421: '▁ladder', 422: '▁us', 423: '▁glass', 424: '▁com', 425: 'end', 426: '▁find', 427: 'nder', 428: '▁been', 429: '▁gets', 430: 'one', 431: '▁your', 432: '▁ma', 433: '▁dan', 434: '▁trying', 435: '▁thou', 436: 'sp', 437: '▁does', 438: '▁bea', 439: 'est', 440: '▁lot', 441: '▁pu', 442: '▁years', 443: 'ite', 444: '▁per', 445: '▁cha', 446: '▁bet', 447: '▁turn', 448: '▁too', 449: '▁need', 450: '▁beaut', 451: '▁steps', 452: '▁may', 453: '▁tell', 454: '▁fit', 455: '▁fair', 456: '▁beautif', 457: 'ound', 458: 'am', 459: 'ace', 460: '▁beautiful', 461: 'ach', 462: 'age', 463: 'ably', 464: '▁mad', 465: 'ves', 466: '▁make', 467: '▁happen', 468: '▁spe', 469: '▁young', 470: '▁v', 471: 'side', 472: '▁', 473: 'e', 474: 't', 475: 'a', 476: 'o', 477: 'h', 478: 'n', 479: 'i', 480: 's', 481: 'd', 482: 'r', 483: 'l', 484: 'w', 485: 'u', 486: 'y', 487: 'g', 488: 'm', 489: 'c', 490: 'b', 491: 'p', 492: 'f', 493: 'k', 494: "'", 495: 'v', 496: 'j', 497: 'x', 498: 'z', 499: 'q'} | 500
+train_Transcription.py:737: UserWarning: Anomaly Detection has been enabled. This mode will increase the runtime and should only be enabled for debugging.
+  with torch.autograd.detect_anomaly():
+training model
+speechbrain.utils.checkpoints - Loading a checkpoint from ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1/save/CKPT+2024-02-01+09-44-50+00
+epoch_counter:
+ curr: 25
+limit: 100
+last_best_epoch: 0
+limit_to_stop: 5
+limit_warmup: 5
+POST epoch_counter:
+ curr: 25
+limit: 100
+last_best_epoch: 0
+patience: 25
+limit_to_stop: 30
+limit_warmup: 30
+speechbrain.utils.epoch_loop - Going into epoch 26
+  0%|          | 0/178 [00:00<?, ?it/s]q: torch.Size([4, 9, 1024])
+key: torch.Size([4, 98, 1024])
+tgt2: torch.Size([4, 9, 1024])
+  0%|          | 0/178 [00:03<?, ?it/s]
+/home/mkperez/.pyenv/versions/miniconda3-latest/envs/sb/lib/python3.8/site-packages/torch/distributed/launch.py:178: FutureWarning: The module torch.distributed.launch is deprecated
+and will be removed in future. Use torchrun.
+Note that --use_env is set by default in torchrun.
+If your script expects `--local_rank` argument to be set, please
+change it to read from `os.environ['LOCAL_RANK']` instead. See 
+https://pytorch.org/docs/stable/distributed.html#launch-utility for 
+further instructions
+
+  warnings.warn(
+[W socket.cpp:401] [c10d] The server socket cannot be initialized on [::]:47053 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:47053 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:47053 (errno: 97 - Address family not supported by protocol).
+run_opts: {'debug': False, 'debug_batches': 2, 'debug_epochs': 2, 'debug_persistently': False, 'local_rank': 0, 'device': 'cuda:0', 'data_parallel_backend': False, 'distributed_launch': True, 'distributed_backend': 'nccl', 'find_unused_parameters': True, 'tqdm_colored_bar': False}
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:47053 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:47053 (errno: 97 - Address family not supported by protocol).
+Some weights of the model checkpoint at facebook/hubert-large-ls960-ft were not used when initializing HubertModel: ['lm_head.bias', 'lm_head.weight']
+- This IS expected if you are initializing HubertModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing HubertModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+speechbrain.lobes.models.huggingface_wav2vec - wav2vec 2.0 feature extractor is frozen.
+speechbrain.core - Beginning experiment!
+speechbrain.core - Experiment folder: ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1
+speechbrain.tokenizers.SentencePiece - Tokenizer is already trained.
+speechbrain.tokenizers.SentencePiece - ==== Loading Tokenizer ===
+speechbrain.tokenizers.SentencePiece - Tokenizer path: ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1/save/500_bpe.model
+speechbrain.tokenizers.SentencePiece - Tokenizer vocab_size: 500
+speechbrain.tokenizers.SentencePiece - Tokenizer type: bpe
+speechbrain.core - Info: auto_mix_prec arg from hparam file is used
+speechbrain.core - Info: max_grad_norm arg from hparam file is used
+speechbrain.core - Info: ckpt_interval_minutes arg from hparam file is used
+speechbrain.core - Info: grad_accumulation_factor arg from hparam file is used
+speechbrain.core - 389.7M trainable parameters in ASR
+tokenizer: {0: '<pad>', 1: '<s>', 2: '</s>', 3: '<unk>', 4: '[p]', 5: '[n]', 6: '▁t', 7: 'he', 8: '▁a', 9: '▁the', 10: '▁i', 11: 'nd', 12: '▁s', 13: '▁w', 14: '▁and', 15: '▁o', 16: 're', 17: 'in', 18: '▁b', 19: 'ha', 20: '▁g', 21: '▁c', 22: 'ou', 23: 'er', 24: 'll', 25: '▁m', 26: 'ing', 27: '▁d', 28: '▁he', 29: '▁to', 30: '▁f', 31: '▁wa', 32: '▁l', 33: 'ut', 34: '▁p', 35: '▁it', 36: '▁y', 37: 'hat', 38: 'no', 39: 'ed', 40: '▁was', 41: '▁so', 42: 'it', 43: '▁go', 44: '▁ha', 45: 'me', 46: '▁h', 47: '▁in', 48: '▁that', 49: 'an', 50: '▁we', 51: 'is', 52: '▁she', 53: '▁th', 54: 'ay', 55: 'es', 56: '▁do', 57: '▁of', 58: 'or', 59: '▁k', 60: '▁on', 61: '▁you', 62: 'ar', 63: 'et', 64: 'id', 65: 'en', 66: 'le', 67: '▁no', 68: '▁be', 69: '▁u', 70: 'all', 71: '▁they', 72: 'at', 73: 'st', 74: '▁her', 75: 'se', 76: '▁st', 77: '▁but', 78: 'ver', 79: 'gh', 80: '▁e', 81: '▁is', 82: 'ad', 83: 'ld', 84: 've', 85: 'ic', 86: 'ter', 87: 'her', 88: 'ke', 89: 'ro', 90: 'ir', 91: 'ind', 92: 'nt', 93: '▁re', 94: 'ri', 95: '▁j', 96: '▁kno', 97: 'ot', 98: 'on', 99: 'ac', 100: '▁know', 101: '▁get', 102: '▁my', 103: '▁then', 104: '▁n', 105: '▁had', 106: '▁li', 107: 'ho', 108: '▁wit', 109: '▁with', 110: '▁out', 111: 'ould', 112: 'al', 113: 'ght', 114: 'ly', 115: '▁this', 116: 'lla', 117: '▁there', 118: '▁me', 119: '▁up', 120: 'rella', 121: '▁for', 122: 'pp', 123: 'au', 124: '▁co', 125: 'very', 126: '▁r', 127: '▁ye', 128: '▁all', 129: '▁one', 130: '▁ho', 131: '▁lo', 132: '▁sa', 133: 'mb', 134: 'ce', 135: 'itt', 136: '▁at', 137: 'ok', 138: '▁what', 139: 'od', 140: '▁whe', 141: '▁tw', 142: 'ust', 143: '▁an', 144: 'kay', 145: '▁not', 146: '▁okay', 147: '▁se', 148: '▁some', 149: '▁his', 150: 'hing', 151: '▁don', 152: '▁ball', 153: '▁just', 154: '▁oh', 155: 'ally', 156: 'ack', 157: '▁or', 158: '▁bec', 159: 'other', 160: '▁like', 161: '▁got', 162: 'ss', 163: '▁cind', 164: '▁cinde', 165: 'ry', 166: 'ain', 167: 'ah', 168: '▁two', 169: 'ep', 170: '▁well', 171: '▁litt', 172: '▁little', 173: 'wn', 174: '▁mo', 175: 'ree', 176: '▁can', 177: '▁yeah', 178: '▁did', 179: 'im', 180: 'ause', 181: '▁because', 182: 'king', 183: '▁ne', 184: '▁say', 185: '▁have', 186: 'ime', 187: 'ake', 188: '▁back', 189: '▁ab', 190: 'if', 191: 'art', 192: '▁pe', 193: 'ur', 194: '▁look', 195: 'ell', 196: 'li', 197: 'thing', 198: 'nn', 199: '▁went', 200: '▁time', 201: 'rou', 202: '▁when', 203: '▁very', 204: '▁bo', 205: '▁would', 206: 'out', 207: '▁were', 208: '▁said', 209: '▁ca', 210: '▁as', 211: 'ta', 212: 'ck', 213: '▁pr', 214: '▁him', 215: 'ow', 216: '▁who', 217: 'to', 218: 'ch', 219: '▁down', 220: '▁could', 221: 'read', 222: 'ent', 223: 'ra', 224: 'irl', 225: '▁about', 226: '▁girl', 227: '▁al', 228: 'right', 229: '▁thing', 230: '▁prin', 231: '▁sp', 232: '▁fi', 233: '▁cat', 234: '▁wor', 235: '▁going', 236: 'ther', 237: 'ul', 238: '▁put', 239: 'nna', 240: '▁see', 241: '▁thin', 242: '▁every', 243: '▁man', 244: '▁good', 245: '▁come', 246: 'ion', 247: '▁them', 248: '▁yes', 249: 'om', 250: '▁into', 251: 'ters', 252: '▁step', 253: 'la', 254: '▁le', 255: 'ess', 256: '▁tree', 257: '▁any', 258: '▁prince', 259: 'mp', 260: '▁happ', 261: '▁sc', 262: '▁boy', 263: 'way', 264: '▁fro', 265: '▁take', 266: '▁su', 267: 'ab', 268: '▁here', 269: '▁hou', 270: 'ct', 271: '▁wh', 272: 'ol', 273: 'ight', 274: '▁think', 275: 'un', 276: '▁mother', 277: '▁now', 278: 'ide', 279: '▁really', 280: 'ill', 281: 'ice', 282: '▁didn', 283: 'op', 284: '▁bread', 285: '▁umb', 286: '▁fa', 287: '▁home', 288: '▁rain', 289: '▁umbrella', 290: '▁pro', 291: '▁butter', 292: '▁from', 293: 'mother', 294: '▁try', 295: '▁pl', 296: '▁af', 297: '▁wind', 298: 'ge', 299: '▁want', 300: '▁gu', 301: 'ick', 302: '▁day', 303: '▁are', 304: '▁over', 305: 'anut', 306: '▁peanut', 307: '▁house', 308: '▁window', 309: 'lo', 310: '▁sli', 311: 'pper', 312: 'our', 313: '▁sho', 314: '▁right', 315: '▁slipper', 316: 'el', 317: 'and', 318: 'ress', 319: '▁gonna', 320: 'mber', 321: '▁has', 322: '▁after', 323: 'ng', 324: 'ving', 325: '▁came', 326: '▁by', 327: '▁lad', 328: '▁says', 329: '▁start', 330: '▁off', 331: '▁other', 332: 'ak', 333: '▁dog', 334: '▁de', 335: 'red', 336: 'il', 337: '▁car', 338: 'ven', 339: 'ried', 340: '▁if', 341: 'ather', 342: '▁call', 343: 'ars', 344: '▁jell', 345: 'fe', 346: '▁jelly', 347: 'us', 348: '▁mean', 349: 'as', 350: 'der', 351: '▁something', 352: 'ty', 353: 'augh', 354: 'ne', 355: '▁goes', 356: 'isters', 357: '▁ag', 358: '▁reme', 359: '▁dress', 360: '▁prob', 361: 'round', 362: '▁where', 363: '▁peop', 364: '▁people', 365: '▁remember', 366: 'ig', 367: 'ody', 368: 'ting', 369: '▁three', 370: '▁fe', 371: 'ich', 372: '▁tal', 373: '▁fire', 374: '▁god', 375: '▁stu', 376: '▁ex', 377: '▁hadta', 378: '▁how', 379: '▁hel', 380: 'lf', 381: 'body', 382: 'lass', 383: 'ate', 384: 'hi', 385: 'ine', 386: '▁way', 387: 'qu', 388: '▁wal', 389: 'rough', 390: '▁through', 391: '▁mom', 392: '▁la', 393: '▁father', 394: '▁ro', 395: '▁pre', 396: 'cc', 397: '▁fir', 398: '▁help', 399: 'hool', 400: '▁school', 401: 'urn', 402: '▁around', 403: '▁first', 404: 'ong', 405: '▁work', 406: 'ation', 407: 'ie', 408: 'ily', 409: '▁mar', 410: '▁kind', 411: '▁daugh', 412: '▁dad', 413: 'ife', 414: 'ved', 415: '▁looks', 416: '▁couldn', 417: '▁things', 418: '▁guess', 419: '▁their', 420: '▁fo', 421: '▁ladder', 422: '▁us', 423: '▁glass', 424: '▁com', 425: 'end', 426: '▁find', 427: 'nder', 428: '▁been', 429: '▁gets', 430: 'one', 431: '▁your', 432: '▁ma', 433: '▁dan', 434: '▁trying', 435: '▁thou', 436: 'sp', 437: '▁does', 438: '▁bea', 439: 'est', 440: '▁lot', 441: '▁pu', 442: '▁years', 443: 'ite', 444: '▁per', 445: '▁cha', 446: '▁bet', 447: '▁turn', 448: '▁too', 449: '▁need', 450: '▁beaut', 451: '▁steps', 452: '▁may', 453: '▁tell', 454: '▁fit', 455: '▁fair', 456: '▁beautif', 457: 'ound', 458: 'am', 459: 'ace', 460: '▁beautiful', 461: 'ach', 462: 'age', 463: 'ably', 464: '▁mad', 465: 'ves', 466: '▁make', 467: '▁happen', 468: '▁spe', 469: '▁young', 470: '▁v', 471: 'side', 472: '▁', 473: 'e', 474: 't', 475: 'a', 476: 'o', 477: 'h', 478: 'n', 479: 'i', 480: 's', 481: 'd', 482: 'r', 483: 'l', 484: 'w', 485: 'u', 486: 'y', 487: 'g', 488: 'm', 489: 'c', 490: 'b', 491: 'p', 492: 'f', 493: 'k', 494: "'", 495: 'v', 496: 'j', 497: 'x', 498: 'z', 499: 'q'} | 500
+train_Transcription.py:737: UserWarning: Anomaly Detection has been enabled. This mode will increase the runtime and should only be enabled for debugging.
+  with torch.autograd.detect_anomaly():
+training model
+speechbrain.utils.checkpoints - Loading a checkpoint from ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1/save/CKPT+2024-02-01+09-44-50+00
+epoch_counter:
+ curr: 25
+limit: 100
+last_best_epoch: 0
+limit_to_stop: 5
+limit_warmup: 5
+POST epoch_counter:
+ curr: 25
+limit: 100
+last_best_epoch: 0
+patience: 25
+limit_to_stop: 30
+limit_warmup: 30
+speechbrain.utils.epoch_loop - Going into epoch 26
+  0%|          | 0/178 [00:00<?, ?it/s]q: torch.Size([4, 9, 1024])
+key: torch.Size([4, 98, 1024])
+tgt2: torch.Size([4, 9, 1024])
+  0%|          | 0/178 [00:03<?, ?it/s]
+/home/mkperez/.pyenv/versions/miniconda3-latest/envs/sb/lib/python3.8/site-packages/torch/distributed/launch.py:178: FutureWarning: The module torch.distributed.launch is deprecated
+and will be removed in future. Use torchrun.
+Note that --use_env is set by default in torchrun.
+If your script expects `--local_rank` argument to be set, please
+change it to read from `os.environ['LOCAL_RANK']` instead. See 
+https://pytorch.org/docs/stable/distributed.html#launch-utility for 
+further instructions
+
+  warnings.warn(
+[W socket.cpp:401] [c10d] The server socket cannot be initialized on [::]:51241 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:51241 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:51241 (errno: 97 - Address family not supported by protocol).
+run_opts: {'debug': False, 'debug_batches': 2, 'debug_epochs': 2, 'debug_persistently': False, 'local_rank': 0, 'device': 'cuda:0', 'data_parallel_backend': False, 'distributed_launch': True, 'distributed_backend': 'nccl', 'find_unused_parameters': True, 'tqdm_colored_bar': False}
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:51241 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:51241 (errno: 97 - Address family not supported by protocol).
+Some weights of the model checkpoint at facebook/hubert-large-ls960-ft were not used when initializing HubertModel: ['lm_head.bias', 'lm_head.weight']
+- This IS expected if you are initializing HubertModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing HubertModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+speechbrain.lobes.models.huggingface_wav2vec - wav2vec 2.0 feature extractor is frozen.
+speechbrain.core - Beginning experiment!
+speechbrain.core - Experiment folder: ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1
+speechbrain.tokenizers.SentencePiece - Tokenizer is already trained.
+speechbrain.tokenizers.SentencePiece - ==== Loading Tokenizer ===
+speechbrain.tokenizers.SentencePiece - Tokenizer path: ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1/save/500_bpe.model
+speechbrain.tokenizers.SentencePiece - Tokenizer vocab_size: 500
+speechbrain.tokenizers.SentencePiece - Tokenizer type: bpe
+speechbrain.core - Info: auto_mix_prec arg from hparam file is used
+speechbrain.core - Info: max_grad_norm arg from hparam file is used
+speechbrain.core - Info: ckpt_interval_minutes arg from hparam file is used
+speechbrain.core - Info: grad_accumulation_factor arg from hparam file is used
+speechbrain.core - 389.7M trainable parameters in ASR
+tokenizer: {0: '<pad>', 1: '<s>', 2: '</s>', 3: '<unk>', 4: '[p]', 5: '[n]', 6: '▁t', 7: 'he', 8: '▁a', 9: '▁the', 10: '▁i', 11: 'nd', 12: '▁s', 13: '▁w', 14: '▁and', 15: '▁o', 16: 're', 17: 'in', 18: '▁b', 19: 'ha', 20: '▁g', 21: '▁c', 22: 'ou', 23: 'er', 24: 'll', 25: '▁m', 26: 'ing', 27: '▁d', 28: '▁he', 29: '▁to', 30: '▁f', 31: '▁wa', 32: '▁l', 33: 'ut', 34: '▁p', 35: '▁it', 36: '▁y', 37: 'hat', 38: 'no', 39: 'ed', 40: '▁was', 41: '▁so', 42: 'it', 43: '▁go', 44: '▁ha', 45: 'me', 46: '▁h', 47: '▁in', 48: '▁that', 49: 'an', 50: '▁we', 51: 'is', 52: '▁she', 53: '▁th', 54: 'ay', 55: 'es', 56: '▁do', 57: '▁of', 58: 'or', 59: '▁k', 60: '▁on', 61: '▁you', 62: 'ar', 63: 'et', 64: 'id', 65: 'en', 66: 'le', 67: '▁no', 68: '▁be', 69: '▁u', 70: 'all', 71: '▁they', 72: 'at', 73: 'st', 74: '▁her', 75: 'se', 76: '▁st', 77: '▁but', 78: 'ver', 79: 'gh', 80: '▁e', 81: '▁is', 82: 'ad', 83: 'ld', 84: 've', 85: 'ic', 86: 'ter', 87: 'her', 88: 'ke', 89: 'ro', 90: 'ir', 91: 'ind', 92: 'nt', 93: '▁re', 94: 'ri', 95: '▁j', 96: '▁kno', 97: 'ot', 98: 'on', 99: 'ac', 100: '▁know', 101: '▁get', 102: '▁my', 103: '▁then', 104: '▁n', 105: '▁had', 106: '▁li', 107: 'ho', 108: '▁wit', 109: '▁with', 110: '▁out', 111: 'ould', 112: 'al', 113: 'ght', 114: 'ly', 115: '▁this', 116: 'lla', 117: '▁there', 118: '▁me', 119: '▁up', 120: 'rella', 121: '▁for', 122: 'pp', 123: 'au', 124: '▁co', 125: 'very', 126: '▁r', 127: '▁ye', 128: '▁all', 129: '▁one', 130: '▁ho', 131: '▁lo', 132: '▁sa', 133: 'mb', 134: 'ce', 135: 'itt', 136: '▁at', 137: 'ok', 138: '▁what', 139: 'od', 140: '▁whe', 141: '▁tw', 142: 'ust', 143: '▁an', 144: 'kay', 145: '▁not', 146: '▁okay', 147: '▁se', 148: '▁some', 149: '▁his', 150: 'hing', 151: '▁don', 152: '▁ball', 153: '▁just', 154: '▁oh', 155: 'ally', 156: 'ack', 157: '▁or', 158: '▁bec', 159: 'other', 160: '▁like', 161: '▁got', 162: 'ss', 163: '▁cind', 164: '▁cinde', 165: 'ry', 166: 'ain', 167: 'ah', 168: '▁two', 169: 'ep', 170: '▁well', 171: '▁litt', 172: '▁little', 173: 'wn', 174: '▁mo', 175: 'ree', 176: '▁can', 177: '▁yeah', 178: '▁did', 179: 'im', 180: 'ause', 181: '▁because', 182: 'king', 183: '▁ne', 184: '▁say', 185: '▁have', 186: 'ime', 187: 'ake', 188: '▁back', 189: '▁ab', 190: 'if', 191: 'art', 192: '▁pe', 193: 'ur', 194: '▁look', 195: 'ell', 196: 'li', 197: 'thing', 198: 'nn', 199: '▁went', 200: '▁time', 201: 'rou', 202: '▁when', 203: '▁very', 204: '▁bo', 205: '▁would', 206: 'out', 207: '▁were', 208: '▁said', 209: '▁ca', 210: '▁as', 211: 'ta', 212: 'ck', 213: '▁pr', 214: '▁him', 215: 'ow', 216: '▁who', 217: 'to', 218: 'ch', 219: '▁down', 220: '▁could', 221: 'read', 222: 'ent', 223: 'ra', 224: 'irl', 225: '▁about', 226: '▁girl', 227: '▁al', 228: 'right', 229: '▁thing', 230: '▁prin', 231: '▁sp', 232: '▁fi', 233: '▁cat', 234: '▁wor', 235: '▁going', 236: 'ther', 237: 'ul', 238: '▁put', 239: 'nna', 240: '▁see', 241: '▁thin', 242: '▁every', 243: '▁man', 244: '▁good', 245: '▁come', 246: 'ion', 247: '▁them', 248: '▁yes', 249: 'om', 250: '▁into', 251: 'ters', 252: '▁step', 253: 'la', 254: '▁le', 255: 'ess', 256: '▁tree', 257: '▁any', 258: '▁prince', 259: 'mp', 260: '▁happ', 261: '▁sc', 262: '▁boy', 263: 'way', 264: '▁fro', 265: '▁take', 266: '▁su', 267: 'ab', 268: '▁here', 269: '▁hou', 270: 'ct', 271: '▁wh', 272: 'ol', 273: 'ight', 274: '▁think', 275: 'un', 276: '▁mother', 277: '▁now', 278: 'ide', 279: '▁really', 280: 'ill', 281: 'ice', 282: '▁didn', 283: 'op', 284: '▁bread', 285: '▁umb', 286: '▁fa', 287: '▁home', 288: '▁rain', 289: '▁umbrella', 290: '▁pro', 291: '▁butter', 292: '▁from', 293: 'mother', 294: '▁try', 295: '▁pl', 296: '▁af', 297: '▁wind', 298: 'ge', 299: '▁want', 300: '▁gu', 301: 'ick', 302: '▁day', 303: '▁are', 304: '▁over', 305: 'anut', 306: '▁peanut', 307: '▁house', 308: '▁window', 309: 'lo', 310: '▁sli', 311: 'pper', 312: 'our', 313: '▁sho', 314: '▁right', 315: '▁slipper', 316: 'el', 317: 'and', 318: 'ress', 319: '▁gonna', 320: 'mber', 321: '▁has', 322: '▁after', 323: 'ng', 324: 'ving', 325: '▁came', 326: '▁by', 327: '▁lad', 328: '▁says', 329: '▁start', 330: '▁off', 331: '▁other', 332: 'ak', 333: '▁dog', 334: '▁de', 335: 'red', 336: 'il', 337: '▁car', 338: 'ven', 339: 'ried', 340: '▁if', 341: 'ather', 342: '▁call', 343: 'ars', 344: '▁jell', 345: 'fe', 346: '▁jelly', 347: 'us', 348: '▁mean', 349: 'as', 350: 'der', 351: '▁something', 352: 'ty', 353: 'augh', 354: 'ne', 355: '▁goes', 356: 'isters', 357: '▁ag', 358: '▁reme', 359: '▁dress', 360: '▁prob', 361: 'round', 362: '▁where', 363: '▁peop', 364: '▁people', 365: '▁remember', 366: 'ig', 367: 'ody', 368: 'ting', 369: '▁three', 370: '▁fe', 371: 'ich', 372: '▁tal', 373: '▁fire', 374: '▁god', 375: '▁stu', 376: '▁ex', 377: '▁hadta', 378: '▁how', 379: '▁hel', 380: 'lf', 381: 'body', 382: 'lass', 383: 'ate', 384: 'hi', 385: 'ine', 386: '▁way', 387: 'qu', 388: '▁wal', 389: 'rough', 390: '▁through', 391: '▁mom', 392: '▁la', 393: '▁father', 394: '▁ro', 395: '▁pre', 396: 'cc', 397: '▁fir', 398: '▁help', 399: 'hool', 400: '▁school', 401: 'urn', 402: '▁around', 403: '▁first', 404: 'ong', 405: '▁work', 406: 'ation', 407: 'ie', 408: 'ily', 409: '▁mar', 410: '▁kind', 411: '▁daugh', 412: '▁dad', 413: 'ife', 414: 'ved', 415: '▁looks', 416: '▁couldn', 417: '▁things', 418: '▁guess', 419: '▁their', 420: '▁fo', 421: '▁ladder', 422: '▁us', 423: '▁glass', 424: '▁com', 425: 'end', 426: '▁find', 427: 'nder', 428: '▁been', 429: '▁gets', 430: 'one', 431: '▁your', 432: '▁ma', 433: '▁dan', 434: '▁trying', 435: '▁thou', 436: 'sp', 437: '▁does', 438: '▁bea', 439: 'est', 440: '▁lot', 441: '▁pu', 442: '▁years', 443: 'ite', 444: '▁per', 445: '▁cha', 446: '▁bet', 447: '▁turn', 448: '▁too', 449: '▁need', 450: '▁beaut', 451: '▁steps', 452: '▁may', 453: '▁tell', 454: '▁fit', 455: '▁fair', 456: '▁beautif', 457: 'ound', 458: 'am', 459: 'ace', 460: '▁beautiful', 461: 'ach', 462: 'age', 463: 'ably', 464: '▁mad', 465: 'ves', 466: '▁make', 467: '▁happen', 468: '▁spe', 469: '▁young', 470: '▁v', 471: 'side', 472: '▁', 473: 'e', 474: 't', 475: 'a', 476: 'o', 477: 'h', 478: 'n', 479: 'i', 480: 's', 481: 'd', 482: 'r', 483: 'l', 484: 'w', 485: 'u', 486: 'y', 487: 'g', 488: 'm', 489: 'c', 490: 'b', 491: 'p', 492: 'f', 493: 'k', 494: "'", 495: 'v', 496: 'j', 497: 'x', 498: 'z', 499: 'q'} | 500
+train_Transcription.py:737: UserWarning: Anomaly Detection has been enabled. This mode will increase the runtime and should only be enabled for debugging.
+  with torch.autograd.detect_anomaly():
+training model
+speechbrain.utils.checkpoints - Loading a checkpoint from ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1/save/CKPT+2024-02-01+09-44-50+00
+epoch_counter:
+ curr: 25
+limit: 100
+last_best_epoch: 0
+limit_to_stop: 5
+limit_warmup: 5
+POST epoch_counter:
+ curr: 25
+limit: 100
+last_best_epoch: 0
+patience: 25
+limit_to_stop: 30
+limit_warmup: 30
+speechbrain.utils.epoch_loop - Going into epoch 26
+  0%|          | 0/178 [00:00<?, ?it/s]q: torch.Size([4, 9, 1024])
+key: torch.Size([4, 98, 1024])
+tgt2: torch.Size([4, 9, 1024])
+  0%|          | 0/178 [00:03<?, ?it/s]
+/home/mkperez/.pyenv/versions/miniconda3-latest/envs/sb/lib/python3.8/site-packages/torch/distributed/launch.py:178: FutureWarning: The module torch.distributed.launch is deprecated
+and will be removed in future. Use torchrun.
+Note that --use_env is set by default in torchrun.
+If your script expects `--local_rank` argument to be set, please
+change it to read from `os.environ['LOCAL_RANK']` instead. See 
+https://pytorch.org/docs/stable/distributed.html#launch-utility for 
+further instructions
+
+  warnings.warn(
+[W socket.cpp:401] [c10d] The server socket cannot be initialized on [::]:59987 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:59987 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:59987 (errno: 97 - Address family not supported by protocol).
+run_opts: {'debug': False, 'debug_batches': 2, 'debug_epochs': 2, 'debug_persistently': False, 'local_rank': 0, 'device': 'cuda:0', 'data_parallel_backend': False, 'distributed_launch': True, 'distributed_backend': 'nccl', 'find_unused_parameters': True, 'tqdm_colored_bar': False}
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:59987 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:59987 (errno: 97 - Address family not supported by protocol).
+Some weights of the model checkpoint at facebook/hubert-large-ls960-ft were not used when initializing HubertModel: ['lm_head.weight', 'lm_head.bias']
+- This IS expected if you are initializing HubertModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing HubertModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+speechbrain.lobes.models.huggingface_wav2vec - wav2vec 2.0 feature extractor is frozen.
+speechbrain.core - Beginning experiment!
+speechbrain.core - Experiment folder: ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1
+speechbrain.tokenizers.SentencePiece - Tokenizer is already trained.
+speechbrain.tokenizers.SentencePiece - ==== Loading Tokenizer ===
+speechbrain.tokenizers.SentencePiece - Tokenizer path: ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1/save/500_bpe.model
+speechbrain.tokenizers.SentencePiece - Tokenizer vocab_size: 500
+speechbrain.tokenizers.SentencePiece - Tokenizer type: bpe
+speechbrain.core - Info: auto_mix_prec arg from hparam file is used
+speechbrain.core - Info: max_grad_norm arg from hparam file is used
+speechbrain.core - Info: ckpt_interval_minutes arg from hparam file is used
+speechbrain.core - Info: grad_accumulation_factor arg from hparam file is used
+speechbrain.core - 389.7M trainable parameters in ASR
+tokenizer: {0: '<pad>', 1: '<s>', 2: '</s>', 3: '<unk>', 4: '[p]', 5: '[n]', 6: '▁t', 7: 'he', 8: '▁a', 9: '▁the', 10: '▁i', 11: 'nd', 12: '▁s', 13: '▁w', 14: '▁and', 15: '▁o', 16: 're', 17: 'in', 18: '▁b', 19: 'ha', 20: '▁g', 21: '▁c', 22: 'ou', 23: 'er', 24: 'll', 25: '▁m', 26: 'ing', 27: '▁d', 28: '▁he', 29: '▁to', 30: '▁f', 31: '▁wa', 32: '▁l', 33: 'ut', 34: '▁p', 35: '▁it', 36: '▁y', 37: 'hat', 38: 'no', 39: 'ed', 40: '▁was', 41: '▁so', 42: 'it', 43: '▁go', 44: '▁ha', 45: 'me', 46: '▁h', 47: '▁in', 48: '▁that', 49: 'an', 50: '▁we', 51: 'is', 52: '▁she', 53: '▁th', 54: 'ay', 55: 'es', 56: '▁do', 57: '▁of', 58: 'or', 59: '▁k', 60: '▁on', 61: '▁you', 62: 'ar', 63: 'et', 64: 'id', 65: 'en', 66: 'le', 67: '▁no', 68: '▁be', 69: '▁u', 70: 'all', 71: '▁they', 72: 'at', 73: 'st', 74: '▁her', 75: 'se', 76: '▁st', 77: '▁but', 78: 'ver', 79: 'gh', 80: '▁e', 81: '▁is', 82: 'ad', 83: 'ld', 84: 've', 85: 'ic', 86: 'ter', 87: 'her', 88: 'ke', 89: 'ro', 90: 'ir', 91: 'ind', 92: 'nt', 93: '▁re', 94: 'ri', 95: '▁j', 96: '▁kno', 97: 'ot', 98: 'on', 99: 'ac', 100: '▁know', 101: '▁get', 102: '▁my', 103: '▁then', 104: '▁n', 105: '▁had', 106: '▁li', 107: 'ho', 108: '▁wit', 109: '▁with', 110: '▁out', 111: 'ould', 112: 'al', 113: 'ght', 114: 'ly', 115: '▁this', 116: 'lla', 117: '▁there', 118: '▁me', 119: '▁up', 120: 'rella', 121: '▁for', 122: 'pp', 123: 'au', 124: '▁co', 125: 'very', 126: '▁r', 127: '▁ye', 128: '▁all', 129: '▁one', 130: '▁ho', 131: '▁lo', 132: '▁sa', 133: 'mb', 134: 'ce', 135: 'itt', 136: '▁at', 137: 'ok', 138: '▁what', 139: 'od', 140: '▁whe', 141: '▁tw', 142: 'ust', 143: '▁an', 144: 'kay', 145: '▁not', 146: '▁okay', 147: '▁se', 148: '▁some', 149: '▁his', 150: 'hing', 151: '▁don', 152: '▁ball', 153: '▁just', 154: '▁oh', 155: 'ally', 156: 'ack', 157: '▁or', 158: '▁bec', 159: 'other', 160: '▁like', 161: '▁got', 162: 'ss', 163: '▁cind', 164: '▁cinde', 165: 'ry', 166: 'ain', 167: 'ah', 168: '▁two', 169: 'ep', 170: '▁well', 171: '▁litt', 172: '▁little', 173: 'wn', 174: '▁mo', 175: 'ree', 176: '▁can', 177: '▁yeah', 178: '▁did', 179: 'im', 180: 'ause', 181: '▁because', 182: 'king', 183: '▁ne', 184: '▁say', 185: '▁have', 186: 'ime', 187: 'ake', 188: '▁back', 189: '▁ab', 190: 'if', 191: 'art', 192: '▁pe', 193: 'ur', 194: '▁look', 195: 'ell', 196: 'li', 197: 'thing', 198: 'nn', 199: '▁went', 200: '▁time', 201: 'rou', 202: '▁when', 203: '▁very', 204: '▁bo', 205: '▁would', 206: 'out', 207: '▁were', 208: '▁said', 209: '▁ca', 210: '▁as', 211: 'ta', 212: 'ck', 213: '▁pr', 214: '▁him', 215: 'ow', 216: '▁who', 217: 'to', 218: 'ch', 219: '▁down', 220: '▁could', 221: 'read', 222: 'ent', 223: 'ra', 224: 'irl', 225: '▁about', 226: '▁girl', 227: '▁al', 228: 'right', 229: '▁thing', 230: '▁prin', 231: '▁sp', 232: '▁fi', 233: '▁cat', 234: '▁wor', 235: '▁going', 236: 'ther', 237: 'ul', 238: '▁put', 239: 'nna', 240: '▁see', 241: '▁thin', 242: '▁every', 243: '▁man', 244: '▁good', 245: '▁come', 246: 'ion', 247: '▁them', 248: '▁yes', 249: 'om', 250: '▁into', 251: 'ters', 252: '▁step', 253: 'la', 254: '▁le', 255: 'ess', 256: '▁tree', 257: '▁any', 258: '▁prince', 259: 'mp', 260: '▁happ', 261: '▁sc', 262: '▁boy', 263: 'way', 264: '▁fro', 265: '▁take', 266: '▁su', 267: 'ab', 268: '▁here', 269: '▁hou', 270: 'ct', 271: '▁wh', 272: 'ol', 273: 'ight', 274: '▁think', 275: 'un', 276: '▁mother', 277: '▁now', 278: 'ide', 279: '▁really', 280: 'ill', 281: 'ice', 282: '▁didn', 283: 'op', 284: '▁bread', 285: '▁umb', 286: '▁fa', 287: '▁home', 288: '▁rain', 289: '▁umbrella', 290: '▁pro', 291: '▁butter', 292: '▁from', 293: 'mother', 294: '▁try', 295: '▁pl', 296: '▁af', 297: '▁wind', 298: 'ge', 299: '▁want', 300: '▁gu', 301: 'ick', 302: '▁day', 303: '▁are', 304: '▁over', 305: 'anut', 306: '▁peanut', 307: '▁house', 308: '▁window', 309: 'lo', 310: '▁sli', 311: 'pper', 312: 'our', 313: '▁sho', 314: '▁right', 315: '▁slipper', 316: 'el', 317: 'and', 318: 'ress', 319: '▁gonna', 320: 'mber', 321: '▁has', 322: '▁after', 323: 'ng', 324: 'ving', 325: '▁came', 326: '▁by', 327: '▁lad', 328: '▁says', 329: '▁start', 330: '▁off', 331: '▁other', 332: 'ak', 333: '▁dog', 334: '▁de', 335: 'red', 336: 'il', 337: '▁car', 338: 'ven', 339: 'ried', 340: '▁if', 341: 'ather', 342: '▁call', 343: 'ars', 344: '▁jell', 345: 'fe', 346: '▁jelly', 347: 'us', 348: '▁mean', 349: 'as', 350: 'der', 351: '▁something', 352: 'ty', 353: 'augh', 354: 'ne', 355: '▁goes', 356: 'isters', 357: '▁ag', 358: '▁reme', 359: '▁dress', 360: '▁prob', 361: 'round', 362: '▁where', 363: '▁peop', 364: '▁people', 365: '▁remember', 366: 'ig', 367: 'ody', 368: 'ting', 369: '▁three', 370: '▁fe', 371: 'ich', 372: '▁tal', 373: '▁fire', 374: '▁god', 375: '▁stu', 376: '▁ex', 377: '▁hadta', 378: '▁how', 379: '▁hel', 380: 'lf', 381: 'body', 382: 'lass', 383: 'ate', 384: 'hi', 385: 'ine', 386: '▁way', 387: 'qu', 388: '▁wal', 389: 'rough', 390: '▁through', 391: '▁mom', 392: '▁la', 393: '▁father', 394: '▁ro', 395: '▁pre', 396: 'cc', 397: '▁fir', 398: '▁help', 399: 'hool', 400: '▁school', 401: 'urn', 402: '▁around', 403: '▁first', 404: 'ong', 405: '▁work', 406: 'ation', 407: 'ie', 408: 'ily', 409: '▁mar', 410: '▁kind', 411: '▁daugh', 412: '▁dad', 413: 'ife', 414: 'ved', 415: '▁looks', 416: '▁couldn', 417: '▁things', 418: '▁guess', 419: '▁their', 420: '▁fo', 421: '▁ladder', 422: '▁us', 423: '▁glass', 424: '▁com', 425: 'end', 426: '▁find', 427: 'nder', 428: '▁been', 429: '▁gets', 430: 'one', 431: '▁your', 432: '▁ma', 433: '▁dan', 434: '▁trying', 435: '▁thou', 436: 'sp', 437: '▁does', 438: '▁bea', 439: 'est', 440: '▁lot', 441: '▁pu', 442: '▁years', 443: 'ite', 444: '▁per', 445: '▁cha', 446: '▁bet', 447: '▁turn', 448: '▁too', 449: '▁need', 450: '▁beaut', 451: '▁steps', 452: '▁may', 453: '▁tell', 454: '▁fit', 455: '▁fair', 456: '▁beautif', 457: 'ound', 458: 'am', 459: 'ace', 460: '▁beautiful', 461: 'ach', 462: 'age', 463: 'ably', 464: '▁mad', 465: 'ves', 466: '▁make', 467: '▁happen', 468: '▁spe', 469: '▁young', 470: '▁v', 471: 'side', 472: '▁', 473: 'e', 474: 't', 475: 'a', 476: 'o', 477: 'h', 478: 'n', 479: 'i', 480: 's', 481: 'd', 482: 'r', 483: 'l', 484: 'w', 485: 'u', 486: 'y', 487: 'g', 488: 'm', 489: 'c', 490: 'b', 491: 'p', 492: 'f', 493: 'k', 494: "'", 495: 'v', 496: 'j', 497: 'x', 498: 'z', 499: 'q'} | 500
+train_Transcription.py:737: UserWarning: Anomaly Detection has been enabled. This mode will increase the runtime and should only be enabled for debugging.
+  with torch.autograd.detect_anomaly():
+training model
+speechbrain.utils.checkpoints - Loading a checkpoint from ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1/save/CKPT+2024-02-01+09-44-50+00
+epoch_counter:
+ curr: 25
+limit: 100
+last_best_epoch: 0
+limit_to_stop: 5
+limit_warmup: 5
+POST epoch_counter:
+ curr: 25
+limit: 100
+last_best_epoch: 0
+patience: 25
+limit_to_stop: 30
+limit_warmup: 30
+speechbrain.utils.epoch_loop - Going into epoch 26
+  0%|          | 0/178 [00:00<?, ?it/s]q: torch.Size([4, 9, 1024])
+key: torch.Size([4, 98, 1024])
+tgt2: torch.Size([4, 9, 1024])
+  0%|          | 0/178 [00:03<?, ?it/s]
+/home/mkperez/.pyenv/versions/miniconda3-latest/envs/sb/lib/python3.8/site-packages/torch/distributed/launch.py:178: FutureWarning: The module torch.distributed.launch is deprecated
+and will be removed in future. Use torchrun.
+Note that --use_env is set by default in torchrun.
+If your script expects `--local_rank` argument to be set, please
+change it to read from `os.environ['LOCAL_RANK']` instead. See 
+https://pytorch.org/docs/stable/distributed.html#launch-utility for 
+further instructions
+
+  warnings.warn(
+[W socket.cpp:401] [c10d] The server socket cannot be initialized on [::]:49399 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:49399 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:49399 (errno: 97 - Address family not supported by protocol).
+run_opts: {'debug': False, 'debug_batches': 2, 'debug_epochs': 2, 'debug_persistently': False, 'local_rank': 0, 'device': 'cuda:0', 'data_parallel_backend': False, 'distributed_launch': True, 'distributed_backend': 'nccl', 'find_unused_parameters': True, 'tqdm_colored_bar': False}
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:49399 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:49399 (errno: 97 - Address family not supported by protocol).
+Some weights of the model checkpoint at facebook/hubert-large-ls960-ft were not used when initializing HubertModel: ['lm_head.weight', 'lm_head.bias']
+- This IS expected if you are initializing HubertModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing HubertModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+speechbrain.lobes.models.huggingface_wav2vec - wav2vec 2.0 feature extractor is frozen.
+speechbrain.core - Beginning experiment!
+speechbrain.core - Experiment folder: ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1
+speechbrain.tokenizers.SentencePiece - Tokenizer is already trained.
+speechbrain.tokenizers.SentencePiece - ==== Loading Tokenizer ===
+speechbrain.tokenizers.SentencePiece - Tokenizer path: ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1/save/500_bpe.model
+speechbrain.tokenizers.SentencePiece - Tokenizer vocab_size: 500
+speechbrain.tokenizers.SentencePiece - Tokenizer type: bpe
+speechbrain.core - Info: auto_mix_prec arg from hparam file is used
+speechbrain.core - Info: max_grad_norm arg from hparam file is used
+speechbrain.core - Info: ckpt_interval_minutes arg from hparam file is used
+speechbrain.core - Info: grad_accumulation_factor arg from hparam file is used
+speechbrain.core - 389.7M trainable parameters in ASR
+tokenizer: {0: '<pad>', 1: '<s>', 2: '</s>', 3: '<unk>', 4: '[p]', 5: '[n]', 6: '▁t', 7: 'he', 8: '▁a', 9: '▁the', 10: '▁i', 11: 'nd', 12: '▁s', 13: '▁w', 14: '▁and', 15: '▁o', 16: 're', 17: 'in', 18: '▁b', 19: 'ha', 20: '▁g', 21: '▁c', 22: 'ou', 23: 'er', 24: 'll', 25: '▁m', 26: 'ing', 27: '▁d', 28: '▁he', 29: '▁to', 30: '▁f', 31: '▁wa', 32: '▁l', 33: 'ut', 34: '▁p', 35: '▁it', 36: '▁y', 37: 'hat', 38: 'no', 39: 'ed', 40: '▁was', 41: '▁so', 42: 'it', 43: '▁go', 44: '▁ha', 45: 'me', 46: '▁h', 47: '▁in', 48: '▁that', 49: 'an', 50: '▁we', 51: 'is', 52: '▁she', 53: '▁th', 54: 'ay', 55: 'es', 56: '▁do', 57: '▁of', 58: 'or', 59: '▁k', 60: '▁on', 61: '▁you', 62: 'ar', 63: 'et', 64: 'id', 65: 'en', 66: 'le', 67: '▁no', 68: '▁be', 69: '▁u', 70: 'all', 71: '▁they', 72: 'at', 73: 'st', 74: '▁her', 75: 'se', 76: '▁st', 77: '▁but', 78: 'ver', 79: 'gh', 80: '▁e', 81: '▁is', 82: 'ad', 83: 'ld', 84: 've', 85: 'ic', 86: 'ter', 87: 'her', 88: 'ke', 89: 'ro', 90: 'ir', 91: 'ind', 92: 'nt', 93: '▁re', 94: 'ri', 95: '▁j', 96: '▁kno', 97: 'ot', 98: 'on', 99: 'ac', 100: '▁know', 101: '▁get', 102: '▁my', 103: '▁then', 104: '▁n', 105: '▁had', 106: '▁li', 107: 'ho', 108: '▁wit', 109: '▁with', 110: '▁out', 111: 'ould', 112: 'al', 113: 'ght', 114: 'ly', 115: '▁this', 116: 'lla', 117: '▁there', 118: '▁me', 119: '▁up', 120: 'rella', 121: '▁for', 122: 'pp', 123: 'au', 124: '▁co', 125: 'very', 126: '▁r', 127: '▁ye', 128: '▁all', 129: '▁one', 130: '▁ho', 131: '▁lo', 132: '▁sa', 133: 'mb', 134: 'ce', 135: 'itt', 136: '▁at', 137: 'ok', 138: '▁what', 139: 'od', 140: '▁whe', 141: '▁tw', 142: 'ust', 143: '▁an', 144: 'kay', 145: '▁not', 146: '▁okay', 147: '▁se', 148: '▁some', 149: '▁his', 150: 'hing', 151: '▁don', 152: '▁ball', 153: '▁just', 154: '▁oh', 155: 'ally', 156: 'ack', 157: '▁or', 158: '▁bec', 159: 'other', 160: '▁like', 161: '▁got', 162: 'ss', 163: '▁cind', 164: '▁cinde', 165: 'ry', 166: 'ain', 167: 'ah', 168: '▁two', 169: 'ep', 170: '▁well', 171: '▁litt', 172: '▁little', 173: 'wn', 174: '▁mo', 175: 'ree', 176: '▁can', 177: '▁yeah', 178: '▁did', 179: 'im', 180: 'ause', 181: '▁because', 182: 'king', 183: '▁ne', 184: '▁say', 185: '▁have', 186: 'ime', 187: 'ake', 188: '▁back', 189: '▁ab', 190: 'if', 191: 'art', 192: '▁pe', 193: 'ur', 194: '▁look', 195: 'ell', 196: 'li', 197: 'thing', 198: 'nn', 199: '▁went', 200: '▁time', 201: 'rou', 202: '▁when', 203: '▁very', 204: '▁bo', 205: '▁would', 206: 'out', 207: '▁were', 208: '▁said', 209: '▁ca', 210: '▁as', 211: 'ta', 212: 'ck', 213: '▁pr', 214: '▁him', 215: 'ow', 216: '▁who', 217: 'to', 218: 'ch', 219: '▁down', 220: '▁could', 221: 'read', 222: 'ent', 223: 'ra', 224: 'irl', 225: '▁about', 226: '▁girl', 227: '▁al', 228: 'right', 229: '▁thing', 230: '▁prin', 231: '▁sp', 232: '▁fi', 233: '▁cat', 234: '▁wor', 235: '▁going', 236: 'ther', 237: 'ul', 238: '▁put', 239: 'nna', 240: '▁see', 241: '▁thin', 242: '▁every', 243: '▁man', 244: '▁good', 245: '▁come', 246: 'ion', 247: '▁them', 248: '▁yes', 249: 'om', 250: '▁into', 251: 'ters', 252: '▁step', 253: 'la', 254: '▁le', 255: 'ess', 256: '▁tree', 257: '▁any', 258: '▁prince', 259: 'mp', 260: '▁happ', 261: '▁sc', 262: '▁boy', 263: 'way', 264: '▁fro', 265: '▁take', 266: '▁su', 267: 'ab', 268: '▁here', 269: '▁hou', 270: 'ct', 271: '▁wh', 272: 'ol', 273: 'ight', 274: '▁think', 275: 'un', 276: '▁mother', 277: '▁now', 278: 'ide', 279: '▁really', 280: 'ill', 281: 'ice', 282: '▁didn', 283: 'op', 284: '▁bread', 285: '▁umb', 286: '▁fa', 287: '▁home', 288: '▁rain', 289: '▁umbrella', 290: '▁pro', 291: '▁butter', 292: '▁from', 293: 'mother', 294: '▁try', 295: '▁pl', 296: '▁af', 297: '▁wind', 298: 'ge', 299: '▁want', 300: '▁gu', 301: 'ick', 302: '▁day', 303: '▁are', 304: '▁over', 305: 'anut', 306: '▁peanut', 307: '▁house', 308: '▁window', 309: 'lo', 310: '▁sli', 311: 'pper', 312: 'our', 313: '▁sho', 314: '▁right', 315: '▁slipper', 316: 'el', 317: 'and', 318: 'ress', 319: '▁gonna', 320: 'mber', 321: '▁has', 322: '▁after', 323: 'ng', 324: 'ving', 325: '▁came', 326: '▁by', 327: '▁lad', 328: '▁says', 329: '▁start', 330: '▁off', 331: '▁other', 332: 'ak', 333: '▁dog', 334: '▁de', 335: 'red', 336: 'il', 337: '▁car', 338: 'ven', 339: 'ried', 340: '▁if', 341: 'ather', 342: '▁call', 343: 'ars', 344: '▁jell', 345: 'fe', 346: '▁jelly', 347: 'us', 348: '▁mean', 349: 'as', 350: 'der', 351: '▁something', 352: 'ty', 353: 'augh', 354: 'ne', 355: '▁goes', 356: 'isters', 357: '▁ag', 358: '▁reme', 359: '▁dress', 360: '▁prob', 361: 'round', 362: '▁where', 363: '▁peop', 364: '▁people', 365: '▁remember', 366: 'ig', 367: 'ody', 368: 'ting', 369: '▁three', 370: '▁fe', 371: 'ich', 372: '▁tal', 373: '▁fire', 374: '▁god', 375: '▁stu', 376: '▁ex', 377: '▁hadta', 378: '▁how', 379: '▁hel', 380: 'lf', 381: 'body', 382: 'lass', 383: 'ate', 384: 'hi', 385: 'ine', 386: '▁way', 387: 'qu', 388: '▁wal', 389: 'rough', 390: '▁through', 391: '▁mom', 392: '▁la', 393: '▁father', 394: '▁ro', 395: '▁pre', 396: 'cc', 397: '▁fir', 398: '▁help', 399: 'hool', 400: '▁school', 401: 'urn', 402: '▁around', 403: '▁first', 404: 'ong', 405: '▁work', 406: 'ation', 407: 'ie', 408: 'ily', 409: '▁mar', 410: '▁kind', 411: '▁daugh', 412: '▁dad', 413: 'ife', 414: 'ved', 415: '▁looks', 416: '▁couldn', 417: '▁things', 418: '▁guess', 419: '▁their', 420: '▁fo', 421: '▁ladder', 422: '▁us', 423: '▁glass', 424: '▁com', 425: 'end', 426: '▁find', 427: 'nder', 428: '▁been', 429: '▁gets', 430: 'one', 431: '▁your', 432: '▁ma', 433: '▁dan', 434: '▁trying', 435: '▁thou', 436: 'sp', 437: '▁does', 438: '▁bea', 439: 'est', 440: '▁lot', 441: '▁pu', 442: '▁years', 443: 'ite', 444: '▁per', 445: '▁cha', 446: '▁bet', 447: '▁turn', 448: '▁too', 449: '▁need', 450: '▁beaut', 451: '▁steps', 452: '▁may', 453: '▁tell', 454: '▁fit', 455: '▁fair', 456: '▁beautif', 457: 'ound', 458: 'am', 459: 'ace', 460: '▁beautiful', 461: 'ach', 462: 'age', 463: 'ably', 464: '▁mad', 465: 'ves', 466: '▁make', 467: '▁happen', 468: '▁spe', 469: '▁young', 470: '▁v', 471: 'side', 472: '▁', 473: 'e', 474: 't', 475: 'a', 476: 'o', 477: 'h', 478: 'n', 479: 'i', 480: 's', 481: 'd', 482: 'r', 483: 'l', 484: 'w', 485: 'u', 486: 'y', 487: 'g', 488: 'm', 489: 'c', 490: 'b', 491: 'p', 492: 'f', 493: 'k', 494: "'", 495: 'v', 496: 'j', 497: 'x', 498: 'z', 499: 'q'} | 500
+train_Transcription.py:737: UserWarning: Anomaly Detection has been enabled. This mode will increase the runtime and should only be enabled for debugging.
+  with torch.autograd.detect_anomaly():
+training model
+speechbrain.utils.checkpoints - Loading a checkpoint from ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1/save/CKPT+2024-02-01+09-44-50+00
+epoch_counter:
+ curr: 25
+limit: 100
+last_best_epoch: 0
+limit_to_stop: 5
+limit_warmup: 5
+POST epoch_counter:
+ curr: 25
+limit: 100
+last_best_epoch: 0
+patience: 25
+limit_to_stop: 30
+limit_warmup: 30
+speechbrain.utils.epoch_loop - Going into epoch 26
+  0%|          | 0/178 [00:00<?, ?it/s]q: torch.Size([4, 9, 1024])
+key: torch.Size([4, 98, 1024])
+tgt2: torch.Size([4, 9, 1024])
+  0%|          | 0/178 [00:03<?, ?it/s]
+/home/mkperez/.pyenv/versions/miniconda3-latest/envs/sb/lib/python3.8/site-packages/torch/distributed/launch.py:178: FutureWarning: The module torch.distributed.launch is deprecated
+and will be removed in future. Use torchrun.
+Note that --use_env is set by default in torchrun.
+If your script expects `--local_rank` argument to be set, please
+change it to read from `os.environ['LOCAL_RANK']` instead. See 
+https://pytorch.org/docs/stable/distributed.html#launch-utility for 
+further instructions
+
+  warnings.warn(
+[W socket.cpp:401] [c10d] The server socket cannot be initialized on [::]:39195 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:39195 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:39195 (errno: 97 - Address family not supported by protocol).
+run_opts: {'debug': False, 'debug_batches': 2, 'debug_epochs': 2, 'debug_persistently': False, 'local_rank': 0, 'device': 'cuda:0', 'data_parallel_backend': False, 'distributed_launch': True, 'distributed_backend': 'nccl', 'find_unused_parameters': True, 'tqdm_colored_bar': False}
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:39195 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:39195 (errno: 97 - Address family not supported by protocol).
+Some weights of the model checkpoint at facebook/hubert-large-ls960-ft were not used when initializing HubertModel: ['lm_head.bias', 'lm_head.weight']
+- This IS expected if you are initializing HubertModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing HubertModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+speechbrain.lobes.models.huggingface_wav2vec - wav2vec 2.0 feature extractor is frozen.
+speechbrain.core - Beginning experiment!
+speechbrain.core - Experiment folder: ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1
+speechbrain.tokenizers.SentencePiece - Tokenizer is already trained.
+speechbrain.tokenizers.SentencePiece - ==== Loading Tokenizer ===
+speechbrain.tokenizers.SentencePiece - Tokenizer path: ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1/save/500_bpe.model
+speechbrain.tokenizers.SentencePiece - Tokenizer vocab_size: 500
+speechbrain.tokenizers.SentencePiece - Tokenizer type: bpe
+speechbrain.core - Info: auto_mix_prec arg from hparam file is used
+speechbrain.core - Info: max_grad_norm arg from hparam file is used
+speechbrain.core - Info: ckpt_interval_minutes arg from hparam file is used
+speechbrain.core - Info: grad_accumulation_factor arg from hparam file is used
+speechbrain.core - 389.7M trainable parameters in ASR
+tokenizer: {0: '<pad>', 1: '<s>', 2: '</s>', 3: '<unk>', 4: '[p]', 5: '[n]', 6: '▁t', 7: 'he', 8: '▁a', 9: '▁the', 10: '▁i', 11: 'nd', 12: '▁s', 13: '▁w', 14: '▁and', 15: '▁o', 16: 're', 17: 'in', 18: '▁b', 19: 'ha', 20: '▁g', 21: '▁c', 22: 'ou', 23: 'er', 24: 'll', 25: '▁m', 26: 'ing', 27: '▁d', 28: '▁he', 29: '▁to', 30: '▁f', 31: '▁wa', 32: '▁l', 33: 'ut', 34: '▁p', 35: '▁it', 36: '▁y', 37: 'hat', 38: 'no', 39: 'ed', 40: '▁was', 41: '▁so', 42: 'it', 43: '▁go', 44: '▁ha', 45: 'me', 46: '▁h', 47: '▁in', 48: '▁that', 49: 'an', 50: '▁we', 51: 'is', 52: '▁she', 53: '▁th', 54: 'ay', 55: 'es', 56: '▁do', 57: '▁of', 58: 'or', 59: '▁k', 60: '▁on', 61: '▁you', 62: 'ar', 63: 'et', 64: 'id', 65: 'en', 66: 'le', 67: '▁no', 68: '▁be', 69: '▁u', 70: 'all', 71: '▁they', 72: 'at', 73: 'st', 74: '▁her', 75: 'se', 76: '▁st', 77: '▁but', 78: 'ver', 79: 'gh', 80: '▁e', 81: '▁is', 82: 'ad', 83: 'ld', 84: 've', 85: 'ic', 86: 'ter', 87: 'her', 88: 'ke', 89: 'ro', 90: 'ir', 91: 'ind', 92: 'nt', 93: '▁re', 94: 'ri', 95: '▁j', 96: '▁kno', 97: 'ot', 98: 'on', 99: 'ac', 100: '▁know', 101: '▁get', 102: '▁my', 103: '▁then', 104: '▁n', 105: '▁had', 106: '▁li', 107: 'ho', 108: '▁wit', 109: '▁with', 110: '▁out', 111: 'ould', 112: 'al', 113: 'ght', 114: 'ly', 115: '▁this', 116: 'lla', 117: '▁there', 118: '▁me', 119: '▁up', 120: 'rella', 121: '▁for', 122: 'pp', 123: 'au', 124: '▁co', 125: 'very', 126: '▁r', 127: '▁ye', 128: '▁all', 129: '▁one', 130: '▁ho', 131: '▁lo', 132: '▁sa', 133: 'mb', 134: 'ce', 135: 'itt', 136: '▁at', 137: 'ok', 138: '▁what', 139: 'od', 140: '▁whe', 141: '▁tw', 142: 'ust', 143: '▁an', 144: 'kay', 145: '▁not', 146: '▁okay', 147: '▁se', 148: '▁some', 149: '▁his', 150: 'hing', 151: '▁don', 152: '▁ball', 153: '▁just', 154: '▁oh', 155: 'ally', 156: 'ack', 157: '▁or', 158: '▁bec', 159: 'other', 160: '▁like', 161: '▁got', 162: 'ss', 163: '▁cind', 164: '▁cinde', 165: 'ry', 166: 'ain', 167: 'ah', 168: '▁two', 169: 'ep', 170: '▁well', 171: '▁litt', 172: '▁little', 173: 'wn', 174: '▁mo', 175: 'ree', 176: '▁can', 177: '▁yeah', 178: '▁did', 179: 'im', 180: 'ause', 181: '▁because', 182: 'king', 183: '▁ne', 184: '▁say', 185: '▁have', 186: 'ime', 187: 'ake', 188: '▁back', 189: '▁ab', 190: 'if', 191: 'art', 192: '▁pe', 193: 'ur', 194: '▁look', 195: 'ell', 196: 'li', 197: 'thing', 198: 'nn', 199: '▁went', 200: '▁time', 201: 'rou', 202: '▁when', 203: '▁very', 204: '▁bo', 205: '▁would', 206: 'out', 207: '▁were', 208: '▁said', 209: '▁ca', 210: '▁as', 211: 'ta', 212: 'ck', 213: '▁pr', 214: '▁him', 215: 'ow', 216: '▁who', 217: 'to', 218: 'ch', 219: '▁down', 220: '▁could', 221: 'read', 222: 'ent', 223: 'ra', 224: 'irl', 225: '▁about', 226: '▁girl', 227: '▁al', 228: 'right', 229: '▁thing', 230: '▁prin', 231: '▁sp', 232: '▁fi', 233: '▁cat', 234: '▁wor', 235: '▁going', 236: 'ther', 237: 'ul', 238: '▁put', 239: 'nna', 240: '▁see', 241: '▁thin', 242: '▁every', 243: '▁man', 244: '▁good', 245: '▁come', 246: 'ion', 247: '▁them', 248: '▁yes', 249: 'om', 250: '▁into', 251: 'ters', 252: '▁step', 253: 'la', 254: '▁le', 255: 'ess', 256: '▁tree', 257: '▁any', 258: '▁prince', 259: 'mp', 260: '▁happ', 261: '▁sc', 262: '▁boy', 263: 'way', 264: '▁fro', 265: '▁take', 266: '▁su', 267: 'ab', 268: '▁here', 269: '▁hou', 270: 'ct', 271: '▁wh', 272: 'ol', 273: 'ight', 274: '▁think', 275: 'un', 276: '▁mother', 277: '▁now', 278: 'ide', 279: '▁really', 280: 'ill', 281: 'ice', 282: '▁didn', 283: 'op', 284: '▁bread', 285: '▁umb', 286: '▁fa', 287: '▁home', 288: '▁rain', 289: '▁umbrella', 290: '▁pro', 291: '▁butter', 292: '▁from', 293: 'mother', 294: '▁try', 295: '▁pl', 296: '▁af', 297: '▁wind', 298: 'ge', 299: '▁want', 300: '▁gu', 301: 'ick', 302: '▁day', 303: '▁are', 304: '▁over', 305: 'anut', 306: '▁peanut', 307: '▁house', 308: '▁window', 309: 'lo', 310: '▁sli', 311: 'pper', 312: 'our', 313: '▁sho', 314: '▁right', 315: '▁slipper', 316: 'el', 317: 'and', 318: 'ress', 319: '▁gonna', 320: 'mber', 321: '▁has', 322: '▁after', 323: 'ng', 324: 'ving', 325: '▁came', 326: '▁by', 327: '▁lad', 328: '▁says', 329: '▁start', 330: '▁off', 331: '▁other', 332: 'ak', 333: '▁dog', 334: '▁de', 335: 'red', 336: 'il', 337: '▁car', 338: 'ven', 339: 'ried', 340: '▁if', 341: 'ather', 342: '▁call', 343: 'ars', 344: '▁jell', 345: 'fe', 346: '▁jelly', 347: 'us', 348: '▁mean', 349: 'as', 350: 'der', 351: '▁something', 352: 'ty', 353: 'augh', 354: 'ne', 355: '▁goes', 356: 'isters', 357: '▁ag', 358: '▁reme', 359: '▁dress', 360: '▁prob', 361: 'round', 362: '▁where', 363: '▁peop', 364: '▁people', 365: '▁remember', 366: 'ig', 367: 'ody', 368: 'ting', 369: '▁three', 370: '▁fe', 371: 'ich', 372: '▁tal', 373: '▁fire', 374: '▁god', 375: '▁stu', 376: '▁ex', 377: '▁hadta', 378: '▁how', 379: '▁hel', 380: 'lf', 381: 'body', 382: 'lass', 383: 'ate', 384: 'hi', 385: 'ine', 386: '▁way', 387: 'qu', 388: '▁wal', 389: 'rough', 390: '▁through', 391: '▁mom', 392: '▁la', 393: '▁father', 394: '▁ro', 395: '▁pre', 396: 'cc', 397: '▁fir', 398: '▁help', 399: 'hool', 400: '▁school', 401: 'urn', 402: '▁around', 403: '▁first', 404: 'ong', 405: '▁work', 406: 'ation', 407: 'ie', 408: 'ily', 409: '▁mar', 410: '▁kind', 411: '▁daugh', 412: '▁dad', 413: 'ife', 414: 'ved', 415: '▁looks', 416: '▁couldn', 417: '▁things', 418: '▁guess', 419: '▁their', 420: '▁fo', 421: '▁ladder', 422: '▁us', 423: '▁glass', 424: '▁com', 425: 'end', 426: '▁find', 427: 'nder', 428: '▁been', 429: '▁gets', 430: 'one', 431: '▁your', 432: '▁ma', 433: '▁dan', 434: '▁trying', 435: '▁thou', 436: 'sp', 437: '▁does', 438: '▁bea', 439: 'est', 440: '▁lot', 441: '▁pu', 442: '▁years', 443: 'ite', 444: '▁per', 445: '▁cha', 446: '▁bet', 447: '▁turn', 448: '▁too', 449: '▁need', 450: '▁beaut', 451: '▁steps', 452: '▁may', 453: '▁tell', 454: '▁fit', 455: '▁fair', 456: '▁beautif', 457: 'ound', 458: 'am', 459: 'ace', 460: '▁beautiful', 461: 'ach', 462: 'age', 463: 'ably', 464: '▁mad', 465: 'ves', 466: '▁make', 467: '▁happen', 468: '▁spe', 469: '▁young', 470: '▁v', 471: 'side', 472: '▁', 473: 'e', 474: 't', 475: 'a', 476: 'o', 477: 'h', 478: 'n', 479: 'i', 480: 's', 481: 'd', 482: 'r', 483: 'l', 484: 'w', 485: 'u', 486: 'y', 487: 'g', 488: 'm', 489: 'c', 490: 'b', 491: 'p', 492: 'f', 493: 'k', 494: "'", 495: 'v', 496: 'j', 497: 'x', 498: 'z', 499: 'q'} | 500
+train_Transcription.py:737: UserWarning: Anomaly Detection has been enabled. This mode will increase the runtime and should only be enabled for debugging.
+  with torch.autograd.detect_anomaly():
+training model
+speechbrain.utils.checkpoints - Loading a checkpoint from ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1/save/CKPT+2024-02-01+09-44-50+00
+epoch_counter:
+ curr: 25
+limit: 100
+last_best_epoch: 0
+limit_to_stop: 5
+limit_warmup: 5
+POST epoch_counter:
+ curr: 25
+limit: 100
+last_best_epoch: 0
+patience: 25
+limit_to_stop: 30
+limit_warmup: 30
+speechbrain.utils.epoch_loop - Going into epoch 26
+  0%|          | 0/178 [00:00<?, ?it/s]q: torch.Size([4, 9, 1024])
+key: torch.Size([4, 98, 1024])
+tgt2: torch.Size([4, 9, 1024])
+  0%|          | 0/178 [00:05<?, ?it/s]
+/home/mkperez/.pyenv/versions/miniconda3-latest/envs/sb/lib/python3.8/site-packages/torch/distributed/launch.py:178: FutureWarning: The module torch.distributed.launch is deprecated
+and will be removed in future. Use torchrun.
+Note that --use_env is set by default in torchrun.
+If your script expects `--local_rank` argument to be set, please
+change it to read from `os.environ['LOCAL_RANK']` instead. See 
+https://pytorch.org/docs/stable/distributed.html#launch-utility for 
+further instructions
+
+  warnings.warn(
+[W socket.cpp:401] [c10d] The server socket cannot be initialized on [::]:40883 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:40883 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:40883 (errno: 97 - Address family not supported by protocol).
+run_opts: {'debug': False, 'debug_batches': 2, 'debug_epochs': 2, 'debug_persistently': False, 'local_rank': 0, 'device': 'cuda:0', 'data_parallel_backend': False, 'distributed_launch': True, 'distributed_backend': 'nccl', 'find_unused_parameters': True, 'tqdm_colored_bar': False}
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:40883 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:40883 (errno: 97 - Address family not supported by protocol).
+Some weights of the model checkpoint at facebook/hubert-large-ls960-ft were not used when initializing HubertModel: ['lm_head.bias', 'lm_head.weight']
+- This IS expected if you are initializing HubertModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing HubertModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+speechbrain.lobes.models.huggingface_wav2vec - wav2vec 2.0 feature extractor is frozen.
+speechbrain.core - Beginning experiment!
+speechbrain.core - Experiment folder: ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1
+speechbrain.tokenizers.SentencePiece - Tokenizer is already trained.
+speechbrain.tokenizers.SentencePiece - ==== Loading Tokenizer ===
+speechbrain.tokenizers.SentencePiece - Tokenizer path: ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1/save/500_bpe.model
+speechbrain.tokenizers.SentencePiece - Tokenizer vocab_size: 500
+speechbrain.tokenizers.SentencePiece - Tokenizer type: bpe
+speechbrain.core - Info: auto_mix_prec arg from hparam file is used
+speechbrain.core - Info: max_grad_norm arg from hparam file is used
+speechbrain.core - Info: ckpt_interval_minutes arg from hparam file is used
+speechbrain.core - Info: grad_accumulation_factor arg from hparam file is used
+speechbrain.core - 389.7M trainable parameters in ASR
+tokenizer: {0: '<pad>', 1: '<s>', 2: '</s>', 3: '<unk>', 4: '[p]', 5: '[n]', 6: '▁t', 7: 'he', 8: '▁a', 9: '▁the', 10: '▁i', 11: 'nd', 12: '▁s', 13: '▁w', 14: '▁and', 15: '▁o', 16: 're', 17: 'in', 18: '▁b', 19: 'ha', 20: '▁g', 21: '▁c', 22: 'ou', 23: 'er', 24: 'll', 25: '▁m', 26: 'ing', 27: '▁d', 28: '▁he', 29: '▁to', 30: '▁f', 31: '▁wa', 32: '▁l', 33: 'ut', 34: '▁p', 35: '▁it', 36: '▁y', 37: 'hat', 38: 'no', 39: 'ed', 40: '▁was', 41: '▁so', 42: 'it', 43: '▁go', 44: '▁ha', 45: 'me', 46: '▁h', 47: '▁in', 48: '▁that', 49: 'an', 50: '▁we', 51: 'is', 52: '▁she', 53: '▁th', 54: 'ay', 55: 'es', 56: '▁do', 57: '▁of', 58: 'or', 59: '▁k', 60: '▁on', 61: '▁you', 62: 'ar', 63: 'et', 64: 'id', 65: 'en', 66: 'le', 67: '▁no', 68: '▁be', 69: '▁u', 70: 'all', 71: '▁they', 72: 'at', 73: 'st', 74: '▁her', 75: 'se', 76: '▁st', 77: '▁but', 78: 'ver', 79: 'gh', 80: '▁e', 81: '▁is', 82: 'ad', 83: 'ld', 84: 've', 85: 'ic', 86: 'ter', 87: 'her', 88: 'ke', 89: 'ro', 90: 'ir', 91: 'ind', 92: 'nt', 93: '▁re', 94: 'ri', 95: '▁j', 96: '▁kno', 97: 'ot', 98: 'on', 99: 'ac', 100: '▁know', 101: '▁get', 102: '▁my', 103: '▁then', 104: '▁n', 105: '▁had', 106: '▁li', 107: 'ho', 108: '▁wit', 109: '▁with', 110: '▁out', 111: 'ould', 112: 'al', 113: 'ght', 114: 'ly', 115: '▁this', 116: 'lla', 117: '▁there', 118: '▁me', 119: '▁up', 120: 'rella', 121: '▁for', 122: 'pp', 123: 'au', 124: '▁co', 125: 'very', 126: '▁r', 127: '▁ye', 128: '▁all', 129: '▁one', 130: '▁ho', 131: '▁lo', 132: '▁sa', 133: 'mb', 134: 'ce', 135: 'itt', 136: '▁at', 137: 'ok', 138: '▁what', 139: 'od', 140: '▁whe', 141: '▁tw', 142: 'ust', 143: '▁an', 144: 'kay', 145: '▁not', 146: '▁okay', 147: '▁se', 148: '▁some', 149: '▁his', 150: 'hing', 151: '▁don', 152: '▁ball', 153: '▁just', 154: '▁oh', 155: 'ally', 156: 'ack', 157: '▁or', 158: '▁bec', 159: 'other', 160: '▁like', 161: '▁got', 162: 'ss', 163: '▁cind', 164: '▁cinde', 165: 'ry', 166: 'ain', 167: 'ah', 168: '▁two', 169: 'ep', 170: '▁well', 171: '▁litt', 172: '▁little', 173: 'wn', 174: '▁mo', 175: 'ree', 176: '▁can', 177: '▁yeah', 178: '▁did', 179: 'im', 180: 'ause', 181: '▁because', 182: 'king', 183: '▁ne', 184: '▁say', 185: '▁have', 186: 'ime', 187: 'ake', 188: '▁back', 189: '▁ab', 190: 'if', 191: 'art', 192: '▁pe', 193: 'ur', 194: '▁look', 195: 'ell', 196: 'li', 197: 'thing', 198: 'nn', 199: '▁went', 200: '▁time', 201: 'rou', 202: '▁when', 203: '▁very', 204: '▁bo', 205: '▁would', 206: 'out', 207: '▁were', 208: '▁said', 209: '▁ca', 210: '▁as', 211: 'ta', 212: 'ck', 213: '▁pr', 214: '▁him', 215: 'ow', 216: '▁who', 217: 'to', 218: 'ch', 219: '▁down', 220: '▁could', 221: 'read', 222: 'ent', 223: 'ra', 224: 'irl', 225: '▁about', 226: '▁girl', 227: '▁al', 228: 'right', 229: '▁thing', 230: '▁prin', 231: '▁sp', 232: '▁fi', 233: '▁cat', 234: '▁wor', 235: '▁going', 236: 'ther', 237: 'ul', 238: '▁put', 239: 'nna', 240: '▁see', 241: '▁thin', 242: '▁every', 243: '▁man', 244: '▁good', 245: '▁come', 246: 'ion', 247: '▁them', 248: '▁yes', 249: 'om', 250: '▁into', 251: 'ters', 252: '▁step', 253: 'la', 254: '▁le', 255: 'ess', 256: '▁tree', 257: '▁any', 258: '▁prince', 259: 'mp', 260: '▁happ', 261: '▁sc', 262: '▁boy', 263: 'way', 264: '▁fro', 265: '▁take', 266: '▁su', 267: 'ab', 268: '▁here', 269: '▁hou', 270: 'ct', 271: '▁wh', 272: 'ol', 273: 'ight', 274: '▁think', 275: 'un', 276: '▁mother', 277: '▁now', 278: 'ide', 279: '▁really', 280: 'ill', 281: 'ice', 282: '▁didn', 283: 'op', 284: '▁bread', 285: '▁umb', 286: '▁fa', 287: '▁home', 288: '▁rain', 289: '▁umbrella', 290: '▁pro', 291: '▁butter', 292: '▁from', 293: 'mother', 294: '▁try', 295: '▁pl', 296: '▁af', 297: '▁wind', 298: 'ge', 299: '▁want', 300: '▁gu', 301: 'ick', 302: '▁day', 303: '▁are', 304: '▁over', 305: 'anut', 306: '▁peanut', 307: '▁house', 308: '▁window', 309: 'lo', 310: '▁sli', 311: 'pper', 312: 'our', 313: '▁sho', 314: '▁right', 315: '▁slipper', 316: 'el', 317: 'and', 318: 'ress', 319: '▁gonna', 320: 'mber', 321: '▁has', 322: '▁after', 323: 'ng', 324: 'ving', 325: '▁came', 326: '▁by', 327: '▁lad', 328: '▁says', 329: '▁start', 330: '▁off', 331: '▁other', 332: 'ak', 333: '▁dog', 334: '▁de', 335: 'red', 336: 'il', 337: '▁car', 338: 'ven', 339: 'ried', 340: '▁if', 341: 'ather', 342: '▁call', 343: 'ars', 344: '▁jell', 345: 'fe', 346: '▁jelly', 347: 'us', 348: '▁mean', 349: 'as', 350: 'der', 351: '▁something', 352: 'ty', 353: 'augh', 354: 'ne', 355: '▁goes', 356: 'isters', 357: '▁ag', 358: '▁reme', 359: '▁dress', 360: '▁prob', 361: 'round', 362: '▁where', 363: '▁peop', 364: '▁people', 365: '▁remember', 366: 'ig', 367: 'ody', 368: 'ting', 369: '▁three', 370: '▁fe', 371: 'ich', 372: '▁tal', 373: '▁fire', 374: '▁god', 375: '▁stu', 376: '▁ex', 377: '▁hadta', 378: '▁how', 379: '▁hel', 380: 'lf', 381: 'body', 382: 'lass', 383: 'ate', 384: 'hi', 385: 'ine', 386: '▁way', 387: 'qu', 388: '▁wal', 389: 'rough', 390: '▁through', 391: '▁mom', 392: '▁la', 393: '▁father', 394: '▁ro', 395: '▁pre', 396: 'cc', 397: '▁fir', 398: '▁help', 399: 'hool', 400: '▁school', 401: 'urn', 402: '▁around', 403: '▁first', 404: 'ong', 405: '▁work', 406: 'ation', 407: 'ie', 408: 'ily', 409: '▁mar', 410: '▁kind', 411: '▁daugh', 412: '▁dad', 413: 'ife', 414: 'ved', 415: '▁looks', 416: '▁couldn', 417: '▁things', 418: '▁guess', 419: '▁their', 420: '▁fo', 421: '▁ladder', 422: '▁us', 423: '▁glass', 424: '▁com', 425: 'end', 426: '▁find', 427: 'nder', 428: '▁been', 429: '▁gets', 430: 'one', 431: '▁your', 432: '▁ma', 433: '▁dan', 434: '▁trying', 435: '▁thou', 436: 'sp', 437: '▁does', 438: '▁bea', 439: 'est', 440: '▁lot', 441: '▁pu', 442: '▁years', 443: 'ite', 444: '▁per', 445: '▁cha', 446: '▁bet', 447: '▁turn', 448: '▁too', 449: '▁need', 450: '▁beaut', 451: '▁steps', 452: '▁may', 453: '▁tell', 454: '▁fit', 455: '▁fair', 456: '▁beautif', 457: 'ound', 458: 'am', 459: 'ace', 460: '▁beautiful', 461: 'ach', 462: 'age', 463: 'ably', 464: '▁mad', 465: 'ves', 466: '▁make', 467: '▁happen', 468: '▁spe', 469: '▁young', 470: '▁v', 471: 'side', 472: '▁', 473: 'e', 474: 't', 475: 'a', 476: 'o', 477: 'h', 478: 'n', 479: 'i', 480: 's', 481: 'd', 482: 'r', 483: 'l', 484: 'w', 485: 'u', 486: 'y', 487: 'g', 488: 'm', 489: 'c', 490: 'b', 491: 'p', 492: 'f', 493: 'k', 494: "'", 495: 'v', 496: 'j', 497: 'x', 498: 'z', 499: 'q'} | 500
+train_Transcription.py:737: UserWarning: Anomaly Detection has been enabled. This mode will increase the runtime and should only be enabled for debugging.
+  with torch.autograd.detect_anomaly():
+training model
+speechbrain.utils.checkpoints - Loading a checkpoint from ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1/save/CKPT+2024-02-01+09-44-50+00
+epoch_counter:
+ curr: 25
+limit: 100
+last_best_epoch: 0
+limit_to_stop: 5
+limit_warmup: 5
+POST epoch_counter:
+ curr: 25
+limit: 100
+last_best_epoch: 0
+patience: 25
+limit_to_stop: 30
+limit_warmup: 30
+speechbrain.utils.epoch_loop - Going into epoch 26
+  0%|          | 0/178 [00:00<?, ?it/s]q: torch.Size([4, 9, 1024])
+key: torch.Size([4, 98, 1024])
+tgt2: torch.Size([4, 9, 1024])
+  0%|          | 0/178 [00:03<?, ?it/s]
+/home/mkperez/.pyenv/versions/miniconda3-latest/envs/sb/lib/python3.8/site-packages/torch/distributed/launch.py:178: FutureWarning: The module torch.distributed.launch is deprecated
+and will be removed in future. Use torchrun.
+Note that --use_env is set by default in torchrun.
+If your script expects `--local_rank` argument to be set, please
+change it to read from `os.environ['LOCAL_RANK']` instead. See 
+https://pytorch.org/docs/stable/distributed.html#launch-utility for 
+further instructions
+
+  warnings.warn(
+[W socket.cpp:401] [c10d] The server socket cannot be initialized on [::]:52997 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:52997 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:52997 (errno: 97 - Address family not supported by protocol).
+run_opts: {'debug': False, 'debug_batches': 2, 'debug_epochs': 2, 'debug_persistently': False, 'local_rank': 0, 'device': 'cuda:0', 'data_parallel_backend': False, 'distributed_launch': True, 'distributed_backend': 'nccl', 'find_unused_parameters': True, 'tqdm_colored_bar': False}
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:52997 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:52997 (errno: 97 - Address family not supported by protocol).
+Some weights of the model checkpoint at facebook/hubert-large-ls960-ft were not used when initializing HubertModel: ['lm_head.bias', 'lm_head.weight']
+- This IS expected if you are initializing HubertModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing HubertModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+speechbrain.lobes.models.huggingface_wav2vec - wav2vec 2.0 feature extractor is frozen.
+speechbrain.core - Beginning experiment!
+speechbrain.core - Experiment folder: ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1
+speechbrain.tokenizers.SentencePiece - Tokenizer is already trained.
+speechbrain.tokenizers.SentencePiece - ==== Loading Tokenizer ===
+speechbrain.tokenizers.SentencePiece - Tokenizer path: ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1/save/500_bpe.model
+speechbrain.tokenizers.SentencePiece - Tokenizer vocab_size: 500
+speechbrain.tokenizers.SentencePiece - Tokenizer type: bpe
+speechbrain.core - Info: auto_mix_prec arg from hparam file is used
+speechbrain.core - Info: max_grad_norm arg from hparam file is used
+speechbrain.core - Info: ckpt_interval_minutes arg from hparam file is used
+speechbrain.core - Info: grad_accumulation_factor arg from hparam file is used
+speechbrain.core - 389.7M trainable parameters in ASR
+tokenizer: {0: '<pad>', 1: '<s>', 2: '</s>', 3: '<unk>', 4: '[p]', 5: '[n]', 6: '▁t', 7: 'he', 8: '▁a', 9: '▁the', 10: '▁i', 11: 'nd', 12: '▁s', 13: '▁w', 14: '▁and', 15: '▁o', 16: 're', 17: 'in', 18: '▁b', 19: 'ha', 20: '▁g', 21: '▁c', 22: 'ou', 23: 'er', 24: 'll', 25: '▁m', 26: 'ing', 27: '▁d', 28: '▁he', 29: '▁to', 30: '▁f', 31: '▁wa', 32: '▁l', 33: 'ut', 34: '▁p', 35: '▁it', 36: '▁y', 37: 'hat', 38: 'no', 39: 'ed', 40: '▁was', 41: '▁so', 42: 'it', 43: '▁go', 44: '▁ha', 45: 'me', 46: '▁h', 47: '▁in', 48: '▁that', 49: 'an', 50: '▁we', 51: 'is', 52: '▁she', 53: '▁th', 54: 'ay', 55: 'es', 56: '▁do', 57: '▁of', 58: 'or', 59: '▁k', 60: '▁on', 61: '▁you', 62: 'ar', 63: 'et', 64: 'id', 65: 'en', 66: 'le', 67: '▁no', 68: '▁be', 69: '▁u', 70: 'all', 71: '▁they', 72: 'at', 73: 'st', 74: '▁her', 75: 'se', 76: '▁st', 77: '▁but', 78: 'ver', 79: 'gh', 80: '▁e', 81: '▁is', 82: 'ad', 83: 'ld', 84: 've', 85: 'ic', 86: 'ter', 87: 'her', 88: 'ke', 89: 'ro', 90: 'ir', 91: 'ind', 92: 'nt', 93: '▁re', 94: 'ri', 95: '▁j', 96: '▁kno', 97: 'ot', 98: 'on', 99: 'ac', 100: '▁know', 101: '▁get', 102: '▁my', 103: '▁then', 104: '▁n', 105: '▁had', 106: '▁li', 107: 'ho', 108: '▁wit', 109: '▁with', 110: '▁out', 111: 'ould', 112: 'al', 113: 'ght', 114: 'ly', 115: '▁this', 116: 'lla', 117: '▁there', 118: '▁me', 119: '▁up', 120: 'rella', 121: '▁for', 122: 'pp', 123: 'au', 124: '▁co', 125: 'very', 126: '▁r', 127: '▁ye', 128: '▁all', 129: '▁one', 130: '▁ho', 131: '▁lo', 132: '▁sa', 133: 'mb', 134: 'ce', 135: 'itt', 136: '▁at', 137: 'ok', 138: '▁what', 139: 'od', 140: '▁whe', 141: '▁tw', 142: 'ust', 143: '▁an', 144: 'kay', 145: '▁not', 146: '▁okay', 147: '▁se', 148: '▁some', 149: '▁his', 150: 'hing', 151: '▁don', 152: '▁ball', 153: '▁just', 154: '▁oh', 155: 'ally', 156: 'ack', 157: '▁or', 158: '▁bec', 159: 'other', 160: '▁like', 161: '▁got', 162: 'ss', 163: '▁cind', 164: '▁cinde', 165: 'ry', 166: 'ain', 167: 'ah', 168: '▁two', 169: 'ep', 170: '▁well', 171: '▁litt', 172: '▁little', 173: 'wn', 174: '▁mo', 175: 'ree', 176: '▁can', 177: '▁yeah', 178: '▁did', 179: 'im', 180: 'ause', 181: '▁because', 182: 'king', 183: '▁ne', 184: '▁say', 185: '▁have', 186: 'ime', 187: 'ake', 188: '▁back', 189: '▁ab', 190: 'if', 191: 'art', 192: '▁pe', 193: 'ur', 194: '▁look', 195: 'ell', 196: 'li', 197: 'thing', 198: 'nn', 199: '▁went', 200: '▁time', 201: 'rou', 202: '▁when', 203: '▁very', 204: '▁bo', 205: '▁would', 206: 'out', 207: '▁were', 208: '▁said', 209: '▁ca', 210: '▁as', 211: 'ta', 212: 'ck', 213: '▁pr', 214: '▁him', 215: 'ow', 216: '▁who', 217: 'to', 218: 'ch', 219: '▁down', 220: '▁could', 221: 'read', 222: 'ent', 223: 'ra', 224: 'irl', 225: '▁about', 226: '▁girl', 227: '▁al', 228: 'right', 229: '▁thing', 230: '▁prin', 231: '▁sp', 232: '▁fi', 233: '▁cat', 234: '▁wor', 235: '▁going', 236: 'ther', 237: 'ul', 238: '▁put', 239: 'nna', 240: '▁see', 241: '▁thin', 242: '▁every', 243: '▁man', 244: '▁good', 245: '▁come', 246: 'ion', 247: '▁them', 248: '▁yes', 249: 'om', 250: '▁into', 251: 'ters', 252: '▁step', 253: 'la', 254: '▁le', 255: 'ess', 256: '▁tree', 257: '▁any', 258: '▁prince', 259: 'mp', 260: '▁happ', 261: '▁sc', 262: '▁boy', 263: 'way', 264: '▁fro', 265: '▁take', 266: '▁su', 267: 'ab', 268: '▁here', 269: '▁hou', 270: 'ct', 271: '▁wh', 272: 'ol', 273: 'ight', 274: '▁think', 275: 'un', 276: '▁mother', 277: '▁now', 278: 'ide', 279: '▁really', 280: 'ill', 281: 'ice', 282: '▁didn', 283: 'op', 284: '▁bread', 285: '▁umb', 286: '▁fa', 287: '▁home', 288: '▁rain', 289: '▁umbrella', 290: '▁pro', 291: '▁butter', 292: '▁from', 293: 'mother', 294: '▁try', 295: '▁pl', 296: '▁af', 297: '▁wind', 298: 'ge', 299: '▁want', 300: '▁gu', 301: 'ick', 302: '▁day', 303: '▁are', 304: '▁over', 305: 'anut', 306: '▁peanut', 307: '▁house', 308: '▁window', 309: 'lo', 310: '▁sli', 311: 'pper', 312: 'our', 313: '▁sho', 314: '▁right', 315: '▁slipper', 316: 'el', 317: 'and', 318: 'ress', 319: '▁gonna', 320: 'mber', 321: '▁has', 322: '▁after', 323: 'ng', 324: 'ving', 325: '▁came', 326: '▁by', 327: '▁lad', 328: '▁says', 329: '▁start', 330: '▁off', 331: '▁other', 332: 'ak', 333: '▁dog', 334: '▁de', 335: 'red', 336: 'il', 337: '▁car', 338: 'ven', 339: 'ried', 340: '▁if', 341: 'ather', 342: '▁call', 343: 'ars', 344: '▁jell', 345: 'fe', 346: '▁jelly', 347: 'us', 348: '▁mean', 349: 'as', 350: 'der', 351: '▁something', 352: 'ty', 353: 'augh', 354: 'ne', 355: '▁goes', 356: 'isters', 357: '▁ag', 358: '▁reme', 359: '▁dress', 360: '▁prob', 361: 'round', 362: '▁where', 363: '▁peop', 364: '▁people', 365: '▁remember', 366: 'ig', 367: 'ody', 368: 'ting', 369: '▁three', 370: '▁fe', 371: 'ich', 372: '▁tal', 373: '▁fire', 374: '▁god', 375: '▁stu', 376: '▁ex', 377: '▁hadta', 378: '▁how', 379: '▁hel', 380: 'lf', 381: 'body', 382: 'lass', 383: 'ate', 384: 'hi', 385: 'ine', 386: '▁way', 387: 'qu', 388: '▁wal', 389: 'rough', 390: '▁through', 391: '▁mom', 392: '▁la', 393: '▁father', 394: '▁ro', 395: '▁pre', 396: 'cc', 397: '▁fir', 398: '▁help', 399: 'hool', 400: '▁school', 401: 'urn', 402: '▁around', 403: '▁first', 404: 'ong', 405: '▁work', 406: 'ation', 407: 'ie', 408: 'ily', 409: '▁mar', 410: '▁kind', 411: '▁daugh', 412: '▁dad', 413: 'ife', 414: 'ved', 415: '▁looks', 416: '▁couldn', 417: '▁things', 418: '▁guess', 419: '▁their', 420: '▁fo', 421: '▁ladder', 422: '▁us', 423: '▁glass', 424: '▁com', 425: 'end', 426: '▁find', 427: 'nder', 428: '▁been', 429: '▁gets', 430: 'one', 431: '▁your', 432: '▁ma', 433: '▁dan', 434: '▁trying', 435: '▁thou', 436: 'sp', 437: '▁does', 438: '▁bea', 439: 'est', 440: '▁lot', 441: '▁pu', 442: '▁years', 443: 'ite', 444: '▁per', 445: '▁cha', 446: '▁bet', 447: '▁turn', 448: '▁too', 449: '▁need', 450: '▁beaut', 451: '▁steps', 452: '▁may', 453: '▁tell', 454: '▁fit', 455: '▁fair', 456: '▁beautif', 457: 'ound', 458: 'am', 459: 'ace', 460: '▁beautiful', 461: 'ach', 462: 'age', 463: 'ably', 464: '▁mad', 465: 'ves', 466: '▁make', 467: '▁happen', 468: '▁spe', 469: '▁young', 470: '▁v', 471: 'side', 472: '▁', 473: 'e', 474: 't', 475: 'a', 476: 'o', 477: 'h', 478: 'n', 479: 'i', 480: 's', 481: 'd', 482: 'r', 483: 'l', 484: 'w', 485: 'u', 486: 'y', 487: 'g', 488: 'm', 489: 'c', 490: 'b', 491: 'p', 492: 'f', 493: 'k', 494: "'", 495: 'v', 496: 'j', 497: 'x', 498: 'z', 499: 'q'} | 500
+train_Transcription.py:737: UserWarning: Anomaly Detection has been enabled. This mode will increase the runtime and should only be enabled for debugging.
+  with torch.autograd.detect_anomaly():
+training model
+speechbrain.utils.checkpoints - Loading a checkpoint from ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1/save/CKPT+2024-02-01+09-44-50+00
+epoch_counter:
+ curr: 25
+limit: 100
+last_best_epoch: 0
+limit_to_stop: 5
+limit_warmup: 5
+POST epoch_counter:
+ curr: 25
+limit: 100
+last_best_epoch: 0
+patience: 25
+limit_to_stop: 30
+limit_warmup: 30
+speechbrain.utils.epoch_loop - Going into epoch 26
+  0%|          | 0/178 [00:00<?, ?it/s]q: torch.Size([4, 9, 1024])
+key: torch.Size([4, 98, 1024])
+tgt2: torch.Size([4, 9, 1024])
+  0%|          | 0/178 [00:03<?, ?it/s]
+/home/mkperez/.pyenv/versions/miniconda3-latest/envs/sb/lib/python3.8/site-packages/torch/distributed/launch.py:178: FutureWarning: The module torch.distributed.launch is deprecated
+and will be removed in future. Use torchrun.
+Note that --use_env is set by default in torchrun.
+If your script expects `--local_rank` argument to be set, please
+change it to read from `os.environ['LOCAL_RANK']` instead. See 
+https://pytorch.org/docs/stable/distributed.html#launch-utility for 
+further instructions
+
+  warnings.warn(
+[W socket.cpp:401] [c10d] The server socket cannot be initialized on [::]:43801 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:43801 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:43801 (errno: 97 - Address family not supported by protocol).
+run_opts: {'debug': False, 'debug_batches': 2, 'debug_epochs': 2, 'debug_persistently': False, 'local_rank': 0, 'device': 'cuda:0', 'data_parallel_backend': False, 'distributed_launch': True, 'distributed_backend': 'nccl', 'find_unused_parameters': True, 'tqdm_colored_bar': False}
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:43801 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:43801 (errno: 97 - Address family not supported by protocol).
+Some weights of the model checkpoint at facebook/hubert-large-ls960-ft were not used when initializing HubertModel: ['lm_head.weight', 'lm_head.bias']
+- This IS expected if you are initializing HubertModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing HubertModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+speechbrain.lobes.models.huggingface_wav2vec - wav2vec 2.0 feature extractor is frozen.
+speechbrain.core - Beginning experiment!
+speechbrain.core - Experiment folder: ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1
+speechbrain.tokenizers.SentencePiece - Tokenizer is already trained.
+speechbrain.tokenizers.SentencePiece - ==== Loading Tokenizer ===
+speechbrain.tokenizers.SentencePiece - Tokenizer path: ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1/save/500_bpe.model
+speechbrain.tokenizers.SentencePiece - Tokenizer vocab_size: 500
+speechbrain.tokenizers.SentencePiece - Tokenizer type: bpe
+speechbrain.core - Info: auto_mix_prec arg from hparam file is used
+speechbrain.core - Info: max_grad_norm arg from hparam file is used
+speechbrain.core - Info: ckpt_interval_minutes arg from hparam file is used
+speechbrain.core - Info: grad_accumulation_factor arg from hparam file is used
+speechbrain.core - 389.7M trainable parameters in ASR
+tokenizer: {0: '<pad>', 1: '<s>', 2: '</s>', 3: '<unk>', 4: '[p]', 5: '[n]', 6: '▁t', 7: 'he', 8: '▁a', 9: '▁the', 10: '▁i', 11: 'nd', 12: '▁s', 13: '▁w', 14: '▁and', 15: '▁o', 16: 're', 17: 'in', 18: '▁b', 19: 'ha', 20: '▁g', 21: '▁c', 22: 'ou', 23: 'er', 24: 'll', 25: '▁m', 26: 'ing', 27: '▁d', 28: '▁he', 29: '▁to', 30: '▁f', 31: '▁wa', 32: '▁l', 33: 'ut', 34: '▁p', 35: '▁it', 36: '▁y', 37: 'hat', 38: 'no', 39: 'ed', 40: '▁was', 41: '▁so', 42: 'it', 43: '▁go', 44: '▁ha', 45: 'me', 46: '▁h', 47: '▁in', 48: '▁that', 49: 'an', 50: '▁we', 51: 'is', 52: '▁she', 53: '▁th', 54: 'ay', 55: 'es', 56: '▁do', 57: '▁of', 58: 'or', 59: '▁k', 60: '▁on', 61: '▁you', 62: 'ar', 63: 'et', 64: 'id', 65: 'en', 66: 'le', 67: '▁no', 68: '▁be', 69: '▁u', 70: 'all', 71: '▁they', 72: 'at', 73: 'st', 74: '▁her', 75: 'se', 76: '▁st', 77: '▁but', 78: 'ver', 79: 'gh', 80: '▁e', 81: '▁is', 82: 'ad', 83: 'ld', 84: 've', 85: 'ic', 86: 'ter', 87: 'her', 88: 'ke', 89: 'ro', 90: 'ir', 91: 'ind', 92: 'nt', 93: '▁re', 94: 'ri', 95: '▁j', 96: '▁kno', 97: 'ot', 98: 'on', 99: 'ac', 100: '▁know', 101: '▁get', 102: '▁my', 103: '▁then', 104: '▁n', 105: '▁had', 106: '▁li', 107: 'ho', 108: '▁wit', 109: '▁with', 110: '▁out', 111: 'ould', 112: 'al', 113: 'ght', 114: 'ly', 115: '▁this', 116: 'lla', 117: '▁there', 118: '▁me', 119: '▁up', 120: 'rella', 121: '▁for', 122: 'pp', 123: 'au', 124: '▁co', 125: 'very', 126: '▁r', 127: '▁ye', 128: '▁all', 129: '▁one', 130: '▁ho', 131: '▁lo', 132: '▁sa', 133: 'mb', 134: 'ce', 135: 'itt', 136: '▁at', 137: 'ok', 138: '▁what', 139: 'od', 140: '▁whe', 141: '▁tw', 142: 'ust', 143: '▁an', 144: 'kay', 145: '▁not', 146: '▁okay', 147: '▁se', 148: '▁some', 149: '▁his', 150: 'hing', 151: '▁don', 152: '▁ball', 153: '▁just', 154: '▁oh', 155: 'ally', 156: 'ack', 157: '▁or', 158: '▁bec', 159: 'other', 160: '▁like', 161: '▁got', 162: 'ss', 163: '▁cind', 164: '▁cinde', 165: 'ry', 166: 'ain', 167: 'ah', 168: '▁two', 169: 'ep', 170: '▁well', 171: '▁litt', 172: '▁little', 173: 'wn', 174: '▁mo', 175: 'ree', 176: '▁can', 177: '▁yeah', 178: '▁did', 179: 'im', 180: 'ause', 181: '▁because', 182: 'king', 183: '▁ne', 184: '▁say', 185: '▁have', 186: 'ime', 187: 'ake', 188: '▁back', 189: '▁ab', 190: 'if', 191: 'art', 192: '▁pe', 193: 'ur', 194: '▁look', 195: 'ell', 196: 'li', 197: 'thing', 198: 'nn', 199: '▁went', 200: '▁time', 201: 'rou', 202: '▁when', 203: '▁very', 204: '▁bo', 205: '▁would', 206: 'out', 207: '▁were', 208: '▁said', 209: '▁ca', 210: '▁as', 211: 'ta', 212: 'ck', 213: '▁pr', 214: '▁him', 215: 'ow', 216: '▁who', 217: 'to', 218: 'ch', 219: '▁down', 220: '▁could', 221: 'read', 222: 'ent', 223: 'ra', 224: 'irl', 225: '▁about', 226: '▁girl', 227: '▁al', 228: 'right', 229: '▁thing', 230: '▁prin', 231: '▁sp', 232: '▁fi', 233: '▁cat', 234: '▁wor', 235: '▁going', 236: 'ther', 237: 'ul', 238: '▁put', 239: 'nna', 240: '▁see', 241: '▁thin', 242: '▁every', 243: '▁man', 244: '▁good', 245: '▁come', 246: 'ion', 247: '▁them', 248: '▁yes', 249: 'om', 250: '▁into', 251: 'ters', 252: '▁step', 253: 'la', 254: '▁le', 255: 'ess', 256: '▁tree', 257: '▁any', 258: '▁prince', 259: 'mp', 260: '▁happ', 261: '▁sc', 262: '▁boy', 263: 'way', 264: '▁fro', 265: '▁take', 266: '▁su', 267: 'ab', 268: '▁here', 269: '▁hou', 270: 'ct', 271: '▁wh', 272: 'ol', 273: 'ight', 274: '▁think', 275: 'un', 276: '▁mother', 277: '▁now', 278: 'ide', 279: '▁really', 280: 'ill', 281: 'ice', 282: '▁didn', 283: 'op', 284: '▁bread', 285: '▁umb', 286: '▁fa', 287: '▁home', 288: '▁rain', 289: '▁umbrella', 290: '▁pro', 291: '▁butter', 292: '▁from', 293: 'mother', 294: '▁try', 295: '▁pl', 296: '▁af', 297: '▁wind', 298: 'ge', 299: '▁want', 300: '▁gu', 301: 'ick', 302: '▁day', 303: '▁are', 304: '▁over', 305: 'anut', 306: '▁peanut', 307: '▁house', 308: '▁window', 309: 'lo', 310: '▁sli', 311: 'pper', 312: 'our', 313: '▁sho', 314: '▁right', 315: '▁slipper', 316: 'el', 317: 'and', 318: 'ress', 319: '▁gonna', 320: 'mber', 321: '▁has', 322: '▁after', 323: 'ng', 324: 'ving', 325: '▁came', 326: '▁by', 327: '▁lad', 328: '▁says', 329: '▁start', 330: '▁off', 331: '▁other', 332: 'ak', 333: '▁dog', 334: '▁de', 335: 'red', 336: 'il', 337: '▁car', 338: 'ven', 339: 'ried', 340: '▁if', 341: 'ather', 342: '▁call', 343: 'ars', 344: '▁jell', 345: 'fe', 346: '▁jelly', 347: 'us', 348: '▁mean', 349: 'as', 350: 'der', 351: '▁something', 352: 'ty', 353: 'augh', 354: 'ne', 355: '▁goes', 356: 'isters', 357: '▁ag', 358: '▁reme', 359: '▁dress', 360: '▁prob', 361: 'round', 362: '▁where', 363: '▁peop', 364: '▁people', 365: '▁remember', 366: 'ig', 367: 'ody', 368: 'ting', 369: '▁three', 370: '▁fe', 371: 'ich', 372: '▁tal', 373: '▁fire', 374: '▁god', 375: '▁stu', 376: '▁ex', 377: '▁hadta', 378: '▁how', 379: '▁hel', 380: 'lf', 381: 'body', 382: 'lass', 383: 'ate', 384: 'hi', 385: 'ine', 386: '▁way', 387: 'qu', 388: '▁wal', 389: 'rough', 390: '▁through', 391: '▁mom', 392: '▁la', 393: '▁father', 394: '▁ro', 395: '▁pre', 396: 'cc', 397: '▁fir', 398: '▁help', 399: 'hool', 400: '▁school', 401: 'urn', 402: '▁around', 403: '▁first', 404: 'ong', 405: '▁work', 406: 'ation', 407: 'ie', 408: 'ily', 409: '▁mar', 410: '▁kind', 411: '▁daugh', 412: '▁dad', 413: 'ife', 414: 'ved', 415: '▁looks', 416: '▁couldn', 417: '▁things', 418: '▁guess', 419: '▁their', 420: '▁fo', 421: '▁ladder', 422: '▁us', 423: '▁glass', 424: '▁com', 425: 'end', 426: '▁find', 427: 'nder', 428: '▁been', 429: '▁gets', 430: 'one', 431: '▁your', 432: '▁ma', 433: '▁dan', 434: '▁trying', 435: '▁thou', 436: 'sp', 437: '▁does', 438: '▁bea', 439: 'est', 440: '▁lot', 441: '▁pu', 442: '▁years', 443: 'ite', 444: '▁per', 445: '▁cha', 446: '▁bet', 447: '▁turn', 448: '▁too', 449: '▁need', 450: '▁beaut', 451: '▁steps', 452: '▁may', 453: '▁tell', 454: '▁fit', 455: '▁fair', 456: '▁beautif', 457: 'ound', 458: 'am', 459: 'ace', 460: '▁beautiful', 461: 'ach', 462: 'age', 463: 'ably', 464: '▁mad', 465: 'ves', 466: '▁make', 467: '▁happen', 468: '▁spe', 469: '▁young', 470: '▁v', 471: 'side', 472: '▁', 473: 'e', 474: 't', 475: 'a', 476: 'o', 477: 'h', 478: 'n', 479: 'i', 480: 's', 481: 'd', 482: 'r', 483: 'l', 484: 'w', 485: 'u', 486: 'y', 487: 'g', 488: 'm', 489: 'c', 490: 'b', 491: 'p', 492: 'f', 493: 'k', 494: "'", 495: 'v', 496: 'j', 497: 'x', 498: 'z', 499: 'q'} | 500
+train_Transcription.py:737: UserWarning: Anomaly Detection has been enabled. This mode will increase the runtime and should only be enabled for debugging.
+  with torch.autograd.detect_anomaly():
+training model
+speechbrain.utils.checkpoints - Loading a checkpoint from ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1/save/CKPT+2024-02-01+09-44-50+00
+epoch_counter:
+ curr: 25
+limit: 100
+last_best_epoch: 0
+limit_to_stop: 5
+limit_warmup: 5
+POST epoch_counter:
+ curr: 25
+limit: 100
+last_best_epoch: 0
+patience: 25
+limit_to_stop: 30
+limit_warmup: 30
+speechbrain.utils.epoch_loop - Going into epoch 26
+  0%|          | 0/178 [00:00<?, ?it/s]q: torch.Size([4, 9, 1024])
+key: torch.Size([4, 98, 1024])
+tgt2: torch.Size([4, 9, 1024])
+  0%|          | 0/178 [00:03<?, ?it/s]
+/home/mkperez/.pyenv/versions/miniconda3-latest/envs/sb/lib/python3.8/site-packages/torch/distributed/launch.py:178: FutureWarning: The module torch.distributed.launch is deprecated
+and will be removed in future. Use torchrun.
+Note that --use_env is set by default in torchrun.
+If your script expects `--local_rank` argument to be set, please
+change it to read from `os.environ['LOCAL_RANK']` instead. See 
+https://pytorch.org/docs/stable/distributed.html#launch-utility for 
+further instructions
+
+  warnings.warn(
+[W socket.cpp:401] [c10d] The server socket cannot be initialized on [::]:49429 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:49429 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:49429 (errno: 97 - Address family not supported by protocol).
+run_opts: {'debug': False, 'debug_batches': 2, 'debug_epochs': 2, 'debug_persistently': False, 'local_rank': 0, 'device': 'cuda:0', 'data_parallel_backend': False, 'distributed_launch': True, 'distributed_backend': 'nccl', 'find_unused_parameters': True, 'tqdm_colored_bar': False}
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:49429 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:49429 (errno: 97 - Address family not supported by protocol).
+Some weights of the model checkpoint at facebook/hubert-large-ls960-ft were not used when initializing HubertModel: ['lm_head.weight', 'lm_head.bias']
+- This IS expected if you are initializing HubertModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing HubertModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+speechbrain.lobes.models.huggingface_wav2vec - wav2vec 2.0 feature extractor is frozen.
+speechbrain.core - Beginning experiment!
+speechbrain.core - Experiment folder: ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1
+speechbrain.tokenizers.SentencePiece - Tokenizer is already trained.
+speechbrain.tokenizers.SentencePiece - ==== Loading Tokenizer ===
+speechbrain.tokenizers.SentencePiece - Tokenizer path: ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1/save/500_bpe.model
+speechbrain.tokenizers.SentencePiece - Tokenizer vocab_size: 500
+speechbrain.tokenizers.SentencePiece - Tokenizer type: bpe
+speechbrain.core - Info: auto_mix_prec arg from hparam file is used
+speechbrain.core - Info: max_grad_norm arg from hparam file is used
+speechbrain.core - Info: ckpt_interval_minutes arg from hparam file is used
+speechbrain.core - Info: grad_accumulation_factor arg from hparam file is used
+speechbrain.core - 389.7M trainable parameters in ASR
+tokenizer: {0: '<pad>', 1: '<s>', 2: '</s>', 3: '<unk>', 4: '[p]', 5: '[n]', 6: '▁t', 7: 'he', 8: '▁a', 9: '▁the', 10: '▁i', 11: 'nd', 12: '▁s', 13: '▁w', 14: '▁and', 15: '▁o', 16: 're', 17: 'in', 18: '▁b', 19: 'ha', 20: '▁g', 21: '▁c', 22: 'ou', 23: 'er', 24: 'll', 25: '▁m', 26: 'ing', 27: '▁d', 28: '▁he', 29: '▁to', 30: '▁f', 31: '▁wa', 32: '▁l', 33: 'ut', 34: '▁p', 35: '▁it', 36: '▁y', 37: 'hat', 38: 'no', 39: 'ed', 40: '▁was', 41: '▁so', 42: 'it', 43: '▁go', 44: '▁ha', 45: 'me', 46: '▁h', 47: '▁in', 48: '▁that', 49: 'an', 50: '▁we', 51: 'is', 52: '▁she', 53: '▁th', 54: 'ay', 55: 'es', 56: '▁do', 57: '▁of', 58: 'or', 59: '▁k', 60: '▁on', 61: '▁you', 62: 'ar', 63: 'et', 64: 'id', 65: 'en', 66: 'le', 67: '▁no', 68: '▁be', 69: '▁u', 70: 'all', 71: '▁they', 72: 'at', 73: 'st', 74: '▁her', 75: 'se', 76: '▁st', 77: '▁but', 78: 'ver', 79: 'gh', 80: '▁e', 81: '▁is', 82: 'ad', 83: 'ld', 84: 've', 85: 'ic', 86: 'ter', 87: 'her', 88: 'ke', 89: 'ro', 90: 'ir', 91: 'ind', 92: 'nt', 93: '▁re', 94: 'ri', 95: '▁j', 96: '▁kno', 97: 'ot', 98: 'on', 99: 'ac', 100: '▁know', 101: '▁get', 102: '▁my', 103: '▁then', 104: '▁n', 105: '▁had', 106: '▁li', 107: 'ho', 108: '▁wit', 109: '▁with', 110: '▁out', 111: 'ould', 112: 'al', 113: 'ght', 114: 'ly', 115: '▁this', 116: 'lla', 117: '▁there', 118: '▁me', 119: '▁up', 120: 'rella', 121: '▁for', 122: 'pp', 123: 'au', 124: '▁co', 125: 'very', 126: '▁r', 127: '▁ye', 128: '▁all', 129: '▁one', 130: '▁ho', 131: '▁lo', 132: '▁sa', 133: 'mb', 134: 'ce', 135: 'itt', 136: '▁at', 137: 'ok', 138: '▁what', 139: 'od', 140: '▁whe', 141: '▁tw', 142: 'ust', 143: '▁an', 144: 'kay', 145: '▁not', 146: '▁okay', 147: '▁se', 148: '▁some', 149: '▁his', 150: 'hing', 151: '▁don', 152: '▁ball', 153: '▁just', 154: '▁oh', 155: 'ally', 156: 'ack', 157: '▁or', 158: '▁bec', 159: 'other', 160: '▁like', 161: '▁got', 162: 'ss', 163: '▁cind', 164: '▁cinde', 165: 'ry', 166: 'ain', 167: 'ah', 168: '▁two', 169: 'ep', 170: '▁well', 171: '▁litt', 172: '▁little', 173: 'wn', 174: '▁mo', 175: 'ree', 176: '▁can', 177: '▁yeah', 178: '▁did', 179: 'im', 180: 'ause', 181: '▁because', 182: 'king', 183: '▁ne', 184: '▁say', 185: '▁have', 186: 'ime', 187: 'ake', 188: '▁back', 189: '▁ab', 190: 'if', 191: 'art', 192: '▁pe', 193: 'ur', 194: '▁look', 195: 'ell', 196: 'li', 197: 'thing', 198: 'nn', 199: '▁went', 200: '▁time', 201: 'rou', 202: '▁when', 203: '▁very', 204: '▁bo', 205: '▁would', 206: 'out', 207: '▁were', 208: '▁said', 209: '▁ca', 210: '▁as', 211: 'ta', 212: 'ck', 213: '▁pr', 214: '▁him', 215: 'ow', 216: '▁who', 217: 'to', 218: 'ch', 219: '▁down', 220: '▁could', 221: 'read', 222: 'ent', 223: 'ra', 224: 'irl', 225: '▁about', 226: '▁girl', 227: '▁al', 228: 'right', 229: '▁thing', 230: '▁prin', 231: '▁sp', 232: '▁fi', 233: '▁cat', 234: '▁wor', 235: '▁going', 236: 'ther', 237: 'ul', 238: '▁put', 239: 'nna', 240: '▁see', 241: '▁thin', 242: '▁every', 243: '▁man', 244: '▁good', 245: '▁come', 246: 'ion', 247: '▁them', 248: '▁yes', 249: 'om', 250: '▁into', 251: 'ters', 252: '▁step', 253: 'la', 254: '▁le', 255: 'ess', 256: '▁tree', 257: '▁any', 258: '▁prince', 259: 'mp', 260: '▁happ', 261: '▁sc', 262: '▁boy', 263: 'way', 264: '▁fro', 265: '▁take', 266: '▁su', 267: 'ab', 268: '▁here', 269: '▁hou', 270: 'ct', 271: '▁wh', 272: 'ol', 273: 'ight', 274: '▁think', 275: 'un', 276: '▁mother', 277: '▁now', 278: 'ide', 279: '▁really', 280: 'ill', 281: 'ice', 282: '▁didn', 283: 'op', 284: '▁bread', 285: '▁umb', 286: '▁fa', 287: '▁home', 288: '▁rain', 289: '▁umbrella', 290: '▁pro', 291: '▁butter', 292: '▁from', 293: 'mother', 294: '▁try', 295: '▁pl', 296: '▁af', 297: '▁wind', 298: 'ge', 299: '▁want', 300: '▁gu', 301: 'ick', 302: '▁day', 303: '▁are', 304: '▁over', 305: 'anut', 306: '▁peanut', 307: '▁house', 308: '▁window', 309: 'lo', 310: '▁sli', 311: 'pper', 312: 'our', 313: '▁sho', 314: '▁right', 315: '▁slipper', 316: 'el', 317: 'and', 318: 'ress', 319: '▁gonna', 320: 'mber', 321: '▁has', 322: '▁after', 323: 'ng', 324: 'ving', 325: '▁came', 326: '▁by', 327: '▁lad', 328: '▁says', 329: '▁start', 330: '▁off', 331: '▁other', 332: 'ak', 333: '▁dog', 334: '▁de', 335: 'red', 336: 'il', 337: '▁car', 338: 'ven', 339: 'ried', 340: '▁if', 341: 'ather', 342: '▁call', 343: 'ars', 344: '▁jell', 345: 'fe', 346: '▁jelly', 347: 'us', 348: '▁mean', 349: 'as', 350: 'der', 351: '▁something', 352: 'ty', 353: 'augh', 354: 'ne', 355: '▁goes', 356: 'isters', 357: '▁ag', 358: '▁reme', 359: '▁dress', 360: '▁prob', 361: 'round', 362: '▁where', 363: '▁peop', 364: '▁people', 365: '▁remember', 366: 'ig', 367: 'ody', 368: 'ting', 369: '▁three', 370: '▁fe', 371: 'ich', 372: '▁tal', 373: '▁fire', 374: '▁god', 375: '▁stu', 376: '▁ex', 377: '▁hadta', 378: '▁how', 379: '▁hel', 380: 'lf', 381: 'body', 382: 'lass', 383: 'ate', 384: 'hi', 385: 'ine', 386: '▁way', 387: 'qu', 388: '▁wal', 389: 'rough', 390: '▁through', 391: '▁mom', 392: '▁la', 393: '▁father', 394: '▁ro', 395: '▁pre', 396: 'cc', 397: '▁fir', 398: '▁help', 399: 'hool', 400: '▁school', 401: 'urn', 402: '▁around', 403: '▁first', 404: 'ong', 405: '▁work', 406: 'ation', 407: 'ie', 408: 'ily', 409: '▁mar', 410: '▁kind', 411: '▁daugh', 412: '▁dad', 413: 'ife', 414: 'ved', 415: '▁looks', 416: '▁couldn', 417: '▁things', 418: '▁guess', 419: '▁their', 420: '▁fo', 421: '▁ladder', 422: '▁us', 423: '▁glass', 424: '▁com', 425: 'end', 426: '▁find', 427: 'nder', 428: '▁been', 429: '▁gets', 430: 'one', 431: '▁your', 432: '▁ma', 433: '▁dan', 434: '▁trying', 435: '▁thou', 436: 'sp', 437: '▁does', 438: '▁bea', 439: 'est', 440: '▁lot', 441: '▁pu', 442: '▁years', 443: 'ite', 444: '▁per', 445: '▁cha', 446: '▁bet', 447: '▁turn', 448: '▁too', 449: '▁need', 450: '▁beaut', 451: '▁steps', 452: '▁may', 453: '▁tell', 454: '▁fit', 455: '▁fair', 456: '▁beautif', 457: 'ound', 458: 'am', 459: 'ace', 460: '▁beautiful', 461: 'ach', 462: 'age', 463: 'ably', 464: '▁mad', 465: 'ves', 466: '▁make', 467: '▁happen', 468: '▁spe', 469: '▁young', 470: '▁v', 471: 'side', 472: '▁', 473: 'e', 474: 't', 475: 'a', 476: 'o', 477: 'h', 478: 'n', 479: 'i', 480: 's', 481: 'd', 482: 'r', 483: 'l', 484: 'w', 485: 'u', 486: 'y', 487: 'g', 488: 'm', 489: 'c', 490: 'b', 491: 'p', 492: 'f', 493: 'k', 494: "'", 495: 'v', 496: 'j', 497: 'x', 498: 'z', 499: 'q'} | 500
+train_Transcription.py:737: UserWarning: Anomaly Detection has been enabled. This mode will increase the runtime and should only be enabled for debugging.
+  with torch.autograd.detect_anomaly():
+training model
+speechbrain.utils.checkpoints - Loading a checkpoint from ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1/save/CKPT+2024-02-01+09-44-50+00
+epoch_counter:
+ curr: 25
+limit: 100
+last_best_epoch: 0
+limit_to_stop: 5
+limit_warmup: 5
+POST epoch_counter:
+ curr: 25
+limit: 100
+last_best_epoch: 0
+patience: 25
+limit_to_stop: 30
+limit_warmup: 30
+speechbrain.utils.epoch_loop - Going into epoch 26
+  0%|          | 0/178 [00:00<?, ?it/s]q: torch.Size([4, 9, 1024])
+key: torch.Size([4, 98, 1024])
+tgt2: torch.Size([4, 9, 1024])
+  0%|          | 0/178 [00:03<?, ?it/s]
+/home/mkperez/.pyenv/versions/miniconda3-latest/envs/sb/lib/python3.8/site-packages/torch/distributed/launch.py:178: FutureWarning: The module torch.distributed.launch is deprecated
+and will be removed in future. Use torchrun.
+Note that --use_env is set by default in torchrun.
+If your script expects `--local_rank` argument to be set, please
+change it to read from `os.environ['LOCAL_RANK']` instead. See 
+https://pytorch.org/docs/stable/distributed.html#launch-utility for 
+further instructions
+
+  warnings.warn(
+[W socket.cpp:401] [c10d] The server socket cannot be initialized on [::]:34637 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:34637 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:34637 (errno: 97 - Address family not supported by protocol).
+run_opts: {'debug': False, 'debug_batches': 2, 'debug_epochs': 2, 'debug_persistently': False, 'local_rank': 0, 'device': 'cuda:0', 'data_parallel_backend': False, 'distributed_launch': True, 'distributed_backend': 'nccl', 'find_unused_parameters': True, 'tqdm_colored_bar': False}
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:34637 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:34637 (errno: 97 - Address family not supported by protocol).
+Some weights of the model checkpoint at facebook/hubert-large-ls960-ft were not used when initializing HubertModel: ['lm_head.bias', 'lm_head.weight']
+- This IS expected if you are initializing HubertModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing HubertModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+speechbrain.lobes.models.huggingface_wav2vec - wav2vec 2.0 feature extractor is frozen.
+speechbrain.core - Beginning experiment!
+speechbrain.core - Experiment folder: ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1
+speechbrain.tokenizers.SentencePiece - Tokenizer is already trained.
+speechbrain.tokenizers.SentencePiece - ==== Loading Tokenizer ===
+speechbrain.tokenizers.SentencePiece - Tokenizer path: ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1/save/500_bpe.model
+speechbrain.tokenizers.SentencePiece - Tokenizer vocab_size: 500
+speechbrain.tokenizers.SentencePiece - Tokenizer type: bpe
+speechbrain.core - Info: auto_mix_prec arg from hparam file is used
+speechbrain.core - Info: max_grad_norm arg from hparam file is used
+speechbrain.core - Info: ckpt_interval_minutes arg from hparam file is used
+speechbrain.core - Info: grad_accumulation_factor arg from hparam file is used
+speechbrain.core - 389.7M trainable parameters in ASR
+tokenizer: {0: '<pad>', 1: '<s>', 2: '</s>', 3: '<unk>', 4: '[p]', 5: '[n]', 6: '▁t', 7: 'he', 8: '▁a', 9: '▁the', 10: '▁i', 11: 'nd', 12: '▁s', 13: '▁w', 14: '▁and', 15: '▁o', 16: 're', 17: 'in', 18: '▁b', 19: 'ha', 20: '▁g', 21: '▁c', 22: 'ou', 23: 'er', 24: 'll', 25: '▁m', 26: 'ing', 27: '▁d', 28: '▁he', 29: '▁to', 30: '▁f', 31: '▁wa', 32: '▁l', 33: 'ut', 34: '▁p', 35: '▁it', 36: '▁y', 37: 'hat', 38: 'no', 39: 'ed', 40: '▁was', 41: '▁so', 42: 'it', 43: '▁go', 44: '▁ha', 45: 'me', 46: '▁h', 47: '▁in', 48: '▁that', 49: 'an', 50: '▁we', 51: 'is', 52: '▁she', 53: '▁th', 54: 'ay', 55: 'es', 56: '▁do', 57: '▁of', 58: 'or', 59: '▁k', 60: '▁on', 61: '▁you', 62: 'ar', 63: 'et', 64: 'id', 65: 'en', 66: 'le', 67: '▁no', 68: '▁be', 69: '▁u', 70: 'all', 71: '▁they', 72: 'at', 73: 'st', 74: '▁her', 75: 'se', 76: '▁st', 77: '▁but', 78: 'ver', 79: 'gh', 80: '▁e', 81: '▁is', 82: 'ad', 83: 'ld', 84: 've', 85: 'ic', 86: 'ter', 87: 'her', 88: 'ke', 89: 'ro', 90: 'ir', 91: 'ind', 92: 'nt', 93: '▁re', 94: 'ri', 95: '▁j', 96: '▁kno', 97: 'ot', 98: 'on', 99: 'ac', 100: '▁know', 101: '▁get', 102: '▁my', 103: '▁then', 104: '▁n', 105: '▁had', 106: '▁li', 107: 'ho', 108: '▁wit', 109: '▁with', 110: '▁out', 111: 'ould', 112: 'al', 113: 'ght', 114: 'ly', 115: '▁this', 116: 'lla', 117: '▁there', 118: '▁me', 119: '▁up', 120: 'rella', 121: '▁for', 122: 'pp', 123: 'au', 124: '▁co', 125: 'very', 126: '▁r', 127: '▁ye', 128: '▁all', 129: '▁one', 130: '▁ho', 131: '▁lo', 132: '▁sa', 133: 'mb', 134: 'ce', 135: 'itt', 136: '▁at', 137: 'ok', 138: '▁what', 139: 'od', 140: '▁whe', 141: '▁tw', 142: 'ust', 143: '▁an', 144: 'kay', 145: '▁not', 146: '▁okay', 147: '▁se', 148: '▁some', 149: '▁his', 150: 'hing', 151: '▁don', 152: '▁ball', 153: '▁just', 154: '▁oh', 155: 'ally', 156: 'ack', 157: '▁or', 158: '▁bec', 159: 'other', 160: '▁like', 161: '▁got', 162: 'ss', 163: '▁cind', 164: '▁cinde', 165: 'ry', 166: 'ain', 167: 'ah', 168: '▁two', 169: 'ep', 170: '▁well', 171: '▁litt', 172: '▁little', 173: 'wn', 174: '▁mo', 175: 'ree', 176: '▁can', 177: '▁yeah', 178: '▁did', 179: 'im', 180: 'ause', 181: '▁because', 182: 'king', 183: '▁ne', 184: '▁say', 185: '▁have', 186: 'ime', 187: 'ake', 188: '▁back', 189: '▁ab', 190: 'if', 191: 'art', 192: '▁pe', 193: 'ur', 194: '▁look', 195: 'ell', 196: 'li', 197: 'thing', 198: 'nn', 199: '▁went', 200: '▁time', 201: 'rou', 202: '▁when', 203: '▁very', 204: '▁bo', 205: '▁would', 206: 'out', 207: '▁were', 208: '▁said', 209: '▁ca', 210: '▁as', 211: 'ta', 212: 'ck', 213: '▁pr', 214: '▁him', 215: 'ow', 216: '▁who', 217: 'to', 218: 'ch', 219: '▁down', 220: '▁could', 221: 'read', 222: 'ent', 223: 'ra', 224: 'irl', 225: '▁about', 226: '▁girl', 227: '▁al', 228: 'right', 229: '▁thing', 230: '▁prin', 231: '▁sp', 232: '▁fi', 233: '▁cat', 234: '▁wor', 235: '▁going', 236: 'ther', 237: 'ul', 238: '▁put', 239: 'nna', 240: '▁see', 241: '▁thin', 242: '▁every', 243: '▁man', 244: '▁good', 245: '▁come', 246: 'ion', 247: '▁them', 248: '▁yes', 249: 'om', 250: '▁into', 251: 'ters', 252: '▁step', 253: 'la', 254: '▁le', 255: 'ess', 256: '▁tree', 257: '▁any', 258: '▁prince', 259: 'mp', 260: '▁happ', 261: '▁sc', 262: '▁boy', 263: 'way', 264: '▁fro', 265: '▁take', 266: '▁su', 267: 'ab', 268: '▁here', 269: '▁hou', 270: 'ct', 271: '▁wh', 272: 'ol', 273: 'ight', 274: '▁think', 275: 'un', 276: '▁mother', 277: '▁now', 278: 'ide', 279: '▁really', 280: 'ill', 281: 'ice', 282: '▁didn', 283: 'op', 284: '▁bread', 285: '▁umb', 286: '▁fa', 287: '▁home', 288: '▁rain', 289: '▁umbrella', 290: '▁pro', 291: '▁butter', 292: '▁from', 293: 'mother', 294: '▁try', 295: '▁pl', 296: '▁af', 297: '▁wind', 298: 'ge', 299: '▁want', 300: '▁gu', 301: 'ick', 302: '▁day', 303: '▁are', 304: '▁over', 305: 'anut', 306: '▁peanut', 307: '▁house', 308: '▁window', 309: 'lo', 310: '▁sli', 311: 'pper', 312: 'our', 313: '▁sho', 314: '▁right', 315: '▁slipper', 316: 'el', 317: 'and', 318: 'ress', 319: '▁gonna', 320: 'mber', 321: '▁has', 322: '▁after', 323: 'ng', 324: 'ving', 325: '▁came', 326: '▁by', 327: '▁lad', 328: '▁says', 329: '▁start', 330: '▁off', 331: '▁other', 332: 'ak', 333: '▁dog', 334: '▁de', 335: 'red', 336: 'il', 337: '▁car', 338: 'ven', 339: 'ried', 340: '▁if', 341: 'ather', 342: '▁call', 343: 'ars', 344: '▁jell', 345: 'fe', 346: '▁jelly', 347: 'us', 348: '▁mean', 349: 'as', 350: 'der', 351: '▁something', 352: 'ty', 353: 'augh', 354: 'ne', 355: '▁goes', 356: 'isters', 357: '▁ag', 358: '▁reme', 359: '▁dress', 360: '▁prob', 361: 'round', 362: '▁where', 363: '▁peop', 364: '▁people', 365: '▁remember', 366: 'ig', 367: 'ody', 368: 'ting', 369: '▁three', 370: '▁fe', 371: 'ich', 372: '▁tal', 373: '▁fire', 374: '▁god', 375: '▁stu', 376: '▁ex', 377: '▁hadta', 378: '▁how', 379: '▁hel', 380: 'lf', 381: 'body', 382: 'lass', 383: 'ate', 384: 'hi', 385: 'ine', 386: '▁way', 387: 'qu', 388: '▁wal', 389: 'rough', 390: '▁through', 391: '▁mom', 392: '▁la', 393: '▁father', 394: '▁ro', 395: '▁pre', 396: 'cc', 397: '▁fir', 398: '▁help', 399: 'hool', 400: '▁school', 401: 'urn', 402: '▁around', 403: '▁first', 404: 'ong', 405: '▁work', 406: 'ation', 407: 'ie', 408: 'ily', 409: '▁mar', 410: '▁kind', 411: '▁daugh', 412: '▁dad', 413: 'ife', 414: 'ved', 415: '▁looks', 416: '▁couldn', 417: '▁things', 418: '▁guess', 419: '▁their', 420: '▁fo', 421: '▁ladder', 422: '▁us', 423: '▁glass', 424: '▁com', 425: 'end', 426: '▁find', 427: 'nder', 428: '▁been', 429: '▁gets', 430: 'one', 431: '▁your', 432: '▁ma', 433: '▁dan', 434: '▁trying', 435: '▁thou', 436: 'sp', 437: '▁does', 438: '▁bea', 439: 'est', 440: '▁lot', 441: '▁pu', 442: '▁years', 443: 'ite', 444: '▁per', 445: '▁cha', 446: '▁bet', 447: '▁turn', 448: '▁too', 449: '▁need', 450: '▁beaut', 451: '▁steps', 452: '▁may', 453: '▁tell', 454: '▁fit', 455: '▁fair', 456: '▁beautif', 457: 'ound', 458: 'am', 459: 'ace', 460: '▁beautiful', 461: 'ach', 462: 'age', 463: 'ably', 464: '▁mad', 465: 'ves', 466: '▁make', 467: '▁happen', 468: '▁spe', 469: '▁young', 470: '▁v', 471: 'side', 472: '▁', 473: 'e', 474: 't', 475: 'a', 476: 'o', 477: 'h', 478: 'n', 479: 'i', 480: 's', 481: 'd', 482: 'r', 483: 'l', 484: 'w', 485: 'u', 486: 'y', 487: 'g', 488: 'm', 489: 'c', 490: 'b', 491: 'p', 492: 'f', 493: 'k', 494: "'", 495: 'v', 496: 'j', 497: 'x', 498: 'z', 499: 'q'} | 500
+train_Transcription.py:737: UserWarning: Anomaly Detection has been enabled. This mode will increase the runtime and should only be enabled for debugging.
+  with torch.autograd.detect_anomaly():
+training model
+speechbrain.utils.checkpoints - Loading a checkpoint from ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1/save/CKPT+2024-02-01+09-44-50+00
+epoch_counter:
+ curr: 25
+limit: 100
+last_best_epoch: 0
+limit_to_stop: 5
+limit_warmup: 5
+POST epoch_counter:
+ curr: 25
+limit: 100
+last_best_epoch: 0
+patience: 25
+limit_to_stop: 30
+limit_warmup: 30
+speechbrain.utils.epoch_loop - Going into epoch 26
+  0%|          | 0/178 [00:00<?, ?it/s]q: torch.Size([4, 9, 1024])
+key: torch.Size([4, 98, 1024])
+tgt2: torch.Size([4, 9, 1024])
+  0%|          | 0/178 [00:03<?, ?it/s]
+/home/mkperez/.pyenv/versions/miniconda3-latest/envs/sb/lib/python3.8/site-packages/torch/distributed/launch.py:178: FutureWarning: The module torch.distributed.launch is deprecated
+and will be removed in future. Use torchrun.
+Note that --use_env is set by default in torchrun.
+If your script expects `--local_rank` argument to be set, please
+change it to read from `os.environ['LOCAL_RANK']` instead. See 
+https://pytorch.org/docs/stable/distributed.html#launch-utility for 
+further instructions
+
+  warnings.warn(
+[W socket.cpp:401] [c10d] The server socket cannot be initialized on [::]:33993 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:33993 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:33993 (errno: 97 - Address family not supported by protocol).
+run_opts: {'debug': False, 'debug_batches': 2, 'debug_epochs': 2, 'debug_persistently': False, 'local_rank': 0, 'device': 'cuda:0', 'data_parallel_backend': False, 'distributed_launch': True, 'distributed_backend': 'nccl', 'find_unused_parameters': True, 'tqdm_colored_bar': False}
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:33993 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:33993 (errno: 97 - Address family not supported by protocol).
+Some weights of the model checkpoint at facebook/hubert-large-ls960-ft were not used when initializing HubertModel: ['lm_head.weight', 'lm_head.bias']
+- This IS expected if you are initializing HubertModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing HubertModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+speechbrain.lobes.models.huggingface_wav2vec - wav2vec 2.0 feature extractor is frozen.
+speechbrain.core - Beginning experiment!
+speechbrain.core - Experiment folder: ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1
+speechbrain.tokenizers.SentencePiece - Tokenizer is already trained.
+speechbrain.tokenizers.SentencePiece - ==== Loading Tokenizer ===
+speechbrain.tokenizers.SentencePiece - Tokenizer path: ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1/save/500_bpe.model
+speechbrain.tokenizers.SentencePiece - Tokenizer vocab_size: 500
+speechbrain.tokenizers.SentencePiece - Tokenizer type: bpe
+speechbrain.core - Info: auto_mix_prec arg from hparam file is used
+speechbrain.core - Info: max_grad_norm arg from hparam file is used
+speechbrain.core - Info: ckpt_interval_minutes arg from hparam file is used
+speechbrain.core - Info: grad_accumulation_factor arg from hparam file is used
+speechbrain.core - 389.7M trainable parameters in ASR
+tokenizer: {0: '<pad>', 1: '<s>', 2: '</s>', 3: '<unk>', 4: '[p]', 5: '[n]', 6: '▁t', 7: 'he', 8: '▁a', 9: '▁the', 10: '▁i', 11: 'nd', 12: '▁s', 13: '▁w', 14: '▁and', 15: '▁o', 16: 're', 17: 'in', 18: '▁b', 19: 'ha', 20: '▁g', 21: '▁c', 22: 'ou', 23: 'er', 24: 'll', 25: '▁m', 26: 'ing', 27: '▁d', 28: '▁he', 29: '▁to', 30: '▁f', 31: '▁wa', 32: '▁l', 33: 'ut', 34: '▁p', 35: '▁it', 36: '▁y', 37: 'hat', 38: 'no', 39: 'ed', 40: '▁was', 41: '▁so', 42: 'it', 43: '▁go', 44: '▁ha', 45: 'me', 46: '▁h', 47: '▁in', 48: '▁that', 49: 'an', 50: '▁we', 51: 'is', 52: '▁she', 53: '▁th', 54: 'ay', 55: 'es', 56: '▁do', 57: '▁of', 58: 'or', 59: '▁k', 60: '▁on', 61: '▁you', 62: 'ar', 63: 'et', 64: 'id', 65: 'en', 66: 'le', 67: '▁no', 68: '▁be', 69: '▁u', 70: 'all', 71: '▁they', 72: 'at', 73: 'st', 74: '▁her', 75: 'se', 76: '▁st', 77: '▁but', 78: 'ver', 79: 'gh', 80: '▁e', 81: '▁is', 82: 'ad', 83: 'ld', 84: 've', 85: 'ic', 86: 'ter', 87: 'her', 88: 'ke', 89: 'ro', 90: 'ir', 91: 'ind', 92: 'nt', 93: '▁re', 94: 'ri', 95: '▁j', 96: '▁kno', 97: 'ot', 98: 'on', 99: 'ac', 100: '▁know', 101: '▁get', 102: '▁my', 103: '▁then', 104: '▁n', 105: '▁had', 106: '▁li', 107: 'ho', 108: '▁wit', 109: '▁with', 110: '▁out', 111: 'ould', 112: 'al', 113: 'ght', 114: 'ly', 115: '▁this', 116: 'lla', 117: '▁there', 118: '▁me', 119: '▁up', 120: 'rella', 121: '▁for', 122: 'pp', 123: 'au', 124: '▁co', 125: 'very', 126: '▁r', 127: '▁ye', 128: '▁all', 129: '▁one', 130: '▁ho', 131: '▁lo', 132: '▁sa', 133: 'mb', 134: 'ce', 135: 'itt', 136: '▁at', 137: 'ok', 138: '▁what', 139: 'od', 140: '▁whe', 141: '▁tw', 142: 'ust', 143: '▁an', 144: 'kay', 145: '▁not', 146: '▁okay', 147: '▁se', 148: '▁some', 149: '▁his', 150: 'hing', 151: '▁don', 152: '▁ball', 153: '▁just', 154: '▁oh', 155: 'ally', 156: 'ack', 157: '▁or', 158: '▁bec', 159: 'other', 160: '▁like', 161: '▁got', 162: 'ss', 163: '▁cind', 164: '▁cinde', 165: 'ry', 166: 'ain', 167: 'ah', 168: '▁two', 169: 'ep', 170: '▁well', 171: '▁litt', 172: '▁little', 173: 'wn', 174: '▁mo', 175: 'ree', 176: '▁can', 177: '▁yeah', 178: '▁did', 179: 'im', 180: 'ause', 181: '▁because', 182: 'king', 183: '▁ne', 184: '▁say', 185: '▁have', 186: 'ime', 187: 'ake', 188: '▁back', 189: '▁ab', 190: 'if', 191: 'art', 192: '▁pe', 193: 'ur', 194: '▁look', 195: 'ell', 196: 'li', 197: 'thing', 198: 'nn', 199: '▁went', 200: '▁time', 201: 'rou', 202: '▁when', 203: '▁very', 204: '▁bo', 205: '▁would', 206: 'out', 207: '▁were', 208: '▁said', 209: '▁ca', 210: '▁as', 211: 'ta', 212: 'ck', 213: '▁pr', 214: '▁him', 215: 'ow', 216: '▁who', 217: 'to', 218: 'ch', 219: '▁down', 220: '▁could', 221: 'read', 222: 'ent', 223: 'ra', 224: 'irl', 225: '▁about', 226: '▁girl', 227: '▁al', 228: 'right', 229: '▁thing', 230: '▁prin', 231: '▁sp', 232: '▁fi', 233: '▁cat', 234: '▁wor', 235: '▁going', 236: 'ther', 237: 'ul', 238: '▁put', 239: 'nna', 240: '▁see', 241: '▁thin', 242: '▁every', 243: '▁man', 244: '▁good', 245: '▁come', 246: 'ion', 247: '▁them', 248: '▁yes', 249: 'om', 250: '▁into', 251: 'ters', 252: '▁step', 253: 'la', 254: '▁le', 255: 'ess', 256: '▁tree', 257: '▁any', 258: '▁prince', 259: 'mp', 260: '▁happ', 261: '▁sc', 262: '▁boy', 263: 'way', 264: '▁fro', 265: '▁take', 266: '▁su', 267: 'ab', 268: '▁here', 269: '▁hou', 270: 'ct', 271: '▁wh', 272: 'ol', 273: 'ight', 274: '▁think', 275: 'un', 276: '▁mother', 277: '▁now', 278: 'ide', 279: '▁really', 280: 'ill', 281: 'ice', 282: '▁didn', 283: 'op', 284: '▁bread', 285: '▁umb', 286: '▁fa', 287: '▁home', 288: '▁rain', 289: '▁umbrella', 290: '▁pro', 291: '▁butter', 292: '▁from', 293: 'mother', 294: '▁try', 295: '▁pl', 296: '▁af', 297: '▁wind', 298: 'ge', 299: '▁want', 300: '▁gu', 301: 'ick', 302: '▁day', 303: '▁are', 304: '▁over', 305: 'anut', 306: '▁peanut', 307: '▁house', 308: '▁window', 309: 'lo', 310: '▁sli', 311: 'pper', 312: 'our', 313: '▁sho', 314: '▁right', 315: '▁slipper', 316: 'el', 317: 'and', 318: 'ress', 319: '▁gonna', 320: 'mber', 321: '▁has', 322: '▁after', 323: 'ng', 324: 'ving', 325: '▁came', 326: '▁by', 327: '▁lad', 328: '▁says', 329: '▁start', 330: '▁off', 331: '▁other', 332: 'ak', 333: '▁dog', 334: '▁de', 335: 'red', 336: 'il', 337: '▁car', 338: 'ven', 339: 'ried', 340: '▁if', 341: 'ather', 342: '▁call', 343: 'ars', 344: '▁jell', 345: 'fe', 346: '▁jelly', 347: 'us', 348: '▁mean', 349: 'as', 350: 'der', 351: '▁something', 352: 'ty', 353: 'augh', 354: 'ne', 355: '▁goes', 356: 'isters', 357: '▁ag', 358: '▁reme', 359: '▁dress', 360: '▁prob', 361: 'round', 362: '▁where', 363: '▁peop', 364: '▁people', 365: '▁remember', 366: 'ig', 367: 'ody', 368: 'ting', 369: '▁three', 370: '▁fe', 371: 'ich', 372: '▁tal', 373: '▁fire', 374: '▁god', 375: '▁stu', 376: '▁ex', 377: '▁hadta', 378: '▁how', 379: '▁hel', 380: 'lf', 381: 'body', 382: 'lass', 383: 'ate', 384: 'hi', 385: 'ine', 386: '▁way', 387: 'qu', 388: '▁wal', 389: 'rough', 390: '▁through', 391: '▁mom', 392: '▁la', 393: '▁father', 394: '▁ro', 395: '▁pre', 396: 'cc', 397: '▁fir', 398: '▁help', 399: 'hool', 400: '▁school', 401: 'urn', 402: '▁around', 403: '▁first', 404: 'ong', 405: '▁work', 406: 'ation', 407: 'ie', 408: 'ily', 409: '▁mar', 410: '▁kind', 411: '▁daugh', 412: '▁dad', 413: 'ife', 414: 'ved', 415: '▁looks', 416: '▁couldn', 417: '▁things', 418: '▁guess', 419: '▁their', 420: '▁fo', 421: '▁ladder', 422: '▁us', 423: '▁glass', 424: '▁com', 425: 'end', 426: '▁find', 427: 'nder', 428: '▁been', 429: '▁gets', 430: 'one', 431: '▁your', 432: '▁ma', 433: '▁dan', 434: '▁trying', 435: '▁thou', 436: 'sp', 437: '▁does', 438: '▁bea', 439: 'est', 440: '▁lot', 441: '▁pu', 442: '▁years', 443: 'ite', 444: '▁per', 445: '▁cha', 446: '▁bet', 447: '▁turn', 448: '▁too', 449: '▁need', 450: '▁beaut', 451: '▁steps', 452: '▁may', 453: '▁tell', 454: '▁fit', 455: '▁fair', 456: '▁beautif', 457: 'ound', 458: 'am', 459: 'ace', 460: '▁beautiful', 461: 'ach', 462: 'age', 463: 'ably', 464: '▁mad', 465: 'ves', 466: '▁make', 467: '▁happen', 468: '▁spe', 469: '▁young', 470: '▁v', 471: 'side', 472: '▁', 473: 'e', 474: 't', 475: 'a', 476: 'o', 477: 'h', 478: 'n', 479: 'i', 480: 's', 481: 'd', 482: 'r', 483: 'l', 484: 'w', 485: 'u', 486: 'y', 487: 'g', 488: 'm', 489: 'c', 490: 'b', 491: 'p', 492: 'f', 493: 'k', 494: "'", 495: 'v', 496: 'j', 497: 'x', 498: 'z', 499: 'q'} | 500
+train_Transcription.py:737: UserWarning: Anomaly Detection has been enabled. This mode will increase the runtime and should only be enabled for debugging.
+  with torch.autograd.detect_anomaly():
+training model
+speechbrain.utils.checkpoints - Loading a checkpoint from ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1/save/CKPT+2024-02-01+09-44-50+00
+epoch_counter:
+ curr: 25
+limit: 100
+last_best_epoch: 0
+limit_to_stop: 5
+limit_warmup: 5
+POST epoch_counter:
+ curr: 25
+limit: 100
+last_best_epoch: 0
+patience: 25
+limit_to_stop: 30
+limit_warmup: 30
+speechbrain.utils.epoch_loop - Going into epoch 26
+  0%|          | 0/178 [00:00<?, ?it/s]q: torch.Size([4, 9, 1024])
+key: torch.Size([4, 98, 1024])
+tgt2: torch.Size([4, 9, 1024])
+  0%|          | 0/178 [00:03<?, ?it/s]
+/home/mkperez/.pyenv/versions/miniconda3-latest/envs/sb/lib/python3.8/site-packages/torch/distributed/launch.py:178: FutureWarning: The module torch.distributed.launch is deprecated
+and will be removed in future. Use torchrun.
+Note that --use_env is set by default in torchrun.
+If your script expects `--local_rank` argument to be set, please
+change it to read from `os.environ['LOCAL_RANK']` instead. See 
+https://pytorch.org/docs/stable/distributed.html#launch-utility for 
+further instructions
+
+  warnings.warn(
+[W socket.cpp:401] [c10d] The server socket cannot be initialized on [::]:41475 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:41475 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:41475 (errno: 97 - Address family not supported by protocol).
+run_opts: {'debug': False, 'debug_batches': 2, 'debug_epochs': 2, 'debug_persistently': False, 'local_rank': 0, 'device': 'cuda:0', 'data_parallel_backend': False, 'distributed_launch': True, 'distributed_backend': 'nccl', 'find_unused_parameters': True, 'tqdm_colored_bar': False}
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:41475 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:558] [c10d] The client socket cannot be initialized to connect to [localhost]:41475 (errno: 97 - Address family not supported by protocol).
+Some weights of the model checkpoint at facebook/hubert-large-ls960-ft were not used when initializing HubertModel: ['lm_head.bias', 'lm_head.weight']
+- This IS expected if you are initializing HubertModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing HubertModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+speechbrain.lobes.models.huggingface_wav2vec - wav2vec 2.0 feature extractor is frozen.
+speechbrain.core - Beginning experiment!
+speechbrain.core - Experiment folder: ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1
+speechbrain.tokenizers.SentencePiece - Tokenizer is already trained.
+speechbrain.tokenizers.SentencePiece - ==== Loading Tokenizer ===
+speechbrain.tokenizers.SentencePiece - Tokenizer path: ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1/save/500_bpe.model
+speechbrain.tokenizers.SentencePiece - Tokenizer vocab_size: 500
+speechbrain.tokenizers.SentencePiece - Tokenizer type: bpe
+speechbrain.core - Info: auto_mix_prec arg from hparam file is used
+speechbrain.core - Info: max_grad_norm arg from hparam file is used
+speechbrain.core - Info: ckpt_interval_minutes arg from hparam file is used
+speechbrain.core - Info: grad_accumulation_factor arg from hparam file is used
+speechbrain.core - 389.7M trainable parameters in ASR
+tokenizer: {0: '<pad>', 1: '<s>', 2: '</s>', 3: '<unk>', 4: '[p]', 5: '[n]', 6: '▁t', 7: 'he', 8: '▁a', 9: '▁the', 10: '▁i', 11: 'nd', 12: '▁s', 13: '▁w', 14: '▁and', 15: '▁o', 16: 're', 17: 'in', 18: '▁b', 19: 'ha', 20: '▁g', 21: '▁c', 22: 'ou', 23: 'er', 24: 'll', 25: '▁m', 26: 'ing', 27: '▁d', 28: '▁he', 29: '▁to', 30: '▁f', 31: '▁wa', 32: '▁l', 33: 'ut', 34: '▁p', 35: '▁it', 36: '▁y', 37: 'hat', 38: 'no', 39: 'ed', 40: '▁was', 41: '▁so', 42: 'it', 43: '▁go', 44: '▁ha', 45: 'me', 46: '▁h', 47: '▁in', 48: '▁that', 49: 'an', 50: '▁we', 51: 'is', 52: '▁she', 53: '▁th', 54: 'ay', 55: 'es', 56: '▁do', 57: '▁of', 58: 'or', 59: '▁k', 60: '▁on', 61: '▁you', 62: 'ar', 63: 'et', 64: 'id', 65: 'en', 66: 'le', 67: '▁no', 68: '▁be', 69: '▁u', 70: 'all', 71: '▁they', 72: 'at', 73: 'st', 74: '▁her', 75: 'se', 76: '▁st', 77: '▁but', 78: 'ver', 79: 'gh', 80: '▁e', 81: '▁is', 82: 'ad', 83: 'ld', 84: 've', 85: 'ic', 86: 'ter', 87: 'her', 88: 'ke', 89: 'ro', 90: 'ir', 91: 'ind', 92: 'nt', 93: '▁re', 94: 'ri', 95: '▁j', 96: '▁kno', 97: 'ot', 98: 'on', 99: 'ac', 100: '▁know', 101: '▁get', 102: '▁my', 103: '▁then', 104: '▁n', 105: '▁had', 106: '▁li', 107: 'ho', 108: '▁wit', 109: '▁with', 110: '▁out', 111: 'ould', 112: 'al', 113: 'ght', 114: 'ly', 115: '▁this', 116: 'lla', 117: '▁there', 118: '▁me', 119: '▁up', 120: 'rella', 121: '▁for', 122: 'pp', 123: 'au', 124: '▁co', 125: 'very', 126: '▁r', 127: '▁ye', 128: '▁all', 129: '▁one', 130: '▁ho', 131: '▁lo', 132: '▁sa', 133: 'mb', 134: 'ce', 135: 'itt', 136: '▁at', 137: 'ok', 138: '▁what', 139: 'od', 140: '▁whe', 141: '▁tw', 142: 'ust', 143: '▁an', 144: 'kay', 145: '▁not', 146: '▁okay', 147: '▁se', 148: '▁some', 149: '▁his', 150: 'hing', 151: '▁don', 152: '▁ball', 153: '▁just', 154: '▁oh', 155: 'ally', 156: 'ack', 157: '▁or', 158: '▁bec', 159: 'other', 160: '▁like', 161: '▁got', 162: 'ss', 163: '▁cind', 164: '▁cinde', 165: 'ry', 166: 'ain', 167: 'ah', 168: '▁two', 169: 'ep', 170: '▁well', 171: '▁litt', 172: '▁little', 173: 'wn', 174: '▁mo', 175: 'ree', 176: '▁can', 177: '▁yeah', 178: '▁did', 179: 'im', 180: 'ause', 181: '▁because', 182: 'king', 183: '▁ne', 184: '▁say', 185: '▁have', 186: 'ime', 187: 'ake', 188: '▁back', 189: '▁ab', 190: 'if', 191: 'art', 192: '▁pe', 193: 'ur', 194: '▁look', 195: 'ell', 196: 'li', 197: 'thing', 198: 'nn', 199: '▁went', 200: '▁time', 201: 'rou', 202: '▁when', 203: '▁very', 204: '▁bo', 205: '▁would', 206: 'out', 207: '▁were', 208: '▁said', 209: '▁ca', 210: '▁as', 211: 'ta', 212: 'ck', 213: '▁pr', 214: '▁him', 215: 'ow', 216: '▁who', 217: 'to', 218: 'ch', 219: '▁down', 220: '▁could', 221: 'read', 222: 'ent', 223: 'ra', 224: 'irl', 225: '▁about', 226: '▁girl', 227: '▁al', 228: 'right', 229: '▁thing', 230: '▁prin', 231: '▁sp', 232: '▁fi', 233: '▁cat', 234: '▁wor', 235: '▁going', 236: 'ther', 237: 'ul', 238: '▁put', 239: 'nna', 240: '▁see', 241: '▁thin', 242: '▁every', 243: '▁man', 244: '▁good', 245: '▁come', 246: 'ion', 247: '▁them', 248: '▁yes', 249: 'om', 250: '▁into', 251: 'ters', 252: '▁step', 253: 'la', 254: '▁le', 255: 'ess', 256: '▁tree', 257: '▁any', 258: '▁prince', 259: 'mp', 260: '▁happ', 261: '▁sc', 262: '▁boy', 263: 'way', 264: '▁fro', 265: '▁take', 266: '▁su', 267: 'ab', 268: '▁here', 269: '▁hou', 270: 'ct', 271: '▁wh', 272: 'ol', 273: 'ight', 274: '▁think', 275: 'un', 276: '▁mother', 277: '▁now', 278: 'ide', 279: '▁really', 280: 'ill', 281: 'ice', 282: '▁didn', 283: 'op', 284: '▁bread', 285: '▁umb', 286: '▁fa', 287: '▁home', 288: '▁rain', 289: '▁umbrella', 290: '▁pro', 291: '▁butter', 292: '▁from', 293: 'mother', 294: '▁try', 295: '▁pl', 296: '▁af', 297: '▁wind', 298: 'ge', 299: '▁want', 300: '▁gu', 301: 'ick', 302: '▁day', 303: '▁are', 304: '▁over', 305: 'anut', 306: '▁peanut', 307: '▁house', 308: '▁window', 309: 'lo', 310: '▁sli', 311: 'pper', 312: 'our', 313: '▁sho', 314: '▁right', 315: '▁slipper', 316: 'el', 317: 'and', 318: 'ress', 319: '▁gonna', 320: 'mber', 321: '▁has', 322: '▁after', 323: 'ng', 324: 'ving', 325: '▁came', 326: '▁by', 327: '▁lad', 328: '▁says', 329: '▁start', 330: '▁off', 331: '▁other', 332: 'ak', 333: '▁dog', 334: '▁de', 335: 'red', 336: 'il', 337: '▁car', 338: 'ven', 339: 'ried', 340: '▁if', 341: 'ather', 342: '▁call', 343: 'ars', 344: '▁jell', 345: 'fe', 346: '▁jelly', 347: 'us', 348: '▁mean', 349: 'as', 350: 'der', 351: '▁something', 352: 'ty', 353: 'augh', 354: 'ne', 355: '▁goes', 356: 'isters', 357: '▁ag', 358: '▁reme', 359: '▁dress', 360: '▁prob', 361: 'round', 362: '▁where', 363: '▁peop', 364: '▁people', 365: '▁remember', 366: 'ig', 367: 'ody', 368: 'ting', 369: '▁three', 370: '▁fe', 371: 'ich', 372: '▁tal', 373: '▁fire', 374: '▁god', 375: '▁stu', 376: '▁ex', 377: '▁hadta', 378: '▁how', 379: '▁hel', 380: 'lf', 381: 'body', 382: 'lass', 383: 'ate', 384: 'hi', 385: 'ine', 386: '▁way', 387: 'qu', 388: '▁wal', 389: 'rough', 390: '▁through', 391: '▁mom', 392: '▁la', 393: '▁father', 394: '▁ro', 395: '▁pre', 396: 'cc', 397: '▁fir', 398: '▁help', 399: 'hool', 400: '▁school', 401: 'urn', 402: '▁around', 403: '▁first', 404: 'ong', 405: '▁work', 406: 'ation', 407: 'ie', 408: 'ily', 409: '▁mar', 410: '▁kind', 411: '▁daugh', 412: '▁dad', 413: 'ife', 414: 'ved', 415: '▁looks', 416: '▁couldn', 417: '▁things', 418: '▁guess', 419: '▁their', 420: '▁fo', 421: '▁ladder', 422: '▁us', 423: '▁glass', 424: '▁com', 425: 'end', 426: '▁find', 427: 'nder', 428: '▁been', 429: '▁gets', 430: 'one', 431: '▁your', 432: '▁ma', 433: '▁dan', 434: '▁trying', 435: '▁thou', 436: 'sp', 437: '▁does', 438: '▁bea', 439: 'est', 440: '▁lot', 441: '▁pu', 442: '▁years', 443: 'ite', 444: '▁per', 445: '▁cha', 446: '▁bet', 447: '▁turn', 448: '▁too', 449: '▁need', 450: '▁beaut', 451: '▁steps', 452: '▁may', 453: '▁tell', 454: '▁fit', 455: '▁fair', 456: '▁beautif', 457: 'ound', 458: 'am', 459: 'ace', 460: '▁beautiful', 461: 'ach', 462: 'age', 463: 'ably', 464: '▁mad', 465: 'ves', 466: '▁make', 467: '▁happen', 468: '▁spe', 469: '▁young', 470: '▁v', 471: 'side', 472: '▁', 473: 'e', 474: 't', 475: 'a', 476: 'o', 477: 'h', 478: 'n', 479: 'i', 480: 's', 481: 'd', 482: 'r', 483: 'l', 484: 'w', 485: 'u', 486: 'y', 487: 'g', 488: 'm', 489: 'c', 490: 'b', 491: 'p', 492: 'f', 493: 'k', 494: "'", 495: 'v', 496: 'j', 497: 'x', 498: 'z', 499: 'q'} | 500
+train_Transcription.py:737: UserWarning: Anomaly Detection has been enabled. This mode will increase the runtime and should only be enabled for debugging.
+  if hparams['train_flag']:
+training model
+speechbrain.utils.checkpoints - Loading a checkpoint from ISresults/full_FT_Transcription_Scripts/binary_S2S-hubert-Transformer-500/Fold-1/save/CKPT+2024-02-01+09-44-50+00
+slurmstepd: error: *** JOB 1871464 ON gl1516 CANCELLED AT 2024-02-02T17:27:05 ***

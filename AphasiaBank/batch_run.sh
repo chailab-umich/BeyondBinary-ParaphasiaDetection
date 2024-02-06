@@ -1,8 +1,8 @@
 #!/bin/sh
 #SBATCH --partition spgpu
 #SBATCH --account=emilykmp1
-#SBATCH --job-name=bin_proto_trans
-#SBATCH --output=batch_logs/${SLURM_JOB_NAME}.txt
+#SBATCH --job-name=bin_pr_trans
+#SBATCH --output=batch_logs/bin_pr_trans.txt
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=4
 #SBATCH --gres=gpu:1
@@ -25,4 +25,7 @@ conda activate sb
 # --output=ISresults/Transcription_Scripts/S2S-hubert-Transformer-500/sbatch.log
 
 
+
+# binary
 python train_Transcription_binary.py hparams/binary/SSL_transcription_proto.yml
+# python Scripts_LOSO_Transcription.py

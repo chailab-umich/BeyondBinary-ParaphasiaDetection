@@ -99,7 +99,11 @@ class ASR(sb.Brain):
         elif stage == sb.Stage.VALID:
             current_epoch = self.hparams.epoch_counter.current
             if (current_epoch % self.hparams.valid_search_interval == 0):
-                hyps_asr, _ = self.hparams.valid_search(w2v_out.detach(), wav_lens)
+
+                if isinstance(self.hparams.valid_search, sb.decoders.S2STransformerBeamSearchAttention):
+                    hyps_asr, attn = self.hparams.valid_search(w2v_out.detach(), wav_lens)
+                else:
+                    hyps_asr, _ = self.hparams.valid_search(w2v_out.detach(), wav_lens)
 
         elif stage == sb.Stage.TEST:
             hyps_asr, _ = self.hparams.test_search(w2v_out.detach(), wav_lens)
@@ -723,7 +727,6 @@ if __name__ == "__main__":
     valid_dataloader_opts = hparams["valid_dataloader_opts"]
     tokens = {i:asr_brain.tokenizer.id_to_piece(i) for i in range(asr_brain.tokenizer.get_piece_size())}
     print(f"tokenizer: {tokens} | {len(tokens.keys())}")
-    # exit()
     
     # asr_brain.modules = asr_brain.modules.float()
     count_parameters(asr_brain.modules)

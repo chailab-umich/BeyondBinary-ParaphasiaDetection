@@ -10,6 +10,7 @@
 # Seed needs to be set at top of yaml, before objects with parameters are made
 seed: 2000
 train_flag: True
+FT_start: True
 # Ngram LM
 lm_weight: 0.60
 ctc_weight_decode: 0.2

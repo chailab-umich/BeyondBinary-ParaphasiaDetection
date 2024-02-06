@@ -1,8 +1,8 @@
 #!/bin/sh
 #SBATCH --partition spgpu
 #SBATCH --account=emilykmp1
-#SBATCH --job-name=script_mtl
-#SBATCH --output=ISresults/full_FT_MTL_Scripts/S2S-hubert-Transformer-500/sbatch.log
+#SBATCH --job-name=FT_mtl_script
+#SBATCH --output=batch_logs/FT_mtl_script.log
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=4
 #SBATCH --gres=gpu:1
@@ -16,7 +16,6 @@ conda activate sb
 
 ## Proto train
 # python train_MTL.py hparams/MTL_proto.yml
-#--output=ISresults/MTL_proto/S2S-hubert-Transformer-500/sbatch.log
 
 # Scripts train
 python Scripts_LOSO_MTL.py

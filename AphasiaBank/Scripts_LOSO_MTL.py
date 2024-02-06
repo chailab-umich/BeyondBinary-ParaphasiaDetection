@@ -55,8 +55,6 @@ def compute_maj_class(fold,para_type):
 
 ## TD for multi
 def TD_helper(true_labels, predicted_labels):
-    print(f"true_labels: {true_labels}")
-    print(f"predicted_labels: {predicted_labels}")
     TTC = 0
     for i in range(len(true_labels)):
         # for paraphasia label
@@ -82,7 +80,6 @@ def TD_helper(true_labels, predicted_labels):
                         min_distance_for_label = abs(i - j)
 
             CTT += min_distance_for_label
-    print(f"TD: {TTC + CTT}\n")
     return TTC + CTT
 
 def compute_temporal_distance(true_labels, predicted_labels):
@@ -92,9 +89,9 @@ def compute_temporal_distance(true_labels, predicted_labels):
         TD_utt = TD_helper(true_label, pred_label)
         TD_per_utt.append(TD_utt)
 
-        print(f"true_label: {true_label}")
-        print(f"pred_label: {pred_label}")
-        print(f"TD_utt: {TD_utt}\n")
+        # print(f"true_label: {true_label}")
+        # print(f"pred_label: {pred_label}")
+        # print(f"TD_utt: {TD_utt}\n")
         # print(f"TD_utt: {TD_utt}")
         # if TD_utt > 200:
         #     print(f"true_label: {true_label}")
@@ -118,14 +115,18 @@ def compute_time_tolerant_scores(true_labels, predicted_labels, n=0):
 
     
     for utt_true, utt_pred in zip(true_labels, predicted_labels):
+        loc_TP=0
+        loc_FN=0
         for i, (true_label, predicted_label) in enumerate(zip(utt_true, utt_pred)):
             neighborhood = utt_pred[max(i-n, 0):min(i+n+1, len(utt_pred))]
 
             if true_label != 'c' and true_label != '<eps>':
                 if any(label == true_label for label in neighborhood):
                     TP += 1
+                    loc_TP +=1
                 else:
                     FN += 1
+                    loc_FN+=1
 
             elif any(label in ['p','n','s']  for label in neighborhood):
                 FP += 1
@@ -205,16 +206,22 @@ def get_metrics(fold_dir):
     Compute WER metric for a given fold dir
     Compile list of lists y_true and y_pred for paraphasia analysis
     '''
-    wer_file = f"{fold_dir}/awer_para.txt"
+    awer_file = f"{fold_dir}/awer_para.txt"
+    awer_details = extract_wer(awer_file)
+
+
+    wer_file = f"{fold_dir}/asr_wer.txt"
     wer_details = extract_wer(wer_file)
 
 
     # Extract paraphasia sequence from wer.txt
-    list_list_ytrue, list_list_ypred = extract_word_level_paraphasias(wer_file)
+    list_list_ytrue, list_list_ypred = extract_word_level_paraphasias(awer_file)
 
     result_df = pd.DataFrame({
         'wer-err': [wer_details['err']],
         'wer-tot': [wer_details['tot']],
+        'awer-err': [awer_details['err']],
+        'awer-tot': [awer_details['tot']],
     })
 
     return result_df, list_list_ytrue, list_list_ypred
@@ -371,6 +378,7 @@ if __name__ == "__main__":
         y_true = [] # aggregate list of y_true(list)
         y_pred = []
         for i in range(1,13):
+        # for i in range(1,2):
             Fold_dir = f"{EXP_DIR}/Fold-{i}"
             result_df, list_list_ytrue, list_list_ypred = get_metrics(Fold_dir)
 
@@ -383,17 +391,18 @@ if __name__ == "__main__":
 
 
 
+
+        # TD
+        TD_per_utt = compute_temporal_distance(y_true, y_pred)
+
         # Recall-f1 localization
         zero_f1, zero_recall = compute_time_tolerant_scores(y_true, y_pred, n=0)
         one_f1, one_recall = compute_time_tolerant_scores(y_true, y_pred, n=1)
         two_f1, two_recall = compute_time_tolerant_scores(y_true, y_pred, n=2)
 
-        # TD
-        TD_per_utt = compute_temporal_distance(y_true, y_pred)
-
 
         with open(f"{results_dir}/Frid_metrics_multi.txt", 'w') as w:
-            for k in ['wer']:
+            for k in ['wer', 'awer']:
                 wer = df[f'{k}-err'].sum()/df[f'{k}-tot'].sum()
                 print(f"{k}: {wer}")
                 w.write(f"{k}: {wer}\n")

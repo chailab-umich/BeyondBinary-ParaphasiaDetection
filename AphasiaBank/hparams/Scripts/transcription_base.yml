@@ -18,6 +18,7 @@ loss_optimizer: loss
 token_type: "bpe" # unigram / bpe
 output_neurons: output_neurons_PLACEHOLDER
 user_defined_symbols: "[p],[n],[s]"
+vis_dev_speakers: vis_dev_PLACEHOLDER
 
 # Control MTL or STL objective
 MTL_bool: True

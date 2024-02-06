@@ -5,9 +5,9 @@ srun \
  --mail-type=NONE \
  --ntasks=1 \
  --cpus-per-task=4 \
- --gres=gpu:1 \
- --mem-per-cpu=11G \
+ --gpus-per-node=1 \
+ --mem=32G \
  --time=10-00:00:00 \
- --partition=spgpu \
+ --partition=gpu \
  --account=emilykmp1 \
  --pty bash

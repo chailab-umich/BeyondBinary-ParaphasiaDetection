@@ -624,7 +624,6 @@ class TransformerDecoderLayer(nn.Module):
             tgt1 = tgt
 
         # multi-head attention over the target sequence and encoder states
-
         tgt2, multihead_attention = self.mutihead_attn(
             query=tgt1,
             key=memory,

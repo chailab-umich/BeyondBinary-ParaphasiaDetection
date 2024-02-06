@@ -632,8 +632,8 @@ def dataio_prepare(hparams,tokenizer):
     def text_pipeline(wrd,aug_para):
         yield wrd
         transcription_para = aug_para.replace("/c","")
-        transcription_para = transcription_para.replace("/n"," [n]")
-        transcription_para = transcription_para.replace("/p"," [p]")
+        transcription_para = transcription_para.replace("/n"," [pn]")
+        transcription_para = transcription_para.replace("/p"," [pn]")
         transcription_para = transcription_para.replace("/s","")
         yield transcription_para
         tokens_list = tokenizer.sp.encode_as_ids(transcription_para)

@@ -11,13 +11,14 @@ seed: 2000
 # reset LR
 FT_start: True
 train_flag: True
-frid_fold: 12
+frid_fold: 1
 loss_optimizer: loss
 
 
 token_type: "bpe" # unigram / bpe
 output_neurons: 500
 user_defined_symbols: "[p],[n],[s]"
+vis_dev_speakers: ['P5_P2_SW_C4-2', 'P8_B2_SA_C1-3', 'P12_6W_SW_C6-4', 'P8_T2_SW_C3-3', 'P2_T6_SW_C3-3', 'P2_B2_SE_C1-4']
 
 # Control MTL or STL objective
 MTL_bool: True
@@ -28,11 +29,11 @@ w2v_model: hubert-large-ls960-ft
 wav2vec2_hub: !ref facebook/<w2v_model>
 
 
-output_folder: !ref ISresults/full_FT_Transcription_Scripts/S2S-hubert-Transformer-500/Fold-12
+output_folder: !ref ISresults/Transcription_Scripts/vis_dev_S2S-hubert-Transformer-500/Fold-1
 wer_file: !ref <output_folder>/wer.txt
 save_folder: !ref <output_folder>/save
 train_log: !ref <output_folder>/train_log.txt
-data_dir: /home/mkperez/speechbrain/AphasiaBank/data/Fridriksson_para_best_Word/Fold_12
+data_dir: /home/mkperez/speechbrain/AphasiaBank/data/Fridriksson_para_best_Word/Fold_1
 data_folder: !ref <data_dir>
 
 tb_logs: !ref <output_folder>/tb_logs
@@ -115,7 +116,7 @@ unk_index: 3
 # Decoding parameters
 min_decode_ratio: 0.0
 max_decode_ratio: 1.0
-valid_search_interval: 100
+valid_search_interval: 1
 lm_weight: 0.10
 ctc_weight_decode: 0.2
 test_beam_size: 75
@@ -142,7 +143,7 @@ Transformer: !new:speechbrain.lobes.models.transformer.TransformerASR.Transforme
 SSL_enc: !new:speechbrain.lobes.models.huggingface_wav2vec.HuggingFaceWav2Vec2
    source: !ref <wav2vec2_hub>
    output_norm: True
-   freeze: False
+   freeze: True
    freeze_feature_extractor: True
    save_path: !ref <save_folder>/wav2vec2_checkpoint
 
@@ -177,7 +178,7 @@ Adam: !name:torch.optim.Adam
     betas: (0.9, 0.98)
     eps: 0.000000001
 
-valid_search: !new:speechbrain.decoders.S2STransformerBeamSearch
+valid_search: !new:speechbrain.decoders.S2STransformerBeamSearchAttention
     modules: [!ref <Transformer>, !ref <seq_lin>, !ref <ctc_lin>]
     bos_index: !ref <bos_index>
     eos_index: !ref <eos_index>

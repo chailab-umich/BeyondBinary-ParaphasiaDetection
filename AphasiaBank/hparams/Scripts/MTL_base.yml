@@ -13,7 +13,7 @@ FT_start: FT_start_PLACEHOLDER
 train_flag: train_flag_PLACEHOLDER
 frid_fold: frid_fold_PLACEHOLDER
 
-token_type: "unigram" # unigram / bpe
+token_type: "bpe" # unigram / bpe
 output_neurons: output_neurons_PLACEHOLDER
 para_output_neurons: 4
 

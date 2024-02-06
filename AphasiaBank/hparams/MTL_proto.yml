@@ -24,7 +24,7 @@ __set_seed: !apply:torch.manual_seed [!ref <seed>]
 w2v_model: hubert-large-ls960-ft
 wav2vec2_hub: !ref facebook/<w2v_model>
 
-output_folder: !ref ISresults/MTL_proto/S2S-hubert-Transformer-<output_neurons>
+output_folder: !ref ISresults/full_FT_MTL_proto/S2S-hubert-Transformer-<output_neurons>
 wer_file: !ref <output_folder>/wer.txt
 save_folder: !ref <output_folder>/save
 train_log: !ref <output_folder>/train_log.txt
@@ -135,7 +135,7 @@ Transformer: !new:speechbrain.lobes.models.transformer.TransformerASR.Transforme
 SSL_enc: !new:speechbrain.lobes.models.huggingface_wav2vec.HuggingFaceWav2Vec2
    source: !ref <wav2vec2_hub>
    output_norm: True
-   freeze: True
+   freeze: False
    freeze_feature_extractor: True
    save_path: !ref <save_folder>/wav2vec2_checkpoint
 
