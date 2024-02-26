@@ -106,7 +106,7 @@ class EpochCounterWithStopper(EpochCounter):
         self.direction = direction
 
         self.best_limit = 0
-        self.min_delta = 1e-2
+        self.min_delta = 1e-3
 
         if self.limit_to_stop < 0:
             raise ValueError("Stopper 'limit_to_stop' must be >= 0")

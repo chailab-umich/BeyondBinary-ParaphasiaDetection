@@ -11,25 +11,25 @@ seed: 2000
 # reset LR
 FT_start: True
 train_flag: True
-frid_fold: 12
+frid_fold: 2
 
 token_type: "bpe" # unigram / bpe
 output_neurons: 500
 para_output_neurons: 4
 
-# Control MTL or STL objective
-MTL_bool: True
+# Control MTL or interleaved objective
+loss_asr_weight: 0.7
 
 
 __set_seed: !apply:torch.manual_seed [!ref <seed>]
 w2v_model: hubert-large-ls960-ft
 wav2vec2_hub: !ref facebook/<w2v_model>
 
-output_folder: !ref ISresults/full_FT_MTL_Scripts/S2S-hubert-Transformer-500/Fold-12
+output_folder: !ref ISresults/full_FT_MTL_Scripts/MTL-weighted_para/asr_w-0.7_S2S-hubert-Transformer-500/Fold-2
 wer_file: !ref <output_folder>/wer.txt
 save_folder: !ref <output_folder>/save
 train_log: !ref <output_folder>/train_log.txt
-data_dir: /home/mkperez/speechbrain/AphasiaBank/data/Fridriksson_para_best_Word/Fold_12
+data_dir: /home/mkperez/speechbrain/AphasiaBank/data/Fridriksson_para_best_Word/Fold_2
 data_folder: !ref <data_dir>500
 
 
@@ -49,7 +49,7 @@ test_csv: !ref <data_dir>/test_multi.csv
 
 # Training parameters
 auto_mix_prec: False
-max_length: 10 # change to 20
+max_length: 18 # change to 20
 min_length: 0.5
 max_sev_train: 4
 min_sev_train: -1
@@ -60,7 +60,7 @@ min_sev_train: -1
 # Empirically, we found that this value should be >= 128.
 # Please, set your parameters accordingly.
 number_of_epochs: 120
-batch_size: 10 # This works for 1x GPU with 40GB with no dynamic batching
+batch_size: 4 # This works for 1x GPU with 40GB with no dynamic batching
 ctc_weight: 0.2
 grad_accumulation_factor: 4
 max_grad_norm: 5.0
@@ -240,7 +240,7 @@ checkpointer: !new:speechbrain.utils.checkpoints.Checkpointer
 
 epoch_counter: !new:speechbrain.utils.epoch_loop.EpochCounterWithStopper
    limit: !ref <number_of_epochs>
-   limit_to_stop: 5
+   limit_to_stop: 10
    limit_warmup: 5
    direction: "min"
 

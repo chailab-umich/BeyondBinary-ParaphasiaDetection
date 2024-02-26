@@ -19,6 +19,7 @@ token_type: "bpe" # unigram / bpe
 output_neurons: output_neurons_PLACEHOLDER
 user_defined_symbols: "[pn]"
 vis_dev_speakers: vis_dev_PLACEHOLDER
+para_type: para_type_PLACEHOLDER
 
 # Control MTL or STL objective
 MTL_bool: True

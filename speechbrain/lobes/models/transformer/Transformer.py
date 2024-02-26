@@ -553,7 +553,7 @@ class TransformerDecoderLayer(nn.Module):
             self.mutihead_attn = sb.nnet.attention.RelPosMHAXL(
                 d_model, nhead, dropout, mask_pos_future=causal
             )
-
+        
         self.pos_ffn = sb.nnet.attention.PositionalwiseFeedForward(
             d_ffn=d_ffn,
             input_size=d_model,
@@ -612,6 +612,8 @@ class TransformerDecoderLayer(nn.Module):
             key_padding_mask=tgt_key_padding_mask,
             pos_embs=pos_embs_tgt,
         )
+        if torch.isnan(tgt2).any():
+            print(f"self attn: {tgt2}")
 
         # add & norm
         tgt = tgt + self.dropout1(tgt2)
@@ -623,6 +625,14 @@ class TransformerDecoderLayer(nn.Module):
         else:
             tgt1 = tgt
 
+        if torch.isnan(tgt1).any():
+            print(f"post self attn: {tgt1}")
+
+        if torch.isnan(memory).any():
+            print(f"memory: {memory}")
+
+        # print(f"post self attn: {tgt1[-1::]} | {tgt1.shape}")
+        # print(f"memory: {memory[-1::]} | {memory.shape}")
         # multi-head attention over the target sequence and encoder states
         tgt2, multihead_attention = self.mutihead_attn(
             query=tgt1,
@@ -632,6 +642,9 @@ class TransformerDecoderLayer(nn.Module):
             key_padding_mask=memory_key_padding_mask,
             pos_embs=pos_embs_src,
         )
+
+        if torch.isnan(tgt2).any():
+            print(f"mha: {tgt2}")
 
         # add & norm
         tgt = tgt + self.dropout2(tgt2)
@@ -744,7 +757,7 @@ class TransformerDecoder(nn.Module):
         """
         output = tgt
         self_attns, multihead_attns = [], []
-        for dec_layer in self.layers:
+        for i, dec_layer in enumerate(self.layers):
             output, self_attn, multihead_attn = dec_layer(
                 output,
                 memory,
@@ -755,6 +768,15 @@ class TransformerDecoder(nn.Module):
                 pos_embs_tgt=pos_embs_tgt,
                 pos_embs_src=pos_embs_src,
             )
+            if torch.isnan(output).any():
+                # exit()
+                # print(f"{i}-{output}")
+                # for name, param in dec_layer.named_parameters():
+                #     # if torch.isnan(param).any():
+                #     if 'mutihead_attn' in name:
+                #         print(f"{name} - {param}")
+                
+                exit()
             self_attns.append(self_attn)
             multihead_attns.append(multihead_attn)
         output = self.norm(output)

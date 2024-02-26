@@ -8,6 +8,6 @@ srun \
  --gpus-per-node=1 \
  --mem=32G \
  --time=10-00:00:00 \
- --partition=gpu \
+ --partition=spgpu \
  --account=emilykmp1 \
  --pty bash

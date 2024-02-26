@@ -1,6 +1,5 @@
 #!/usr/bin/env/python3
 """
-Freeze OG char-model
 Train Transformer ASR decoder to predict tokens + paraphasia label using
 
 Recipe for training a wav2vec-based ctc ASR system with librispeech.
@@ -204,28 +203,31 @@ class ASR(sb.Brain):
         ).sum()
 
         # paraphasia loss
-        para_index = 1
-        weight_arr = torch.ones(2)
-        weight_arr[para_index] = 2
         loss_para_seq = self.hparams.seq_cost(
-            # para_seq, ptokens_eos, length=ptokens_lens, weight=weight_arr.to(self.device)
-            para_seq, ptokens_eos, length=ptokens_lens
+            para_seq, ptokens_eos, length=ptokens_lens, weight=self.train_para_class_count.to(self.device)
+            # para_seq, ptokens_eos, length=ptokens_lens
         ).sum()
-        # Use ptokens_lens to mask out eos. Use ptokens_eos as labels to match predictions, eos will be masked
 
+        # Use ptokens_lens to mask out eos. Use ptokens_eos as labels to match predictions, eos will be masked
+        # print(f"loss_para_seq: {loss_para_seq}")
+        # print(f"loss_para_seq_no_bal: {loss_para_seq_no_bal}")
+        # print(f"ptokens: {ptokens}")
+        # exit()
         loss_asr = (
                 self.hparams.ctc_weight * loss_ctc
                 + (1 - self.hparams.ctc_weight) * loss_seq
-            )
+        )
         
-        if self.hparams.MTL_bool:
-            loss = loss_para_seq + loss_asr
-        
-        
-        elif self.ASR_epochs < 5:
-            loss = loss_asr
-        else:
-            loss = loss_para_seq
+        loss_asr_weighted = self.hparams.loss_asr_weight*loss_asr
+        loss_para_seq_weighted = (1-self.hparams.loss_asr_weight)*loss_para_seq
+        # print(self.train_para_class_count.to(self.device))
+        # print(f"asr: {loss_asr_weighted}")
+        # print(f"para_seq: {loss_para_seq} -> {loss_para_seq_weighted}\n")
+        # print(f"pred: {para_seq}")
+        # print(f"true: {ptokens_eos}")
+ 
+
+        loss =  loss_asr_weighted + loss_para_seq_weighted
 
 
 
@@ -235,28 +237,6 @@ class ASR(sb.Brain):
             if current_epoch % valid_search_interval == 0 or (
                 stage == sb.Stage.TEST
             ):
-                # # ASR
-                # if 3 in hyps_asr[0]:
-                #     hyps_asr_new=[[]]
-                #     hyps_para_new=[[]]
-                #     remove_indices=[]
-                #     # hyps_asr[0].remove(3)
-                #     for idx, val in enumerate(hyps_asr[0]):
-                #         # if val == 3:
-                #         #     print(f"hyps_asr[0]: {hyps_asr[0]}")
-                #         #     remove_indices.append(idx)
-                #         #     # del hyps_para[0][idx]
-
-                #         # else:
-                #         hyps_asr_new[0].append(val)
-                #         hyps_para_new[0].append(hyps_para[0][idx])
-
-                    
-                #     hyps_asr = hyps_asr_new
-                #     hyps_para = hyps_para_new
-                            
-
-
                 predicted_words = [
                    self.tokenizer.decode_ids(utt_seq).split(" ") for utt_seq in hyps_asr
                 ]
@@ -280,14 +260,15 @@ class ASR(sb.Brain):
             # compute the accuracy of the one-step-forward prediction
             self.asr_acc_metric.append(p_seq, tokens_eos, tokens_eos_lens)
             self.para_acc_metric.append(para_seq, ptokens_eos, ptokens_eos_lens)
-        return loss
+        
+        return loss, loss_asr_weighted, loss_para_seq_weighted
 
     def evaluate_batch(self, batch, stage):
         """Computations needed for validation/test batches"""
         predictions = self.compute_forward(batch, stage=stage)
         with torch.no_grad():
-            loss = self.compute_objectives(predictions, batch, stage=stage)
-        return loss.detach()
+            loss, loss_asr, loss_para = self.compute_objectives(predictions, batch, stage=stage)
+        return loss.detach(), loss_asr.detach(), loss_para.detach()
 
     def on_stage_start(self, stage, epoch):
         """Gets called at the beginning of each epoch"""
@@ -314,8 +295,6 @@ class ASR(sb.Brain):
                 stage_stats["asr-ACC"] = self.asr_acc_metric.summarize_dist(self.device)
                 stage_stats["p-ACC"] = self.para_acc_metric.summarize_dist(self.device)
 
-                # stage_stats["WER"] = self.wer_metric.summarize_dist("WER","error_rate")
-                # stage_stats["CER"] = self.cer_metric.summarize_dist("CER","error_rate")
                 stage_stats["asr-WER"] = self.asr_wer_metric.summarize_dist("WER","error_rate")
                 stage_stats["asr-CER"] = self.asr_cer_metric.summarize_dist("CER","error_rate")
                 stage_stats["p-AWER"] = self.para_wer_metric.summarize_dist("P-AWER","error_rate")
@@ -396,7 +375,7 @@ class ASR(sb.Brain):
         if self.auto_mix_prec:
             with torch.cuda.amp.autocast():
                 outputs = self.compute_forward(batch, sb.Stage.TRAIN)
-                loss = self.compute_objectives(outputs, batch, sb.Stage.TRAIN)
+                loss, loss_asr, loss_para = self.compute_objectives(outputs, batch, sb.Stage.TRAIN)
             with self.no_sync(not should_step):
                 self.scaler.scale(
                     loss / self.grad_accumulation_factor
@@ -411,7 +390,7 @@ class ASR(sb.Brain):
                 # self.hparams.noam_annealing(self.optimizer)
         else:
             outputs = self.compute_forward(batch, sb.Stage.TRAIN)
-            loss = self.compute_objectives(outputs, batch, sb.Stage.TRAIN)
+            loss, loss_asr, loss_para = self.compute_objectives(outputs, batch, sb.Stage.TRAIN)
             with self.no_sync(not should_step):
                 (loss / self.grad_accumulation_factor).backward()
             if should_step:
@@ -422,7 +401,7 @@ class ASR(sb.Brain):
                 # self.hparams.noam_annealing(self.optimizer)
 
         self.on_fit_batch_end(batch, outputs, loss, should_step)
-        return loss.detach().cpu()
+        return loss.detach().cpu(), loss_asr.detach().cpu(), loss_para.detach().cpu()
 
     def on_fit_start(self):
         """Gets called at the beginning of ``fit()``, on multiple processes
@@ -501,6 +480,8 @@ class ASR(sb.Brain):
         self.on_stage_start(sb.Stage.TEST, epoch=None)
         self.modules.eval()
         avg_test_loss = 0.0
+        avg_test_loss_asr = 0.0
+        avg_test_loss_para = 0.0
         with torch.no_grad():
             for batch in tqdm(
                 test_set,
@@ -509,8 +490,10 @@ class ASR(sb.Brain):
                 colour=self.tqdm_barcolor["test"],
             ):
                 self.step += 1
-                loss = self.evaluate_batch(batch, stage=sb.Stage.TEST)
+                loss, loss_asr, loss_para = self.evaluate_batch(batch, stage=sb.Stage.TEST)
                 avg_test_loss = self.update_average(loss, avg_test_loss)
+                avg_test_loss_asr = self.update_average(loss_asr, avg_test_loss_asr)
+                avg_test_loss_para = self.update_average(loss_para, avg_test_loss_para)
 
                 # Profile only if desired (steps allow the profiler to know when all is warmed up)
                 if self.profiler is not None:
@@ -569,10 +552,13 @@ class ASR(sb.Brain):
                   f"limit_to_stop: {epoch_counter.limit_to_stop}\n"
                   f"limit_warmup: {epoch_counter.limit_warmup}\n"
                   f"th: {epoch_counter.th}")
-            # since its being FT, reset with current
-            self.epoch_counter_limit_to_stop_FT = epoch_counter.limit_to_stop
+            # # since its being FT, reset with current
+            # self.epoch_counter_limit_to_stop_FT = epoch_counter.limit_to_stop
+            # self.epoch_counter_limit_warmup_FT = epoch_counter.limit_warmup
+            # epoch_counter.limit_to_stop = epoch_counter.current + self.epoch_counter_limit_to_stop_FT
+            # epoch_counter.limit_warmup = epoch_counter.current + self.epoch_counter_limit_warmup_FT
+
             self.epoch_counter_limit_warmup_FT = epoch_counter.limit_warmup
-            epoch_counter.limit_to_stop = epoch_counter.current + self.epoch_counter_limit_to_stop_FT
             epoch_counter.limit_warmup = epoch_counter.current + self.epoch_counter_limit_warmup_FT
 
 
@@ -606,8 +592,23 @@ class ASR(sb.Brain):
 
 
             # tensorboard
-            self.tb.add_scalar("train_loss", self.tb_avg_train_loss, epoch)
-            self.tb.add_scalar("valid_loss", self.valid_loss, epoch)
+            self.tb.add_scalars('train_loss',{
+                "train_loss": self.tb_avg_train_loss,
+                "train_loss_asr": self.avg_train_loss_asr,
+                "train_loss_para": self.avg_train_loss_para,
+            }, epoch)
+            self.tb.add_scalars('val_loss', {
+                "valid_loss": self.valid_loss,
+                "valid_loss_asr": self.valid_loss_asr,
+                "valid_loss_para": self.valid_loss_para,
+            }, epoch)
+
+            # self.tb.add_scalar("train_loss", self.tb_avg_train_loss, epoch)
+            # self.tb.add_scalar("train_loss_asr", self.avg_train_loss_asr, epoch)
+            # self.tb.add_scalar("train_loss_para", self.avg_train_loss_para, epoch)
+            # self.tb.add_scalar("valid_loss", self.valid_loss, epoch)
+            # self.tb.add_scalar("valid_loss_asr", self.valid_loss_asr, epoch)
+            # self.tb.add_scalar("valid_loss_para", self.valid_loss_para, epoch)
 
             # Debug mode only runs a few epochs
             if (
@@ -623,6 +624,8 @@ class ASR(sb.Brain):
             self.on_stage_start(sb.Stage.VALID, epoch)
             self.modules.eval()
             avg_valid_loss = 0.0
+            avg_valid_loss_asr = 0.0
+            avg_valid_loss_para = 0.0
             with torch.no_grad():
                 for batch in tqdm(
                     valid_set,
@@ -631,8 +634,10 @@ class ASR(sb.Brain):
                     colour=self.tqdm_barcolor["valid"],
                 ):
                     self.step += 1
-                    loss = self.evaluate_batch(batch, stage=sb.Stage.VALID)
+                    loss, loss_asr,loss_para = self.evaluate_batch(batch, stage=sb.Stage.VALID)
                     avg_valid_loss = self.update_average(loss, avg_valid_loss)
+                    avg_valid_loss_asr = self.update_average(loss_asr, avg_valid_loss_asr)
+                    avg_valid_loss_para = self.update_average(loss_para, avg_valid_loss_para)
 
                     # Profile only if desired (steps allow the profiler to know when all is warmed up)
                     if self.profiler is not None:
@@ -646,6 +651,8 @@ class ASR(sb.Brain):
                 # Only run validation "on_stage_end" on main process
                 self.step = 0
                 self.valid_loss = avg_valid_loss # needed for epoch_counter_Stop
+                self.valid_loss_asr = avg_valid_loss_asr # needed for epoch_counter_Stop
+                self.valid_loss_para = avg_valid_loss_para # needed for epoch_counter_Stop
                 run_on_main(
                     self.on_stage_end,
                     args=[sb.Stage.VALID, avg_valid_loss, epoch],
@@ -659,6 +666,10 @@ class ASR(sb.Brain):
 
         # Reset nonfinite count to 0 each epoch
         self.nonfinite_count = 0
+
+        self.avg_train_loss_asr = 0.0
+        self.avg_train_loss_para = 0.0
+
 
         if self.train_sampler is not None and hasattr(
             self.train_sampler, "set_epoch"
@@ -679,10 +690,11 @@ class ASR(sb.Brain):
                     logger.info("Train iteration limit exceeded")
                     break
                 self.step += 1
-                loss = self.fit_batch(batch)
-                self.avg_train_loss = self.update_average(
-                    loss, self.avg_train_loss
-                )
+                loss, loss_asr, loss_para = self.fit_batch(batch)
+                self.avg_train_loss = self.update_average(loss, self.avg_train_loss)
+                self.avg_train_loss_asr = self.update_average(loss_asr, self.avg_train_loss_asr)
+                self.avg_train_loss_para = self.update_average(loss_para, self.avg_train_loss_para)
+                
                 t.set_postfix(train_loss=self.avg_train_loss)
 
                 # Profile only if desired (steps allow the profiler to know when all is warmed up)
@@ -779,9 +791,8 @@ def dataio_prepare(hparams, tokenizer, ptoknizer):
         csv_path=hparams["test_csv"], replacements={"data_root": data_folder}
     )
     test_data = test_data.filtered_sorted(sort_key="duration",
-        # key_max_value={"duration": hparams["max_length"]},
-        # key_max_value={"duration": 1.5},
-        key_min_value={"duration": 0.5}
+        key_max_value={"duration": hparams["max_length"]},
+        key_min_value={"duration": hparams["min_length"]}
     )
 
     datasets = [train_data, valid_data, test_data]
@@ -869,7 +880,6 @@ if __name__ == "__main__":
     # CLI:
     hparams_file, run_opts, overrides = sb.parse_arguments(sys.argv[1:])
     print(f"run_opts: {run_opts}")
-    # exit()
 
     # If distributed_launch=True then
     # create ddp_group with the right communication protocol
@@ -933,6 +943,15 @@ if __name__ == "__main__":
         count_parameters(asr_brain.modules)
 
     asr_brain.tb = SummaryWriter(hparams['tb_logs'])
+
+    # Initialize inverse paraphasia class count
+    asr_brain.train_para_class_count = [0 for i in range(4)]
+    for t in train_data:
+        for p in t['paraphasia_word_level']:
+            asr_brain.train_para_class_count[p]+=1
+    asr_brain.train_para_class_count = 1. / torch.tensor(asr_brain.train_para_class_count, dtype=torch.float)
+    asr_brain.train_para_class_count = asr_brain.train_para_class_count / min(asr_brain.train_para_class_count)
+
 
     # with torch.autograd.detect_anomaly():
     if hparams['train_flag']:

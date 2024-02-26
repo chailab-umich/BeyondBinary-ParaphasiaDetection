@@ -15,6 +15,7 @@ lm_weight: 0.60
 ctc_weight_decode: 0.2
 loss_optimizer: acc
 FT_start: False
+para_type: "pn"
 
 # stages related parameters
 lr_adam: 1.0e-4

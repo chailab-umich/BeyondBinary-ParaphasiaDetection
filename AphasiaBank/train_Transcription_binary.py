@@ -391,24 +391,23 @@ class ASR(sb.Brain):
 
         # Reset epoch_counter for FT
         if self.hparams.FT_start and isinstance(epoch_counter, sb.utils.epoch_loop.EpochCounterWithStopper):
-            print(f"epoch_counter:\n curr: {epoch_counter.current}\n" 
+            # since its being FT, reset with current
+            print(f"PRE curr: {epoch_counter.current}\n" 
                   f"limit: {epoch_counter.limit}\n"
                   f"last_best_epoch: {epoch_counter.best_limit}\n"
                   f"limit_to_stop: {epoch_counter.limit_to_stop}\n"
-                  f"limit_warmup: {epoch_counter.limit_warmup}")
-            # since its being FT, reset with current
-            self.epoch_counter_limit_to_stop_FT = epoch_counter.limit_to_stop
+                  f"limit_warmup: {epoch_counter.limit_warmup}\n"
+                  f"th: {epoch_counter.th}\n")
+            
             self.epoch_counter_limit_warmup_FT = epoch_counter.limit_warmup
-            epoch_counter.limit_to_stop = epoch_counter.current + self.epoch_counter_limit_to_stop_FT
             epoch_counter.limit_warmup = epoch_counter.current + self.epoch_counter_limit_warmup_FT
 
-
-            print(f"POST epoch_counter:\n curr: {epoch_counter.current}\n" 
+            print(f"curr: {epoch_counter.current}\n" 
                   f"limit: {epoch_counter.limit}\n"
                   f"last_best_epoch: {epoch_counter.best_limit}\n"
-                  f"patience: {epoch_counter.current - epoch_counter.best_limit}\n"
                   f"limit_to_stop: {epoch_counter.limit_to_stop}\n"
-                  f"limit_warmup: {epoch_counter.limit_warmup}")
+                  f"limit_warmup: {epoch_counter.limit_warmup}\n"
+                  f"th: {epoch_counter.th}\n")
 
 
         # Iterate epochs
@@ -416,12 +415,23 @@ class ASR(sb.Brain):
             self._fit_train(train_set=train_set, epoch=epoch, enable=enable)
             self._fit_valid(valid_set=valid_set, epoch=epoch, enable=enable)
 
+
             # epoch_counter.update_metric(self.valid_loss)
             if isinstance(epoch_counter, sb.utils.epoch_loop.EpochCounterWithStopper):
                 if hasattr(self.hparams, "loss_optimizer") and self.hparams.loss_optimizer == 'acc' and epoch_counter.should_stop(current=epoch, current_metric=self.valid_acc):
                     epoch_counter.current = epoch_counter.limit
                 elif hasattr(self.hparams, "loss_optimizer") and self.hparams.loss_optimizer == 'loss' and epoch_counter.should_stop(current=epoch, current_metric=self.valid_loss):
                     epoch_counter.current = epoch_counter.limit
+
+            print(f"curr: {epoch_counter.current}\n" 
+                  f"limit: {epoch_counter.limit}\n"
+                  f"last_best_epoch: {epoch_counter.best_limit}\n"
+                  f"patience: {epoch_counter.current - epoch_counter.best_limit}\n"
+                  f"limit_to_stop: {epoch_counter.limit_to_stop}\n"
+                  f"limit_warmup: {epoch_counter.limit_warmup}\n"
+                  f"th: {epoch_counter.th}\n"
+                  f"curr valid loss: {self.valid_loss}\n"
+                  )
 
             # tensorboard
             self.tb.add_scalar("train_loss", self.tb_avg_train_loss, epoch)
@@ -629,7 +639,7 @@ def dataio_prepare(hparams,tokenizer):
     @sb.utils.data_pipeline.provides(
         "wrd", "transcription_para", "tokens_list", "tokens_bos", "tokens_eos", "tokens"
     )
-    def text_pipeline(wrd,aug_para):
+    def text_pipeline_pn(wrd,aug_para):
         yield wrd
         transcription_para = aug_para.replace("/c","")
         transcription_para = transcription_para.replace("/n"," [pn]")
@@ -644,7 +654,56 @@ def dataio_prepare(hparams,tokenizer):
         yield tokens_eos
         tokens = torch.LongTensor(tokens_list)
         yield tokens
-    sb.dataio.dataset.add_dynamic_item(datasets, text_pipeline)
+
+    @sb.utils.data_pipeline.takes("wrd","aug_para")
+    @sb.utils.data_pipeline.provides(
+        "wrd", "transcription_para", "tokens_list", "tokens_bos", "tokens_eos", "tokens"
+    )
+    def text_pipeline_p(wrd,aug_para):
+        yield wrd
+        transcription_para = aug_para.replace("/c","")
+        transcription_para = transcription_para.replace("/n","")
+        transcription_para = transcription_para.replace("/p"," [pn]")
+        transcription_para = transcription_para.replace("/s","")
+        yield transcription_para
+        tokens_list = tokenizer.sp.encode_as_ids(transcription_para)
+        yield tokens_list
+        tokens_bos = torch.LongTensor([hparams["bos_index"]] + (tokens_list))
+        yield tokens_bos
+        tokens_eos = torch.LongTensor(tokens_list + [hparams["eos_index"]])
+        yield tokens_eos
+        tokens = torch.LongTensor(tokens_list)
+        yield tokens
+    
+    @sb.utils.data_pipeline.takes("wrd","aug_para")
+    @sb.utils.data_pipeline.provides(
+        "wrd", "transcription_para", "tokens_list", "tokens_bos", "tokens_eos", "tokens"
+    )
+    def text_pipeline_n(wrd,aug_para):
+        yield wrd
+        transcription_para = aug_para.replace("/c","")
+        transcription_para = transcription_para.replace("/n"," [pn]")
+        transcription_para = transcription_para.replace("/p","")
+        transcription_para = transcription_para.replace("/s","")
+        yield transcription_para
+        tokens_list = tokenizer.sp.encode_as_ids(transcription_para)
+        yield tokens_list
+        tokens_bos = torch.LongTensor([hparams["bos_index"]] + (tokens_list))
+        yield tokens_bos
+        tokens_eos = torch.LongTensor(tokens_list + [hparams["eos_index"]])
+        yield tokens_eos
+        tokens = torch.LongTensor(tokens_list)
+        yield tokens
+
+    if hparams['para_type'] == "pn":
+        sb.dataio.dataset.add_dynamic_item(datasets, text_pipeline_pn)
+    elif hparams['para_type'] == "p":
+        sb.dataio.dataset.add_dynamic_item(datasets, text_pipeline_p)
+    elif hparams['para_type'] == "n":
+        sb.dataio.dataset.add_dynamic_item(datasets, text_pipeline_n)
+    else:
+        print("unclear para_type")
+        exit(1)
 
     # 4. Set output:
     sb.dataio.dataset.set_output_keys(

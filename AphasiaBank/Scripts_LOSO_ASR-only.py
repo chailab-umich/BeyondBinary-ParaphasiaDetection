@@ -16,6 +16,8 @@ from scipy import stats
 import re
 import socket
 from tqdm import tqdm
+import json
+from helper_scripts.evaluation import *
 
 def find_free_port():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -53,78 +55,8 @@ def compute_maj_class(fold,para_type):
     maj_class_utt = utt_counter.most_common()[0][0]
     return maj_class_utt
 
-## TD
-def TD_helper(true_labels, predicted_labels):
-    TTC = 0
-    for i in range(len(true_labels)):
-        if true_labels[i] == 1:
-            min_distance_for_label = max(i-0,len(true_labels)-i)
-            for j in range(len(predicted_labels)):
-                if true_labels[i] == predicted_labels[j]:
-                    # check for min distance
-                    if abs(i - j) < min_distance_for_label:
-                        min_distance_for_label = abs(i - j)
-
-            TTC += min_distance_for_label
 
 
-    CTT = 0
-    for j in range(len(predicted_labels)):
-        if predicted_labels[j] == 1:
-            min_distance_for_label = max(i-0,len(predicted_labels)-i)
-            for i in range(len(true_labels)):
-                if true_labels[i] == predicted_labels[j]:
-                    # check for min distance
-                    if abs(i - j) < min_distance_for_label:
-                        min_distance_for_label = abs(i - j)
-
-            CTT += min_distance_for_label
-    # print(f"true_labels: {true_labels} | pred: {predicted_labels}")
-    # print(f"CCT: {CTT} | TTC:{TTC}")
-    # exit()
-    return TTC + CTT
-
-def compute_temporal_distance(true_labels, predicted_labels):
-    # Return list of TDs for each utterance
-    TD_per_utt = []
-    for true_label, pred_label in zip(true_labels, predicted_labels):
-        TD_per_utt.append(TD_helper(true_label, pred_label))
-
-    return sum(TD_per_utt) / len(TD_per_utt)
-    
-
-
-## TTR
-def compute_time_tolerant_scores(true_labels, predicted_labels, n=0):
-    # Input: true_labels and predicted labels is a list of lists of labels
-    # Output: number of TP, FN, FP
-    assert len(true_labels) == len(predicted_labels), "Length of true_labels and predicted_labels must be the same"
-
-    TP = 0  # True Positives
-    FN = 0  # False Negatives
-    FP = 0  # False Positives
-
-    
-    for utt_true, utt_pred in zip(true_labels, predicted_labels):
-        for i, (true_label, predicted_label) in enumerate(zip(utt_true, utt_pred)):
-            neighborhood = utt_pred[max(i-n, 0):min(i+n+1, len(utt_pred))]
-
-            if true_label == 1:
-                if any(label == 1 for label in neighborhood):
-                    TP += 1
-                else:
-                    FN += 1
-
-            elif any(label == 1 for label in neighborhood):
-                FP += 1
-
-    # Calculating precision and recall
-    precision = TP / (TP + FP) if (TP + FP) > 0 else 0
-    recall = TP / (TP + FN) if (TP + FN) > 0 else 0
-
-    # Calculating F1-score
-    f1_score = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0
-    return f1_score, recall
 
 def extract_wer(wer_file):
     with open(wer_file, 'r') as r:
@@ -138,66 +70,7 @@ def extract_wer(wer_file):
 
     return wer_details
   
-def transcription_helper(words, paraphasia):
-    # For a given list of words, return list of paraphasias
-    paraphasia_list = []
-    for i,w in enumerate(words):
-        if w.startswith("[") and w.endswith("]"):
-            # paraphasia found for previous word
-            paraphasia_list.pop(-1)
-            # paraphasia_list.append(w[1:-1])
-            if w[1:-1] == paraphasia:
-                paraphasia_list.append(1)
-            else:
-                paraphasia_list.append(0)
-        else:
-            # paraphasia_list.append('C')
-            paraphasia_list.append(0)
-
-    return paraphasia_list
-    
-def extract_word_level_paraphasias(wer_file,paraphasia):
-    # Extract word-level paraphasias from transcription WER file
-    # Words (no tag -> C)
-
-    # AWER
-    y_true = []
-    y_pred = []
-    with open(wer_file, 'r') as r:
-        lines = r.readlines()
-        switch = 0
-        for line in lines:
-            line = line.strip()
-            if line.startswith("P") and len(line.split()) == 14 and switch == 0:
-                utt_id = line.split()[0][:-1]
-                switch=1
-            elif switch == 1:
-                # ground truth
-                words = [w.strip() for w in line.split(";")]
-                # print(f"GT words: {words}")
-                paraphasia_list = transcription_helper(words,paraphasia)
-                # print(f"GT paraphasia_list: {paraphasia_list}")
-                y_true.append(paraphasia_list)
-                switch = 2
-
-
-            elif switch == 2:
-                switch = 3
-            elif switch ==3:
-                # pred
-                words = [w.strip() for w in line.split(";")]
-                # print(f"PRED words: {words}")
-                paraphasia_list = transcription_helper(words,paraphasia)
-                # print(f"PRED paraphasia_list: {paraphasia_list}")
-                # if 'p' in paraphasia_list or 'n' in paraphasia_list:
-                    # exit()
-                y_pred.append(paraphasia_list)
-                switch = 0
-                # assert len(pred) == len(gt)
-
-    return y_true, y_pred
-
-def get_metrics(fold_dir, paraphasia):
+def get_metrics(fold_dir):
     '''
     Compute WER metric for a given fold dir
     Compile list of lists y_true and y_pred for paraphasia analysis
@@ -206,15 +79,13 @@ def get_metrics(fold_dir, paraphasia):
     wer_details = extract_wer(wer_file)
 
 
-    # Extract paraphasia sequence from wer.txt
-    list_list_ytrue, list_list_ypred = extract_word_level_paraphasias(wer_file, paraphasia)
-
     result_df = pd.DataFrame({
         'wer-err': [wer_details['err']],
         'wer-tot': [wer_details['tot']],
+        'wer-fold': [wer_details['err']/wer_details['tot']],
     })
 
-    return result_df, list_list_ytrue, list_list_ypred
+    return result_df
     
 
 # Model Run
@@ -291,7 +162,7 @@ def change_yaml(yaml_src,yaml_target,data_fold_dir,frid_fold,output_neurons,outp
 if __name__ == "__main__":
     DATA_ROOT = "/home/mkperez/speechbrain/AphasiaBank/data/Fridriksson_para_best_Word"
 
-    TRAIN_FLAG = True
+    TRAIN_FLAG = False
     EVAL_FLAG = True
     OUTPUT_NEURONS=500
     FREEZE_ARCH = False
@@ -348,67 +219,26 @@ if __name__ == "__main__":
 
     ##  Stat computation
     if EVAL_FLAG:
-        PARAPHASIA_EVAL = ['p', 'n', 's', 'multi']
         results_dir = f"{EXP_DIR}/results"
         os.makedirs(results_dir, exist_ok=True)
 
         df_list = []
-        list_list_ytrue_aggregate = []
-        list_list_ypred_aggregate = []
 
         for i in range(1,13):
             Fold_dir = f"{EXP_DIR}/Fold-{i}"
-            result_df, list_list_ytrue, list_list_ypred = get_metrics(Fold_dir,PARAPHASIA_EVAL)
-            list_list_ytrue_aggregate.extend(list_list_ytrue)
-            list_list_ypred_aggregate.extend(list_list_ypred)
-            # print(f"list_list_ytrue_aggregate len: {len(list_list_ytrue_aggregate)}")
+            result_df = get_metrics(Fold_dir)
             df_list.append(result_df)
         df = pd.concat(df_list)
 
-
-        # Recall-f1 localization
-        zero_f1, zero_recall = compute_time_tolerant_scores(list_list_ytrue_aggregate, list_list_ypred_aggregate, n=0)
-        one_f1, one_recall = compute_time_tolerant_scores(list_list_ytrue_aggregate, list_list_ypred_aggregate, n=1)
-        two_f1, two_recall = compute_time_tolerant_scores(list_list_ytrue_aggregate, list_list_ypred_aggregate, n=2)
-
-        # TD
-        TD_per_utt = compute_temporal_distance(list_list_ytrue, list_list_ypred)
-
-        with open(f"{results_dir}/Frid_metrics_{PARAPHASIA_EVAL}.txt", 'w') as w:
+        with open(f"{results_dir}/Frid_metrics_multi.txt", 'w') as w:
             for k in ['wer']:
                 wer = df[f'{k}-err'].sum()/df[f'{k}-tot'].sum()
+                wer_mean = df[f'{k}-fold'].mean()
                 print(f"{k}: {wer}")
                 w.write(f"{k}: {wer}\n")
-            
 
-            print("Time Tolerant Recall:")
-            print(f"0: {zero_recall}")
-            print(f"1: {one_recall}")
-            print(f"2: {two_recall}")
-
-            print("Time Tolerant F1")
-            print(f"0: {zero_f1}")
-            print(f"1: {one_f1}")
-            print(f"2: {two_f1}")
-
-            print(f"TD per utt: {TD_per_utt}")  
-
-            w.write(f"Time Tolerant Recall:\n")
-            w.write(f"0: {zero_recall}\n")
-            w.write(f"1: {one_recall}\n")
-            w.write(f"2: {two_recall}\n\n")
-
-            w.write(f"Time Tolerant F1:\n")
-            w.write(f"0: {zero_f1}\n")
-            w.write(f"1: {one_f1}\n")
-            w.write(f"2: {two_f1}\n\n")
-
-            w.write(f"TD per utt: {TD_per_utt}\n\n")
-
-
-        
-
-        
+                print(f"{k}-fold: {df[f'{k}-fold'].mean()} {df[f'{k}-fold'].std()}")
+                w.write(f"{k}-fold: {df[f'{k}-fold'].mean()} {df[f'{k}-fold'].std()}\n")
 
         
 

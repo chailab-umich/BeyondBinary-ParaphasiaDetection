@@ -120,7 +120,7 @@ class ASR(sb.Brain):
         tokens, tokens_lens = batch.tokens
 
         loss_seq = self.hparams.seq_cost(
-            p_seq, tokens_eos, length=tokens_eos_lens
+            p_seq, tokens_eos, length=tokens_eos_lens, weight=self.tokenizer_weight.to(self.device),
         ).sum()
 
         # now as training progresses we use real prediction from the prev step instead of teacher forcing
@@ -711,7 +711,7 @@ if __name__ == "__main__":
 
 
     train_data,valid_data,test_data = dataio_prepare(hparams,tokenizer=tokenizer)
-
+    print("check")
     # Trainer initialization
     asr_brain = ASR(
         modules=hparams["modules"],
@@ -731,6 +731,34 @@ if __name__ == "__main__":
     # asr_brain.modules = asr_brain.modules.float()
     count_parameters(asr_brain.modules)
     asr_brain.tb = SummaryWriter(hparams['tb_logs'])
+
+    # Initialize inverse paraphasia class count
+    asr_brain.tokenizer_weight = [1 for i in range(len(tokens))]
+    asr_brain.train_para_class_count = [0 for _ in range(3)]
+    PARA2INDEX = {p:i for i,p in enumerate(['[p]','[n]','[s]'])}
+    for t in train_data:
+        for p in t['transcription_para'].split():
+            if p in ['[p]','[n]','[s]']:
+                asr_brain.train_para_class_count[PARA2INDEX[p]] += 1
+
+    asr_brain.train_para_class_count = 1. / torch.tensor(asr_brain.train_para_class_count, dtype=torch.float)
+    asr_brain.train_para_class_count = asr_brain.train_para_class_count / min(asr_brain.train_para_class_count)
+    
+    # attach to tokenizer_weight
+    for i,p in enumerate(['[p]','[n]','[s]']):
+        para_weight = asr_brain.train_para_class_count[i]
+        para_id = asr_brain.tokenizer.piece_to_id(p)
+        asr_brain.tokenizer_weight[para_id] = para_weight
+    asr_brain.tokenizer_weight = torch.tensor(asr_brain.tokenizer_weight, dtype=torch.float)
+
+
+    # Initialize inverse paraphasia class count
+    asr_brain.train_para_class_count = [1 for i in range(len(tokens.keys()))]
+    weight_dict = {'[p]': 2, '[n]':4, '[s]':10}
+    for para,weight in weight_dict.items():
+        para_index = asr_brain.tokenizer.piece_to_id(para)
+        asr_brain.train_para_class_count[para_index] = weight
+
 
 
     with torch.autograd.detect_anomaly():

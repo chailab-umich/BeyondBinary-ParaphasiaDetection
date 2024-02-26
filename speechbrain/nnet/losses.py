@@ -409,6 +409,7 @@ def nll_loss(
     label_smoothing=0.0,
     allowed_len_diff=3,
     reduction="mean",
+    weight=None,
 ):
     """Computes negative log likelihood loss.
 
@@ -441,7 +442,7 @@ def nll_loss(
         log_probabilities = log_probabilities.transpose(1, -1)
 
     # Pass the loss function but apply reduction="none" first
-    loss = functools.partial(torch.nn.functional.nll_loss, reduction="none")
+    loss = functools.partial(torch.nn.functional.nll_loss, reduction="none", weight=weight)
     return compute_masked_loss(
         loss,
         log_probabilities,

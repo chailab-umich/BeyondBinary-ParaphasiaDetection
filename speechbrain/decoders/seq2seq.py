@@ -2184,7 +2184,6 @@ class S2STransformerBeamSearchAttention(S2STransformerBeamSearch):
             log_probs, memory, attn = self.forward_step(
                 inp_tokens, memory, enc_states, enc_lens
             )
-            attention_weights.append(attn.detach().cpu())
             log_probs = self.att_weight * log_probs
 
             # Keep the original value
@@ -2362,17 +2361,27 @@ class S2STransformerBeamSearchAttention(S2STransformerBeamSearch):
                 timesteps=max_decode_steps,
             )
 
-        print(f"hyps_and_scores: {hyps_and_scores[0]}")
+        # use the last decoding step as the attention
+        attention_weights = attn
+        # print(f"hyps_and_scores[0] - len : {len(hyps_and_scores[0])}")
+        # print(f"hyps_and_scores[0] shape : {hyps_and_scores[0]}")
+        # print(f"attention len: {len(attention_weights)}")
+        # # attention_weights = torch.stack(attention_weights)
+        # print(f"attention shape[0]: {attention_weights[0].shape}")
+        # print(f"attention shape[-1]: {attention_weights[-1].shape}")
+        # exit()
         (
             topk_hyps,
             topk_scores,
             topk_lengths,
             log_probs,
-        ) = self._get_top_score_prediction(hyps_and_scores, topk=self.topk,)
+            topk_attention_weights,
+        ) = self._get_top_score_prediction(hyps_and_scores, topk=self.topk, attention_weights=attn)
         # pick the best hyp
         predictions = topk_hyps[:, 0, :]
-        print(f"predictions: {predictions.shape}")
-        print(f"attention: {attention_weights.shape} | len: {len(attention_weights)}")
+
+
+   
         predictions = batch_filter_seq2seq_output(
             predictions, eos_id=self.eos_index
         )
@@ -2380,4 +2389,64 @@ class S2STransformerBeamSearchAttention(S2STransformerBeamSearch):
         if self.return_log_probs:
             return predictions, topk_scores, log_probs
         else:
-            return predictions, topk_scores
+            return predictions, topk_scores, topk_attention_weights
+    
+    def _get_top_score_prediction(self, hyps_and_scores, topk, attention_weights):
+        """This method sorts the scores and return corresponding hypothesis and log probs.
+
+        Arguments
+        ---------
+        hyps_and_scores : list
+            To store generated hypotheses and scores.
+        topk : int
+            Number of hypothesis to return.
+        
+        attention_weights : torch.Tensor
+            Use attention from last decoding step
+            3D tensor of attention weights for all hypotheses with shape [Num_beams, num_tokens, num_frames].
+
+        Returns
+        -------
+        topk_hyps : torch.Tensor (batch, topk, max length of token_id sequences)
+            This tensor stores the topk predicted hypothesis.
+        topk_scores : torch.Tensor (batch, topk)
+            The length of each topk sequence in the batch.
+        topk_lengths : torch.Tensor (batch, topk)
+            This tensor contains the final scores of topk hypotheses.
+        topk_log_probs : list
+            The log probabilities of each hypotheses.
+        """
+        top_hyps, top_log_probs, top_scores, top_lengths, top_att_weights = [], [], [], [], []
+        batch_size = len(hyps_and_scores)
+
+        # Collect hypotheses
+        for i in range(len(hyps_and_scores)):
+            hyps, log_probs, scores = zip(*hyps_and_scores[i])
+            top_hyps += hyps
+            top_scores += scores
+            top_log_probs += log_probs
+            top_lengths += [len(hyp) for hyp in hyps]
+            # top_att_weights += [all_attention_weights[j] for j in range(len(hyps))]
+        
+        top_hyps = torch.nn.utils.rnn.pad_sequence(
+            top_hyps, batch_first=True, padding_value=0
+        )
+        top_scores = torch.stack((top_scores), dim=0).view(batch_size, -1)
+        top_lengths = torch.tensor(
+            top_lengths, dtype=torch.int, device=top_scores.device
+        )
+        # Get topk indices
+        topk_scores, indices = top_scores.topk(self.topk, dim=-1)
+        indices = (indices + self.beam_offset.unsqueeze(1)).view(
+            batch_size * self.topk
+        )
+        # Select topk hypotheses
+        topk_hyps = torch.index_select(top_hyps, dim=0, index=indices,)
+        topk_hyps = topk_hyps.view(batch_size, self.topk, -1)
+        topk_lengths = torch.index_select(top_lengths, dim=0, index=indices,)
+        topk_lengths = topk_lengths.view(batch_size, self.topk)
+        topk_log_probs = [top_log_probs[index.item()] for index in indices]
+
+        topk_attention_weights = attention_weights.index_select(0, indices.view(-1) // attention_weights.shape[1]).view(batch_size, topk, -1, attention_weights.shape[-1])
+
+        return topk_hyps, topk_scores, topk_lengths, topk_log_probs, topk_attention_weights

@@ -14,6 +14,7 @@ from speechbrain.lobes.models.transformer.Transformer import (
     get_lookahead_mask,
     get_key_padding_mask,
     NormalizedEmbedding,
+    TransformerDecoder
 )
 from speechbrain.nnet.activations import Swish
 from speechbrain.dataio.dataio import length_to_mask
@@ -504,8 +505,9 @@ class TransformerDecoderASR(TransformerInterface):
             tgt_mask,
         ) = self.make_masks(src, tgt, wav_len, pad_idx=pad_idx)
 
-
+        # print(f"tgtdec1 pre embedding: {tgt.shape}")
         tgt = self.custom_tgt_module(tgt)
+        # print(f"tgtdec1: {tgt.shape}")
         if self.attention_type == "RelPosMHAXL":
             # use standard sinusoidal pos encoding in decoder
             tgt = tgt + self.positional_encoding_decoder(tgt)
@@ -520,6 +522,10 @@ class TransformerDecoderASR(TransformerInterface):
             pos_embs_target = None
             pos_embs_encoder = None
 
+        # if torch.isnan(tgt).any():
+        # print(f"tgt: {tgt.shape}")
+        # if torch.isnan(src).any():
+        # print(f"src: {src.shape}")
         decoder_out, _, mh_attn = self.decoder(
             tgt=tgt,
             memory=src,
@@ -599,6 +605,198 @@ class TransformerDecoderASR(TransformerInterface):
         )
         return prediction, multihead_attns[-1]
 
+    def _init_params(self):
+        for p in self.parameters():
+            if p.dim() > 1:
+                torch.nn.init.xavier_normal_(p)
+
+
+class TransformerScriptParaDecoder(TransformerInterface):
+    """
+    Decoder w/ target script data
+    """
+
+    def __init__(
+        self,
+        tgt_vocab,
+        input_size,
+        d_model=512,
+        nhead=8,
+        num_encoder_layers=6,
+        num_decoder_layers=6,
+        d_ffn=2048,
+        dropout=0.1,
+        activation=nn.ReLU,
+        positional_encoding="fixed_abs_sine",
+        normalize_before=False,
+        kernel_size: Optional[int] = 31,
+        bias: Optional[bool] = True,
+        encoder_module: Optional[str] = "transformer",
+        conformer_activation: Optional[nn.Module] = Swish,
+        attention_type: Optional[str] = "regularMHA",
+        max_length: Optional[int] = 2500,
+        causal: Optional[bool] = True,
+
+    ):
+        super().__init__(
+            d_model=d_model,
+            nhead=nhead,
+            num_encoder_layers=num_encoder_layers,
+            num_decoder_layers=num_decoder_layers,
+            d_ffn=d_ffn,
+            dropout=dropout,
+            activation=activation,
+            positional_encoding=positional_encoding,
+            normalize_before=normalize_before,
+            kernel_size=kernel_size,
+            bias=bias,
+            encoder_module=encoder_module,
+            conformer_activation=conformer_activation,
+            attention_type=attention_type,
+            max_length=max_length,
+            causal=causal,
+        )
+
+
+        self.custom_src_module = ModuleList(
+            Linear(
+                input_size=input_size,
+                n_neurons=d_model,
+                bias=True,
+                combine_dims=False,
+            ),
+            torch.nn.Dropout(dropout),
+        )
+
+        # no tgt embedding because not text output
+        # self.custom_tgt_module = ModuleList(
+        #     NormalizedEmbedding(d_model, tgt_vocab)
+        # )
+
+        # embedding for script text
+        self.custom_src_module = ModuleList(
+            NormalizedEmbedding(d_model, tgt_vocab)
+        )
+
+        # reset parameters using xavier_normal_
+        self._init_params()
+
+    def forward(self, src, tgt, wav_len=None, pad_idx=0):
+        """
+        Arguments
+        ----------
+        src : torch.Tensor
+            The sequence to the encoder.
+        tgt : torch.Tensor
+            The sequence to the decoder.
+        wav_len: torch.Tensor, optional
+            Torch Tensor of shape (batch, ) containing the relative length to padded length for each example.
+        pad_idx : int, optional
+            The index for <pad> token (default=0).
+        """
+
+
+
+        (
+            src_key_padding_mask,
+            tgt_key_padding_mask,
+            src_mask,
+            tgt_mask,
+        ) = self.make_masks(src, tgt, wav_len, pad_idx=pad_idx)
+
+
+        # src mask = None
+        
+        src = self.custom_src_module(src)
+
+        if self.positional_encoding_type == "fixed_abs_sine":
+            src = src + self.positional_encoding(src)
+            pos_embs_target = None
+            pos_embs_encoder = None
+
+
+        # print(f"src: {src.shape}")
+        # print(f"tgt: {tgt.shape}")
+        decoder_out, _, mh_attn = self.decoder(
+            tgt=tgt,
+            memory=src,
+            memory_mask=src_mask,
+            tgt_mask=tgt_mask,
+            tgt_key_padding_mask=tgt_key_padding_mask,
+            memory_key_padding_mask=src_key_padding_mask,
+            pos_embs_tgt=pos_embs_target,
+            pos_embs_src=pos_embs_encoder,
+        )
+
+
+
+        return decoder_out, mh_attn
+
+    def make_masks(self, src, tgt, wav_len=None, pad_idx=0):
+        """This method generates the masks for training the transformer model.
+
+        Arguments
+        ---------
+        src : tensor
+            The sequence to the encoder (required).
+        tgt : tensor
+            The sequence to the decoder (required).
+        pad_idx : int
+            The index for <pad> token (default=0).
+        """
+        src_key_padding_mask = None
+        if wav_len is not None:
+            abs_len = torch.round(wav_len * src.shape[1])
+            src_key_padding_mask = ~length_to_mask(abs_len).bool()
+
+        tgt_key_padding_mask = get_key_padding_mask(tgt, pad_idx=pad_idx)
+
+        src_mask = None
+        tgt_mask = get_lookahead_mask(tgt)
+        return src_key_padding_mask, tgt_key_padding_mask, src_mask, tgt_mask
+
+    @torch.no_grad()
+    def decode(self, tgt, encoder_out, enc_len=None):
+        """This method implements a decoding step for the transformer model.
+
+        Arguments
+        ---------
+        tgt : torch.Tensor
+            The sequence to the decoder.
+        encoder_out : torch.Tensor
+            Hidden output of the encoder.
+        enc_len : torch.LongTensor
+            The actual length of encoder states.
+        """
+        tgt_mask = get_lookahead_mask(tgt)
+        src_key_padding_mask = None
+        if enc_len is not None:
+            src_key_padding_mask = (1 - length_to_mask(enc_len)).bool()
+
+        tgt = self.custom_tgt_module(tgt)
+        if self.attention_type == "RelPosMHAXL":
+            # we use fixed positional encodings in the decoder
+            tgt = tgt + self.positional_encoding_decoder(tgt)
+            encoder_out = encoder_out + self.positional_encoding_decoder(
+                encoder_out
+            )
+            # pos_embs_target = self.positional_encoding(tgt)
+            pos_embs_encoder = None  # self.positional_encoding(src)
+            pos_embs_target = None
+        elif self.positional_encoding_type == "fixed_abs_sine":
+            tgt = tgt + self.positional_encoding(tgt)  # add the encodings here
+            pos_embs_target = None
+            pos_embs_encoder = None
+
+        prediction, _, multihead_attns = self.decoder(
+            tgt,
+            encoder_out,
+            tgt_mask=tgt_mask,
+            memory_key_padding_mask=src_key_padding_mask,
+            pos_embs_tgt=pos_embs_target,
+            pos_embs_src=pos_embs_encoder,
+        )
+        return prediction, multihead_attns[-1]
 
     def _init_params(self):
         for p in self.parameters():

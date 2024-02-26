@@ -35,7 +35,7 @@ tb_logs: !ref <output_folder>/tb_logs
 
 
 # stages related parameters
-lr_adam: 0.0005
+lr_adam: 1.0e-4
 
 # Data files
 train_splits: ["train"]
@@ -49,7 +49,7 @@ test_csv: !ref <data_dir>/test_multi.csv
 
 # Training parameters
 auto_mix_prec: False
-max_length: 10 # change to 20
+max_length: 18 # change to 20
 min_length: 0.5
 max_sev_train: 4
 min_sev_train: -1
@@ -60,7 +60,7 @@ min_sev_train: -1
 # Empirically, we found that this value should be >= 128.
 # Please, set your parameters accordingly.
 number_of_epochs: 35
-batch_size: 10 # This works for 1x GPU with 40GB with no dynamic batching
+batch_size: 4 # This works for 1x GPU with 40GB with no dynamic batching
 ctc_weight: 0.2
 grad_accumulation_factor: 4
 max_grad_norm: 5.0

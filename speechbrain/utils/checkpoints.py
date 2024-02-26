@@ -968,6 +968,7 @@ class Checkpointer:
             # NOTE: We want the checkpoint namedtuple to have the paramfile
             # paths for each recoverable.
             # In some rare case, the user can e.g. add a path there manually.
+            # print(f"{name} - {obj}")
             try:
                 loadpath = checkpoint.paramfiles[name]
             except KeyError:
