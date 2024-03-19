@@ -1,5 +1,6 @@
 '''
 Process wer data for bootstrap test
+/home/mkperez/scratch/asr_stat_significance
 '''
 import os
 import seaborn as sns
@@ -10,6 +11,11 @@ import jiwer
 from statsmodels.stats.anova import AnovaRM
 from statsmodels.stats.multicomp import pairwise_tukeyhsd
 from tqdm import tqdm
+import shutil
+import sys
+sys.path.append('/home/mkperez/scratch/speechbrain/AphasiaBank/helper_scripts')
+from evaluation import *
+
 ## GPT##
 def extract_transcript(wer_path):
     '''
@@ -78,75 +84,55 @@ def compile_predictions_labels_awer(results_dict, labels_dict):
     for utt_id, label_aug_para in labels_dict.items():
         if utt_id not in results_dict:
             continue
-        
+
+        # remove eps
+        label_aug_para = [l for l in label_aug_para if '<eps>' not in l]
+
         # WER
         result_dict = results_dict[utt_id]
         pred_WER = [f"{k.split('_')[1]}" for k,v in result_dict.items() if '<eps>' not in k]
-        pred_WER_str = " ".join(pred_WER)
-        word_recognition_labels = [l.split("/")[0] for l in label_aug_para]
-        word_recognition_labels_str = " ".join(word_recognition_labels)
-        measures = jiwer.compute_measures(word_recognition_labels_str, pred_WER_str)
-        wer_err = measures['substitutions'] + measures['deletions'] + measures['insertions']
-        wer_tot = measures['substitutions'] + measures['deletions'] + measures['insertions'] + measures['hits']
+        word_recognition_labels = [l.split("/")[0] for l in label_aug_para if l != '<eps>']
+        wer = compute_AWER_lists([word_recognition_labels], [pred_WER])
         
         
-
         # AWER
         result_dict = results_dict[utt_id]
         pred_AWER = [f"{k.split('_')[1]}/{PARAPHASIA_KEY[v]}" for k,v in result_dict.items() if '<eps>' not in k]
-        pred_AWER_str = " ".join(pred_AWER)
-        label_aug_para_str = " ".join(label_aug_para)
-        measures = jiwer.compute_measures(label_aug_para_str, pred_AWER_str)
-        awer_err = measures['substitutions'] + measures['deletions'] + measures['insertions']
-        awer_tot = measures['substitutions'] + measures['deletions'] + measures['insertions'] + measures['hits']
-
+        awer = compute_AWER_lists([label_aug_para], [pred_AWER])
+        
         # AWER_disj
         pred_AWER_disj = [f"{k.split('_')[1]} {PARAPHASIA_KEY[v]}" for k,v in result_dict.items() if '<eps>' not in k]
-        pred_AWER_disj_str = " ".join(pred_AWER_disj)
         label_aug_para_disj = [f"{p.split('/')[0]} {p.split('/')[1]}" for p in label_aug_para]
-        label_aug_para_disj_str = " ".join(label_aug_para_disj)
-        measures = jiwer.compute_measures(label_aug_para_disj_str, pred_AWER_disj_str)
-        awer_disj_err = measures['substitutions'] + measures['deletions'] + measures['insertions']
-        awer_disj_tot = measures['substitutions'] + measures['deletions'] + measures['insertions'] + measures['hits']
+        pred_AWER_disj = " ".join(pred_AWER_disj).split()
+        label_aug_para_disj = " ".join(label_aug_para_disj).split()
+        # exit()
+        awer_disj = compute_AWER_lists([label_aug_para_disj], [pred_AWER_disj])
 
         # AWER PD
         pred_AWER_PD = [f"{PARAPHASIA_KEY[v]}" if PARAPHASIA_KEY[v] in ['p','n'] else f"{k.split('_')[1]} {PARAPHASIA_KEY[v]}" for k,v in result_dict.items()]
         pred_AWER_PD = [x for x in pred_AWER_PD if '<eps>' not in x]
-        pred_AWER_PD_str = " ".join(pred_AWER_PD)
         label_aug_para_PD = [f"{p.split('/')[1]}" if p.split('/')[1] in ['p','n'] else f"{p.split('/')[0]} {p.split('/')[1]}" for p in label_aug_para]
         label_aug_para_PD = [x for x in label_aug_para_PD if '<eps>' not in x]
-        label_aug_PD_str = " ".join(label_aug_para_PD)
-        measures = jiwer.compute_measures(label_aug_PD_str, pred_AWER_PD_str)
-        awer_pd_err = measures['substitutions'] + measures['deletions'] + measures['insertions']
-        awer_pd_tot = measures['substitutions'] + measures['deletions'] + measures['insertions'] + measures['hits']
+        pred_AWER_PD = " ".join(pred_AWER_PD).split()
+        label_aug_para_PD = " ".join(label_aug_para_PD).split()
+        awer_PD = compute_AWER_lists([label_aug_para_PD], [pred_AWER_PD])
 
 
         df_loc = pd.DataFrame({
             'uids': [utt_id],
-            'wer-err': [wer_err],
-            'wer-tot': [wer_tot],
-            'awer-err': [awer_err],
-            'awer-tot': [awer_tot],
-            'awer-disj-err': [awer_disj_err],
-            'awer-disj-tot': [awer_disj_tot],
-            'awer-PD-err': [awer_pd_err],
-            'awer-PD-tot': [awer_pd_tot],
+            'wer-err': wer['err'],
+            'wer-tot': wer['tot'],
+            'awer-err': awer['err'],
+            'awer-tot': awer['tot'],
+            'awer-disj-err': awer_disj['err'],
+            'awer-disj-tot': awer_disj['tot'],
+            'awer-PD-err': awer_PD['err'],
+            'awer-PD-tot': awer_PD['tot'],
         })
+
         df_list.append(df_loc)
     return pd.concat(df_list)
 
-
-def compute_fold_stats(df):
-    df = df.drop(columns=['model','uids'])
-    tot_stats = df.groupby('fold').sum()
-
-    metrics = ['wer', 'awer','awer-disj', 'awer-PD']
-    for k in metrics:
-        tot_stats[k] = tot_stats[f'{k}-err'] / tot_stats[f'{k}-tot']
-        print(f"{k}: {tot_stats[k].values.mean()} ({tot_stats[k].values.std()})")
-
-
-    exit()
 
 
 def extract_gpt_df(gpt_dir, model_name):
@@ -188,18 +174,21 @@ def extract_df(sb_dir, model_name):
 
 
 ## prepare file
-def prepare_bootstrap_file(df1, df2):
-    ROOT_STAT = "/home/mkperez/scratch/asr_stat_significance/AphasiaBank"
+def prepare_bootstrap_file(wdir, df1, df2, speaker_bool):
     model_1, model_2 = df1['model'].values[0], df2['model'].values[0]
 
     # sort by uids
     df1 = df1.sort_values(by='uids')
     df2 = df2.sort_values(by='uids')
-
-    for stat in ['wer', 'awer-disj', 'awer-PD']:
-        filename = f"{ROOT_STAT}/{model_1}_{model_2}_{stat}.txt"
+    # print(df1)
+    # exit()
+    # for stat in ['wer', 'awer-disj', 'awer-PD']:
+    for stat in ['TD_bin', 'TD_multi', 'TD_p', 'TD_n','TD_s']:
+        filename = f"{wdir}/{model_1}_{model_2}_{stat}.txt"
+        print(f"stat: {stat}")
         with open(filename, 'w') as w:
             assert len(df1) == len(df2)
+            
             for i in tqdm(range(len(df1))):
                 df1_row = df1.iloc[i]
                 df2_row = df2.iloc[i]
@@ -207,9 +196,15 @@ def prepare_bootstrap_file(df1, df2):
                 # print(df2_row)
                 assert df1.iloc[i]['fold'] == df2.iloc[i]['fold']
                 assert df1.iloc[i][f'uids'] == df2.iloc[i][f'uids']
-                w.write(f"{df1.iloc[i][f'{stat}-err']}|{df2.iloc[i][f'{stat}-err']}|{df2.iloc[i][f'{stat}-tot']}|{df2.iloc[i]['fold']}\n")
+                assert df1.iloc[i][f'{stat}-tot'] == df2.iloc[i][f'{stat}-tot'], f"uid: {df1.iloc[i]['uids']} | df1: {df1.iloc[i][f'{stat}-tot']} | df2: {df2.iloc[i][f'{stat}-tot']}"
+                if speaker_bool:
+                    w.write(f"{df1.iloc[i][f'{stat}-err']}|{df2.iloc[i][f'{stat}-err']}|{df2.iloc[i][f'{stat}-tot']}|{df2.iloc[i]['fold']}\n")
+                else:
+                    w.write(f"{df1.iloc[i][f'{stat}-err']}|{df2.iloc[i][f'{stat}-err']}|{df2.iloc[i][f'{stat}-tot']}\n")
 
-
+            # print(f"{stat}")
+            # print(f"{model_1}: {df1[f'{stat}-err'].values.sum() / df1[f'{stat}-tot'].values.sum()}" )
+            # print(f"{model_2}: {df2[f'{stat}-err'].values.sum() / df2[f'{stat}-tot'].values.sum()}" )
         
 
 
@@ -217,19 +212,22 @@ if __name__ == "__main__":
     ROOT_DIR = "/home/mkperez/scratch/speechbrain/AphasiaBank/statistical_analysis/results/multi"
 
 
-    MTL_EXP = "/home/mkperez/scratch/speechbrain/AphasiaBank/ISresults/full_FT_MTL_Scripts/MTL-loss_S2S-hubert-Transformer-500"
-    SS_EXP = "/home/mkperez/scratch/speechbrain/AphasiaBank/ISresults/full_FT_Transcription_Scripts/bpe_ES_S2S-hubert-Transformer-500"
+    MTL_EXP = "/home/mkperez/scratch/speechbrain/AphasiaBank/ISresults/full_FT_MTL_Scripts/MTL-weighted_para/reduce-w_asr_w-0.6_S2S-hubert-Transformer-500"
+    SS_EXP = "/home/mkperez/scratch/speechbrain/AphasiaBank/ISresults/full_FT_Transcription_Scripts/balanced_para_S2S-hubert-Transformer-500"
     ORACLE_EXP = "/home/mkperez/scratch/speechbrain/AphasiaBank/statistical_analysis/results/multi/GPT"
-
+    ROOT_STAT = "/home/mkperez/scratch/asr_stat_significance/AphasiaBank"
+    
+    # clear output dir
+    if os.path.exists(ROOT_STAT):
+        shutil.rmtree(ROOT_STAT)
+    os.makedirs(ROOT_STAT)
 
     df_ss = extract_df(SS_EXP, "SS")
     df_mtl = extract_df(MTL_EXP, "MTL")
     df_oracle = extract_gpt_df(ORACLE_EXP, "GPT")
 
-    compute_fold_stats(df_oracle)
-    exit()
-
-    prepare_bootstrap_file(df_ss, df_mtl)
-    prepare_bootstrap_file(df_ss, df_oracle)
-    prepare_bootstrap_file(df_mtl, df_oracle)
+    speaker_fold_bool = True
+    prepare_bootstrap_file(ROOT_STAT,df_ss, df_mtl, speaker_fold_bool)
+    prepare_bootstrap_file(ROOT_STAT,df_ss, df_oracle, speaker_fold_bool)
+    prepare_bootstrap_file(ROOT_STAT,df_mtl, df_oracle, speaker_fold_bool)
 

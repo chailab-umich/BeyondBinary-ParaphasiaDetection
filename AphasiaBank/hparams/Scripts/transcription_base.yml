@@ -116,7 +116,7 @@ unk_index: 3
 # Decoding parameters
 min_decode_ratio: 0.0
 max_decode_ratio: 1.0
-valid_search_interval: 100
+valid_search_interval: 10
 lm_weight: 0.10
 ctc_weight_decode: 0.2
 test_beam_size: 75

@@ -10,12 +10,12 @@ import Levenshtein as lev
 import json
 
 ## TD
-def TD_helper(true_labels, predicted_labels):
+def TD_helper_all(true_labels, predicted_labels):
     TTC = 0
     for i in range(len(true_labels)):
         # for paraphasia label
         if true_labels[i] != 'c':
-            min_distance_for_label = max(i-0,len(true_labels)-i)
+            min_distance_for_label = max(i-0,len(true_labels))
             for j in range(len(predicted_labels)):
                 if true_labels[i] == predicted_labels[j]:
                     # check for min distance
@@ -28,7 +28,7 @@ def TD_helper(true_labels, predicted_labels):
     CTT = 0
     for j in range(len(predicted_labels)):
         if predicted_labels[j] != 'c':
-            min_distance_for_label = max(j-0,len(predicted_labels)-j)
+            min_distance_for_label = max(j-0,len(predicted_labels))
             for i in range(len(true_labels)):
                 if true_labels[i] == predicted_labels[j]:
                     # check for min distance
@@ -36,13 +36,93 @@ def TD_helper(true_labels, predicted_labels):
                         min_distance_for_label = abs(i - j)
 
             CTT += min_distance_for_label
-    return TTC + CTT
+    tot_d = (TTC + CTT) / len(true_labels)
+    return tot_d
 
-def compute_temporal_distance(true_labels, predicted_labels):
+def TD_helper_binary(true_labels, predicted_labels):
+    # detect any paraphasia
+    TTC = 0
+    for i in range(len(true_labels)):
+        # for paraphasia label
+        if true_labels[i] != 'c':
+            min_distance_for_label = max(i-0,len(true_labels))
+            for j in range(len(predicted_labels)):
+                if predicted_labels[j] != 'c':
+                    # check for min distance
+                    if abs(i - j) < min_distance_for_label:
+                        min_distance_for_label = abs(i - j)
+
+            TTC += min_distance_for_label
+
+
+    CTT = 0
+    for j in range(len(predicted_labels)):
+        if predicted_labels[j] != 'c':
+            min_distance_for_label = max(j-0,len(predicted_labels))
+            for i in range(len(true_labels)):
+                if true_labels[i] != 'c':
+                    # check for min distance
+                    if abs(i - j) < min_distance_for_label:
+                        min_distance_for_label = abs(i - j)
+
+            CTT += min_distance_for_label
+    tot_d = (TTC + CTT) / len(true_labels)
+    return tot_d
+
+def TD_helper_para_sp(true_labels, predicted_labels, pclass):
+    # print(f"true_labels: {true_labels}")
+    # print(f"predicted_labels: {predicted_labels}")
+    # print(f"pclass: {pclass}")
+
+    TTC = 0
+    for i in range(len(true_labels)):
+        # for paraphasia label
+        if true_labels[i] == pclass:
+            min_distance_for_label = max(i-0,len(true_labels))
+            for j in range(len(predicted_labels)):
+                if true_labels[i] == predicted_labels[j]:
+                    # check for min distance
+                    if abs(i - j) < min_distance_for_label:
+                        min_distance_for_label = abs(i - j)
+
+            TTC += min_distance_for_label
+
+
+    CTT = 0
+    for j in range(len(predicted_labels)):
+        if predicted_labels[j] == pclass:
+            min_distance_for_label = max(j-0,len(predicted_labels))
+            for i in range(len(true_labels)):
+                if true_labels[i] == predicted_labels[j]:
+                    # check for min distance
+                    if abs(i - j) < min_distance_for_label:
+                        min_distance_for_label = abs(i - j)
+
+            CTT += min_distance_for_label
+    tot_d = (TTC + CTT) / len(true_labels)
+    return tot_d
+
+
+def compute_temporal_distance(true_labels, predicted_labels,binary_PD):
     # Return list of TDs for each utterance
     TD_per_utt = []
     for true_label, pred_label in zip(true_labels, predicted_labels):
-        TD_utt = TD_helper(true_label, pred_label)
+        # Binary PD
+        if binary_PD:
+            TD_utt = TD_helper_binary(true_label, pred_label)
+        # Multiclass
+        else:
+            TD_utt = TD_helper_all(true_label, pred_label)
+        TD_per_utt.append(TD_utt)    
+
+    return sum(TD_per_utt) / len(TD_per_utt), TD_per_utt
+
+def compute_temporal_distance_para_sp(true_labels, predicted_labels, para_class):
+    # Return list of TDs for each utterance
+    TD_per_utt = []
+    for true_label, pred_label in zip(true_labels, predicted_labels):
+        # para class
+        TD_utt = TD_helper_para_sp(true_label, pred_label, para_class)
         TD_per_utt.append(TD_utt)    
 
     return sum(TD_per_utt) / len(TD_per_utt), TD_per_utt
@@ -60,17 +140,9 @@ def compute_AWER_lists(list_ytrue, list_ypred):
         ypred_str = " ".join(y_pred)
 
         measures = jiwer.compute_measures(ytrue_str,ypred_str)
-        # print(y_true)
-        # print(y_pred)
-        # print(measures)
-        # exit()
         wer_details['err'].append(measures['substitutions'] + measures['deletions'] + measures['insertions'])
-        # wer_details['tot'].append(measures['substitutions'] + measures['deletions'] + measures['insertions'] + measures['hits'])
         wer_details['tot'].append(len(y_true))
-    #     count+=1
-    #     if count == 7:
-    #         exit()
-    # exit()
+
     return wer_details
 
 
@@ -197,20 +269,21 @@ def display_and_save_dfs(eval_dir,utt_df, fold_df, utt_stats_df, df_utt_stat_sig
             _print_and_log(f"{k}: {err}",w)
         
         # TD
-        avg_TD = utt_df['TD'].values.sum()/len(utt_df['TD'].values)
-        _print_and_log(f"avg TD: {avg_TD}",w)
+        for TD_met in ['TD_bin', 'TD_multi', 'TD_p', 'TD_n','TD_s']:
+            avg_TD = utt_df[TD_met].values.sum()/len(utt_df[TD_met].values)
+            _print_and_log(f"{TD_met}: {avg_TD}",w)
 
-        _print_and_log("____Para Only___",w)
-        for i, row in utt_stats_df.iterrows():
-            _print_and_log(f"{row['para']}: f1={row['f1']} | recall={row['recall']}",w)
+        # _print_and_log("____Para Only___",w)
+        # for i, row in utt_stats_df.iterrows():
+        #     _print_and_log(f"{row['para']}: f1={row['f1']} | recall={row['recall']}",w)
 
 
 
-        # Fold specific stats (mean and std)
-        _print_and_log("____Fold Stats___",w)
-        for k in ['wer','awer','awer_disj', 'awer_PD', 'TD']:
-            log_str = f"{k}: {fold_df[k].values.mean()} ({fold_df[k].values.std()})"
-            _print_and_log(log_str,w)
+        # # Fold specific stats (mean and std)
+        # _print_and_log("____Fold Stats___",w)
+        # for k in ['wer','awer','awer_disj', 'awer_PD', 'TD_bin', 'TD_multi']:
+        #     log_str = f"{k}: {fold_df[k].values.mean()} ({fold_df[k].values.std()})"
+        #     _print_and_log(log_str,w)
 
 
 
@@ -483,8 +556,13 @@ def mtl_get_metrics(fold_dir,fold_num):
     list_list_ypred = extract_paraphasia_class_labels(y_pred)
 
     # TD computation
-    TD_per_utt, TD_list = compute_temporal_distance(list_list_ytrue, list_list_ypred)
+    TD_per_utt_bin, TD_list_bin = compute_temporal_distance(list_list_ytrue, list_list_ypred,True)
+                                                    
+    TD_per_utt_multi, TD_list_multi = compute_temporal_distance(list_list_ytrue, list_list_ypred,False)
 
+    TD_per_utt_p, TD_list_p = compute_temporal_distance_para_sp(list_list_ytrue, list_list_ypred, 'p')
+    TD_per_utt_n, TD_list_n = compute_temporal_distance_para_sp(list_list_ytrue, list_list_ypred, 'n')
+    TD_per_utt_s, TD_list_s = compute_temporal_distance_para_sp(list_list_ytrue, list_list_ypred, 's')
 
     # Combine all utterances (single metric)
     utt_stats_df = pd.DataFrame({
@@ -496,13 +574,18 @@ def mtl_get_metrics(fold_dir,fold_num):
         'awer_disj-tot': awer_disj['tot'],
         'awer_PD-err': awer_PD['err'],
         'awer_PD-tot': awer_PD['tot'],
-        'TD': TD_list
+        'TD_bin': TD_list_bin,
+        'TD_multi': TD_list_multi,
+        'TD_p': TD_list_p,
+        'TD_n': TD_list_n,
+        'TD_s': TD_list_s,
     })
 
     # Compute mean and std across all folds
     fold_stats_df = pd.DataFrame({
         'fold': [fold_num],
-        'TD': [TD_per_utt],
+        'TD_bin': [TD_per_utt_bin],
+        'TD_multi': [TD_per_utt_multi],
         'wer': [sum(wer['err'])/sum(wer['tot'])],
         'awer': [sum(awer['err'])/sum(awer['tot'])],
         'awer_disj': [sum(awer_disj['err'])/sum(awer_disj['tot'])],
@@ -576,10 +659,19 @@ def ss_get_metrics(fold_dir, fold_num):
     for y,p in zip(list_list_ytrue, list_list_ypred):
         assert len(y) == len(p)
 
-    # ANOVA TD
-    TD_per_utt, TD_list = compute_temporal_distance(list_list_ytrue, list_list_ypred)
+
+    # TD computation
+    TD_per_utt_bin, TD_list_bin = compute_temporal_distance(list_list_ytrue, list_list_ypred,True)
+                                                    
+    TD_per_utt_multi, TD_list_multi = compute_temporal_distance(list_list_ytrue, list_list_ypred,False)
+
+    TD_per_utt_p, TD_list_p = compute_temporal_distance_para_sp(list_list_ytrue, list_list_ypred, 'p')
+    TD_per_utt_n, TD_list_n = compute_temporal_distance_para_sp(list_list_ytrue, list_list_ypred, 'n')
+    TD_per_utt_s, TD_list_s = compute_temporal_distance_para_sp(list_list_ytrue, list_list_ypred, 's')
+    # exit()
 
 
+    # Combine all utterances (single metric)
     utt_stats_df = pd.DataFrame({
         'wer-err': wer['err'],
         'wer-tot': wer['tot'],
@@ -589,12 +681,18 @@ def ss_get_metrics(fold_dir, fold_num):
         'awer_disj-tot': awer_disj['tot'],
         'awer_PD-err': awer_PD['err'],
         'awer_PD-tot': awer_PD['tot'],
-        'TD': TD_list
+        'TD_bin': TD_list_bin,
+        'TD_multi': TD_list_multi,
+        'TD_p': TD_list_p,
+        'TD_n': TD_list_n,
+        'TD_s': TD_list_s,
     })
 
+    # Compute mean and std across all folds
     fold_stats_df = pd.DataFrame({
         'fold': [fold_num],
-        'TD': [TD_per_utt],
+        'TD_bin': [TD_per_utt_bin],
+        'TD_multi': [TD_per_utt_multi],
         'wer': [sum(wer['err'])/sum(wer['tot'])],
         'awer': [sum(awer['err'])/sum(awer['tot'])],
         'awer_disj': [sum(awer_disj['err'])/sum(awer_disj['tot'])],
@@ -602,7 +700,7 @@ def ss_get_metrics(fold_dir, fold_num):
     })
 
 
-    # for awer
+    # statistical significance testing (utt-level)
     df_awer_stat_sig = pd.DataFrame({
         'uids': uids,
         'wer-err': wer['err'],
@@ -647,6 +745,19 @@ def para_eval(eval_dir, model_name):
     utt_df = pd.concat(utt_stats)
     fold_df = pd.concat(fold_stats)
     df_utt_stat_sig = pd.concat(stat_sig_utt_df_list)
+    _, TD_list_multi = compute_temporal_distance(y_true, y_pred,False)
+    _, TD_list_bin = compute_temporal_distance(y_true, y_pred,True)
+    _, TD_list_p = compute_temporal_distance_para_sp(y_true, y_pred,'p')
+    _, TD_list_n = compute_temporal_distance_para_sp(y_true, y_pred,'n')
+    _, TD_list_s = compute_temporal_distance_para_sp(y_true, y_pred,'s')
+    df_utt_stat_sig['TD_bin'] = TD_list_bin
+    df_utt_stat_sig['TD_multi'] = TD_list_multi
+    df_utt_stat_sig['TD_p'] = TD_list_p
+    df_utt_stat_sig['TD_n'] = TD_list_n
+    df_utt_stat_sig['TD_s'] = TD_list_s
+
+    # print(fold_df)
+
     
     # utt-level F1-score
     utt_stats_df = utt_level_statistics(y_true, y_pred)
@@ -830,7 +941,12 @@ def GPT_eval(gpt_dir,model_name):
         y_true_fold, y_pred_fold, AWER_dict = compile_predictions_labels_awer(results, labels_dict)
 
         # TD
-        TD_per_utt, TD_utt_list = compute_temporal_distance(y_true_fold, y_pred_fold)
+        TD_per_utt_bin, TD_list_bin = compute_temporal_distance(y_true_fold, y_pred_fold, True)                                 
+        TD_per_utt_multi, TD_list_multi = compute_temporal_distance(y_true_fold, y_pred_fold, False)
+
+        TD_per_utt_p, TD_list_p = compute_temporal_distance_para_sp(y_true_fold, y_pred_fold, 'p')
+        TD_per_utt_n, TD_list_n = compute_temporal_distance_para_sp(y_true_fold, y_pred_fold, 'n')
+        TD_per_utt_s, TD_list_s = compute_temporal_distance_para_sp(y_true_fold, y_pred_fold, 's')
 
 
         y_true_aggregate.extend(y_true_fold)
@@ -846,12 +962,17 @@ def GPT_eval(gpt_dir,model_name):
             'awer_disj-tot': AWER_dict['awer_disj-tot'],
             'awer_PD-err': AWER_dict['awer_PD-err'],
             'awer_PD-tot': AWER_dict['awer_PD-tot'],
-            'TD': TD_utt_list
+            'TD_bin': TD_list_bin,
+            'TD_multi': TD_list_multi,
+            'TD_p': TD_list_p,
+            'TD_n': TD_list_n,
+            'TD_s': TD_list_s,
         })
 
         fold_stats_df = pd.DataFrame({
             'fold': [i],
-            'TD': [TD_per_utt],
+            'TD_bin': [TD_per_utt_bin],
+            'TD_multi': [TD_per_utt_multi],
             'wer': [sum(AWER_dict['wer-err'])/sum(AWER_dict['wer-tot'])],
             'awer': [sum(AWER_dict['awer-err'])/sum(AWER_dict['awer-tot'])],
             'awer_disj': [sum(AWER_dict['awer_disj-err'])/sum(AWER_dict['awer_disj-tot'])],

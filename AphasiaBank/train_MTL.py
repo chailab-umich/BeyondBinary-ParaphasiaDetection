@@ -75,26 +75,36 @@ def combine_AWER(hyps_para,hyps_asr,predicted_words,tokenizer, ptokenizer):
     p_result = []
     multitoken_result = []
     for t, p in zip(tokenized_out, hyps_para):
+        
+        # end of multiword token
         if t == '▁':
             # start of multi-token word
             if len(multitoken_result) > 0:
-                # p_result.append(int(sum(multitoken_result) > 1))
-                p_result.append(max(multitoken_result))
+                if max(multitoken_result) == 0:
+                    p_result.append(0)
+                else:
+                    p_result.append(find_majority_element(multitoken_result))
 
             multitoken_result = []
+        
         elif t.startswith("▁"):
             if len(multitoken_result) > 0:
-                # p_result.append(int(sum(multitoken_result) > 2))
-                p_result.append(max(multitoken_result))
+                if max(multitoken_result) == 0:
+                    p_result.append(0)
+                else:
+                    p_result.append(find_majority_element(multitoken_result))
             multitoken_result = [p]
+
 
         else:
             multitoken_result.append(p)
 
     # add final multitoken result
     if len(multitoken_result) > 0:
-        # p_result.append(int(sum(multitoken_result) > 1))
-        p_result.append(max(multitoken_result))
+        if max(multitoken_result) == 0:
+            p_result.append(0)
+        else:
+            p_result.append(find_majority_element(multitoken_result))
 
     assert len(predicted_words) == len(p_result), f"Error arrs are of same size:\npredicted_words: {predicted_words}\np_result: {p_result}"
     pred_AWER_list = []
@@ -104,37 +114,6 @@ def combine_AWER(hyps_para,hyps_asr,predicted_words,tokenizer, ptokenizer):
 
 
     return [pred_AWER_list]
-
-def combine_F1(hyps_para,hyps_asr,tokenizer):
-    tokenized_out = [tokenizer.IdToPiece(h) for h in hyps_asr]
-    # print(f"tokenized_out: {tokenized_out}")
-    assert len(tokenized_out) == len(hyps_para), f"Error arrs are of same size:\tokenized_out: {tokenized_out}\hyps_para: {hyps_para}"
-
-    p_result = []
-    multitoken_result = []
-    for t, p in zip(tokenized_out, hyps_para):
-        if t == '▁':
-            # start of multi-token word
-            if len(multitoken_result) > 0:
-                # p_result.append(find_majority_element(multitoken_result))
-                p_result.append(max(multitoken_result))
-
-            multitoken_result = []
-        elif t.startswith("▁"):
-            if len(multitoken_result) > 0:
-                # p_result.append(find_majority_element(multitoken_result))
-                p_result.append(max(multitoken_result))
-            multitoken_result = [p]
-        
-        else:
-            multitoken_result.append(p)
-
-    # add final multitoken result
-    if len(multitoken_result) > 0:
-        # p_result.append(find_majority_element(multitoken_result))
-        p_result.append(max(multitoken_result))
-
-    return p_result
 
 # Define training procedure
 class ASR(sb.Brain):
@@ -951,7 +930,10 @@ if __name__ == "__main__":
             asr_brain.train_para_class_count[p]+=1
     asr_brain.train_para_class_count = 1. / torch.tensor(asr_brain.train_para_class_count, dtype=torch.float)
     asr_brain.train_para_class_count = asr_brain.train_para_class_count / min(asr_brain.train_para_class_count)
-
+    print(asr_brain.train_para_class_count)
+    asr_brain.train_para_class_count = torch.tensor([1.0, 2.0, 4.0, 8.0])
+    print(asr_brain.train_para_class_count)
+    # exit()
 
     # with torch.autograd.detect_anomaly():
     if hparams['train_flag']:

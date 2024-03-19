@@ -886,13 +886,9 @@ if __name__ == "__main__":
     )
 
 
-    # Initialize inverse paraphasia class count
-    asr_brain.train_para_class_count = [0 for i in range(4)]
-    for t in train_data:
-        for p in t['paraphasia_word_level']:
-            asr_brain.train_para_class_count[p]+=1
-    asr_brain.train_para_class_count = 1. / torch.tensor(asr_brain.train_para_class_count, dtype=torch.float)
-    asr_brain.train_para_class_count = asr_brain.train_para_class_count / min(asr_brain.train_para_class_count)
+     # Initialize inverse paraphasia class count
+    asr_brain.train_para_class_count = torch.tensor([1.0, 2.0, 4.0, 8.0])
+    print(asr_brain.train_para_class_count)
 
     train_dataloader_opts = hparams["train_dataloader_opts"]
     valid_dataloader_opts = hparams["valid_dataloader_opts"]

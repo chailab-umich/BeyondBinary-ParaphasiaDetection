@@ -10,26 +10,26 @@ seed: 2000
 
 # reset LR
 FT_start: True
-train_flag: True
-frid_fold: 2
+train_flag: False
+frid_fold: 8
 
 token_type: "bpe" # unigram / bpe
 output_neurons: 500
 para_output_neurons: 4
 
 # Control MTL or interleaved objective
-loss_asr_weight: 0.7
+loss_asr_weight: 0.5
 
 
 __set_seed: !apply:torch.manual_seed [!ref <seed>]
 w2v_model: hubert-large-ls960-ft
 wav2vec2_hub: !ref facebook/<w2v_model>
 
-output_folder: !ref ISresults/full_FT_MTL_Scripts/MTL-weighted_para/asr_w-0.7_S2S-hubert-Transformer-500/Fold-2
+output_folder: !ref ISresults/full_FT_MTL_Scripts/MTL-weighted_para/reduce-w_asr_w-0.5_S2S-hubert-Transformer-500/Fold-8
 wer_file: !ref <output_folder>/wer.txt
 save_folder: !ref <output_folder>/save
 train_log: !ref <output_folder>/train_log.txt
-data_dir: /home/mkperez/speechbrain/AphasiaBank/data/Fridriksson_para_best_Word/Fold_2
+data_dir: /home/mkperez/speechbrain/AphasiaBank/data/Fridriksson_para_best_Word/Fold_8
 data_folder: !ref <data_dir>500
 
 

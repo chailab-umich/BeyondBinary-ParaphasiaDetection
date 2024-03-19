@@ -68,7 +68,8 @@ def change_yaml(yaml_src,yaml_target,data_fold_dir,frid_fold,output_neurons,outp
     # edit target file
     train_flag = True
     reset_LR = True # if true, start lr with init_LR
-    viz_utts = ['P5_P2_SW_C4-2','P8_B2_SA_C1-3','P12_6W_SW_C6-4','P8_T2_SW_C3-3','P2_T6_SW_C3-3','P2_B2_SE_C1-4'] # fold 1
+    # viz_utts = ['P5_P2_SW_C4-2','P8_B2_SA_C1-3','P12_6W_SW_C6-4','P8_T2_SW_C3-3','P2_T6_SW_C3-3','P2_B2_SE_C1-4'] # fold 1
+    viz_utts = ['P8_P2_SV_C4-1', 'P10_6W_SV_C6-6','P12_P2_SA_C5-2','P11_P2_SE_C5-1','P5_P2_SA_C4-0']
     output_dir = f"{output_dir}/Fold-{frid_fold}"
     lr = 5.0e-4
 
@@ -114,10 +115,10 @@ if __name__ == "__main__":
         EXP_DIR = f"ISresults/Transcription_Scripts/vis_dev_S2S-hubert-Transformer-500"
     else:
         BASE_MODEL = f"ISresults/full_FT_Transcription_Proto/bpe_ES_S2S-hubert-Transformer-500"
-        EXP_DIR = f"ISresults/full_FT_Transcription_Scripts/balanced_para_S2S-hubert-Transformer-500"
+        EXP_DIR = f"ISresults/full_FT_Transcription_Scripts/attn_viz_balanced_para_S2S-hubert-Transformer-500"
 
     if TRAIN_FLAG:
-        yaml_src = "/home/mkperez/speechbrain/AphasiaBank/hparams/Scripts/transcription_base.yml"
+        yaml_src = "/home/mkperez/speechbrain/AphasiaBank/hparams/Scripts/transcription_attn_base.yml"
         yaml_target = "/home/mkperez/speechbrain/AphasiaBank/hparams/Scripts/transcription_final.yml"
 
         # yaml_src = "/home/mkperez/speechbrain/AphasiaBank/hparams/Scripts/binary_transcription_base.yml"
@@ -150,10 +151,11 @@ if __name__ == "__main__":
             # p = subprocess.run(cmd)
             count+=1
             print(f"p.returncode: {p.returncode} | retry: {count}")
-            exit()
             if count >=5:
                 print("Too many retries")
                 exit()
+
+            exit()
 
             if p.returncode == 0:
                 i+=1

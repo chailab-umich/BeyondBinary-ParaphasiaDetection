@@ -18,7 +18,7 @@ loss_optimizer: loss
 token_type: "bpe" # unigram / bpe
 output_neurons: 500
 user_defined_symbols: "[p],[n],[s]"
-vis_dev_speakers: ['P5_P2_SW_C4-2', 'P8_B2_SA_C1-3', 'P12_6W_SW_C6-4', 'P8_T2_SW_C3-3', 'P2_T6_SW_C3-3', 'P2_B2_SE_C1-4']
+vis_dev_speakers: ['P8_P2_SV_C4-1', 'P10_6W_SV_C6-6', 'P12_P2_SA_C5-2', 'P11_P2_SE_C5-1', 'P5_P2_SA_C4-0']
 
 # Control MTL or STL objective
 MTL_bool: True
@@ -29,7 +29,7 @@ w2v_model: hubert-large-ls960-ft
 wav2vec2_hub: !ref facebook/<w2v_model>
 
 
-output_folder: !ref ISresults/full_FT_Transcription_Scripts/balanced_para_S2S-hubert-Transformer-500/Fold-1
+output_folder: !ref ISresults/full_FT_Transcription_Scripts/attn_viz_balanced_para_S2S-hubert-Transformer-500/Fold-1
 wer_file: !ref <output_folder>/wer.txt
 save_folder: !ref <output_folder>/save
 train_log: !ref <output_folder>/train_log.txt
@@ -116,7 +116,7 @@ unk_index: 3
 # Decoding parameters
 min_decode_ratio: 0.0
 max_decode_ratio: 1.0
-valid_search_interval: 100
+valid_search_interval: 10
 lm_weight: 0.10
 ctc_weight_decode: 0.2
 test_beam_size: 75
@@ -178,7 +178,7 @@ Adam: !name:torch.optim.Adam
     betas: (0.9, 0.98)
     eps: 0.000000001
 
-valid_search: !new:speechbrain.decoders.S2STransformerBeamSearch
+valid_search: !new:speechbrain.decoders.S2STransformerBeamSearchAttention
     modules: [!ref <Transformer>, !ref <seq_lin>, !ref <ctc_lin>]
     bos_index: !ref <bos_index>
     eos_index: !ref <eos_index>

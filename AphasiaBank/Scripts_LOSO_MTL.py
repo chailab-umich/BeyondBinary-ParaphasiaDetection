@@ -67,7 +67,7 @@ def change_yaml(yaml_src,yaml_target,data_fold_dir,frid_fold,output_neurons,outp
     shutil.copyfile(yaml_src,yaml_target)
 
     # edit target file
-    train_flag = True
+    train_flag = False
     reset_LR = True # if true, start lr with init_LR
     output_dir = f"{output_dir}/Fold-{frid_fold}"
     lr = 5.0e-4 # 1e-3 for frozen arch
@@ -108,7 +108,7 @@ if __name__ == "__main__":
     EVAL_FLAG = True
     OUTPUT_NEURONS=500
     FREEZE_ARCH = False
-    loss_asr_weight = 0.7 # between 0 and 1
+    loss_asr_weight = 0.5 # between 0 and 1
 
     if FREEZE_ARCH:
         BASE_MODEL = f"ISresults/MTL_proto/S2S-hubert-Transformer-500"
@@ -116,16 +116,16 @@ if __name__ == "__main__":
     else:
         BASE_MODEL = f"ISresults/full_FT_MTL_proto/S2S-hubert-Transformer-500"
         # EXP_DIR = f"ISresults/full_FT_MTL_Scripts/MTL-loss_S2S-hubert-Transformer-500"
-        EXP_DIR = f"ISresults/full_FT_MTL_Scripts/MTL-weighted_para/asr_w-{loss_asr_weight}_S2S-hubert-Transformer-500"
+        EXP_DIR = f"ISresults/full_FT_MTL_Scripts/MTL-weighted_para/reduce-w_asr_w-{loss_asr_weight}_S2S-hubert-Transformer-500"
 
     if TRAIN_FLAG:
         yaml_src = "/home/mkperez/speechbrain/AphasiaBank/hparams/Scripts/MTL_base.yml"
         yaml_target = "/home/mkperez/speechbrain/AphasiaBank/hparams/Scripts/MTL_fold.yml"
         start = time.time()
         
-        i=2
+        i=8
         count=0
-        while i <=2:
+        while i <=8:
             data_fold_dir = f"{DATA_ROOT}/Fold_{i}"
 
             change_yaml(yaml_src,yaml_target,data_fold_dir,i,OUTPUT_NEURONS,EXP_DIR,BASE_MODEL,FREEZE_ARCH,loss_asr_weight)

@@ -44,6 +44,8 @@ import re
 import time
 from speechbrain.tokenizers.SentencePiece import SentencePiece
 from torch.utils.tensorboard import SummaryWriter
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 #multi-gpu
 from speechbrain.dataio.dataloader import LoopedLoader
@@ -56,6 +58,34 @@ import gc
 logger = logging.getLogger(__name__)
 
 torch.autograd.set_detect_anomaly(True)
+
+def plot_attention_weights(attention_weights, outputfile, xtick_tokens, utt_id):
+    """
+    Plots a heatmap of attention weights.
+
+    Parameters:
+    - attention_weights: A 2D tensor or array of shape (num_y_labels, num_x_labels) representing attention weights.
+    - x_labels: Optional list of labels for the x-axis (columns).
+    - y_labels: Optional list of labels for the y-axis (rows).
+    """
+    # Convert tensor to numpy array if necessary
+    if not isinstance(attention_weights, np.ndarray):
+        attention_weights = attention_weights.cpu().numpy()
+
+
+    plt.clf()
+    ax = sns.heatmap(attention_weights, fmt=".2f", cmap="YlGnBu", cbar=True)
+    ax.set(xlabel='x', ylabel='y', title=f'{utt_id} Attention Weights Heatmap')
+    plt.xticks(ticks=range(len(xtick_tokens)), labels=xtick_tokens)
+    # Rotate x-tick labels and adjust their size
+    plt.xticks(rotation=90, fontsize='small')
+    # Remove the legend
+    plt.legend().remove()
+    plt.tight_layout()
+
+    fig = ax.get_figure()
+    fig.savefig(outputfile)
+
 
 def props(cls):   
     return [i for i in cls.__dict__.keys() if i[:1] != '_']
@@ -101,7 +131,7 @@ class ASR(sb.Brain):
             if (current_epoch % self.hparams.valid_search_interval == 0):
 
                 if isinstance(self.hparams.valid_search, sb.decoders.S2STransformerBeamSearchAttention):
-                    hyps_asr, attn = self.hparams.valid_search(w2v_out.detach(), wav_lens)
+                    hyps_asr, _, hyps_attn = self.hparams.valid_search(w2v_out.detach(), wav_lens)
                 else:
                     hyps_asr, _ = self.hparams.valid_search(w2v_out.detach(), wav_lens)
 
@@ -149,7 +179,30 @@ class ASR(sb.Brain):
                 self.wer_metric.append(ids, predicted_words, target_words)
                 self.cer_metric.append(ids, predicted_words, target_words)
 
+                # plot metrics
+                if ids[0] in self.hparams.vis_dev_speakers and stage != sb.Stage.TEST:
+                    viz_dir = f"{self.hparams.output_folder}/attn_viz/epoch_{self.epoch}"
+                    if not os.path.exists(viz_dir):
+                        os.makedirs(viz_dir)
 
+
+                    # remove extra dims
+                    print(f"hyps[0]: {hyps[0]}")
+                    print(f"hyps_attn: {hyps_attn}")
+                    # print(f"hyps_attn[0]: {hyps_attn[0].shape}")
+                    attention_two_d = torch.squeeze(hyps_attn[0])
+
+                    # get token (str)
+                    predicted_tokens = [self.tokenizer.IdToPiece(token_id) for token_id in hyps[0]]
+
+                    # flip dims for seaborn plot
+                    attention_two_d = torch.transpose(attention_two_d, 0, 1)
+                    # reduce dim to eos (mirrors seq2seq - filter_seq2seq_output())
+                    attention_two_d = attention_two_d[:,:len(predicted_tokens)] # filter eos token
+
+                    output_file = f"{viz_dir}/{ids[0]}.png"
+                    plot_attention_weights(attention_two_d, output_file, predicted_tokens, ids[0])
+                    
 
             # compute the accuracy of the one-step-forward prediction
             self.acc_metric.append(p_seq, tokens_eos, tokens_eos_lens)
@@ -417,6 +470,7 @@ class ASR(sb.Brain):
 
         # Iterate epochs
         for epoch in epoch_counter:
+            self.epoch = epoch
             self._fit_train(train_set=train_set, epoch=epoch, enable=enable)
             self._fit_valid(valid_set=valid_set, epoch=epoch, enable=enable)
 
