@@ -1,14 +1,8 @@
 #!/usr/bin/env/python3
 """
-S2S with Transformer-encoder and decoder.
-
-Recipe for training a wav2vec-based ctc ASR system with librispeech.
-The system employs wav2vec as its encoder. Decoding is performed with
-ctc greedy decoder.
-To run this recipe, do the followering:
-> python train_with_wav2vec.py hparams/train_{hf,sb}_wav2vec.yaml
-The neural network is trained on CTC likelihood target and character units
-are used as basic recognition tokens.
+Use yaml to indicate data
+Train a single-sequence model
+Perform evaluation
 
 Authors
  * Rudolf A Braun 2022
@@ -448,25 +442,10 @@ class ASR(sb.Brain):
 
         # Reset epoch_counter for FT
         if self.hparams.FT_start and isinstance(epoch_counter, sb.utils.epoch_loop.EpochCounterWithStopper):
-            print(f"epoch_counter:\n curr: {epoch_counter.current}\n" 
-                  f"limit: {epoch_counter.limit}\n"
-                  f"last_best_epoch: {epoch_counter.best_limit}\n"
-                  f"limit_to_stop: {epoch_counter.limit_to_stop}\n"
-                  f"limit_warmup: {epoch_counter.limit_warmup}")
-            # since its being FT, reset with current
             self.epoch_counter_limit_to_stop_FT = epoch_counter.limit_to_stop
             self.epoch_counter_limit_warmup_FT = epoch_counter.limit_warmup
             epoch_counter.limit_to_stop = epoch_counter.current + self.epoch_counter_limit_to_stop_FT
             epoch_counter.limit_warmup = epoch_counter.current + self.epoch_counter_limit_warmup_FT
-
-
-            print(f"POST epoch_counter:\n curr: {epoch_counter.current}\n" 
-                  f"limit: {epoch_counter.limit}\n"
-                  f"last_best_epoch: {epoch_counter.best_limit}\n"
-                  f"patience: {epoch_counter.current - epoch_counter.best_limit}\n"
-                  f"limit_to_stop: {epoch_counter.limit_to_stop}\n"
-                  f"limit_warmup: {epoch_counter.limit_warmup}")
-
 
         # Iterate epochs
         for epoch in epoch_counter:
@@ -860,11 +839,6 @@ if __name__ == "__main__":
                 print(f"ctc: {asr_brain.hparams.test_search.ctc_weight} | lm: {asr_brain.hparams.test_search.lm_weight} | wer: {val_wer} | best_wer: {best_wer}")
             torch.cuda.empty_cache()
 
-    # share variables to other models
-    # torch.distributed.broadcast(best_ctc, src=0)
-    # torch.distributed.broadcast(best_lm, src=0)
-    # best_ctc = round(best_ctc.item(),1)
-    # best_lm = round(best_lm.item(),1)
 
     asr_brain.hparams.test_search.ctc_weight = best_ctc
     asr_brain.hparams.test_search.lm_weight = best_lm

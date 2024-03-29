@@ -14,15 +14,13 @@ train_flag: True
 lm_weight: 0.60
 ctc_weight_decode: 0.2
 loss_optimizer: acc
+
+# used for finetuning
 FT_start: False
 
 # stages related parameters
 lr_adam: 1.0e-4
 
-__set_seed: !apply:torch.manual_seed [!ref <seed>]
-# w2v_model: wavlm-large
-# wav2vec2_hub: !ref microsoft/<w2v_model>
-# w2v_model: wav2vec2-large-960h-lv60-self
 w2v_model: hubert-large-ls960-ft
 wav2vec2_hub: !ref facebook/<w2v_model>
 
@@ -34,8 +32,8 @@ save_folder: !ref <output_folder>/save
 train_log: !ref <output_folder>/train_log.txt
 data_dir: /scratch/emilykmp_root/emilykmp1/mkperez/speechbrain/AphasiaBank/data/Proto-clinical/mtl_paraphasia
 data_folder: !ref <data_dir>
+# paraphasia labels
 user_defined_symbols: "[p],[n],[s]"
-
 tb_logs: !ref <output_folder>/tb_logs
 
 

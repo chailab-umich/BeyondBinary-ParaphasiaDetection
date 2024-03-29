@@ -1,9 +1,9 @@
 '''
-Run through all folds of Fridriksson
+Run through all folds of the Scripts dataset (finetune with train_single-seq.py)
 S2S model jointly optimized for both ASR and paraphasia detection
-Model is first trained on proto dataset and PD is on 'pn'
 '''
 import os
+import sys
 import shutil
 import subprocess
 import time
@@ -19,6 +19,7 @@ from tqdm import tqdm
 import jiwer
 import Levenshtein as lev
 import json
+sys.path.append("..")
 from helper_scripts.evaluation import *
 
 def find_free_port():
@@ -68,8 +69,6 @@ def change_yaml(yaml_src,yaml_target,data_fold_dir,frid_fold,output_neurons,outp
     # edit target file
     train_flag = True
     reset_LR = True # if true, start lr with init_LR
-    # viz_utts = ['P5_P2_SW_C4-2','P8_B2_SA_C1-3','P12_6W_SW_C6-4','P8_T2_SW_C3-3','P2_T6_SW_C3-3','P2_B2_SE_C1-4'] # fold 1
-    viz_utts = ['P8_P2_SV_C4-1', 'P10_6W_SV_C6-6','P12_P2_SA_C5-2','P11_P2_SE_C5-1','P5_P2_SA_C4-0']
     output_dir = f"{output_dir}/Fold-{frid_fold}"
     lr = 5.0e-4
 
@@ -95,7 +94,6 @@ def change_yaml(yaml_src,yaml_target,data_fold_dir,frid_fold,output_neurons,outp
         filedata = filedata.replace('output_neurons_PLACEHOLDER', f"{output_neurons}")
         filedata = filedata.replace('lr_PLACEHOLDER', f"{lr}")
         filedata = filedata.replace('freeze_ARCH_PLACEHOLDER', f"{freeze_arch_bool}")
-        filedata = filedata.replace('vis_dev_PLACEHOLDER', f"{viz_utts}")
 
         with open(yaml_target,'w') as fout:
             fout.write(filedata)
@@ -110,19 +108,14 @@ if __name__ == "__main__":
     OUTPUT_NEURONS=500
     FREEZE_ARCH = False
 
-    if FREEZE_ARCH:
-        BASE_MODEL = f"ISresults/full_FT_Transcription_Proto/bpe_ES_S2S-hubert-Transformer-500"
-        EXP_DIR = f"ISresults/Transcription_Scripts/vis_dev_S2S-hubert-Transformer-500"
-    else:
-        BASE_MODEL = f"ISresults/full_FT_Transcription_Proto/bpe_ES_S2S-hubert-Transformer-500"
-        EXP_DIR = f"ISresults/full_FT_Transcription_Scripts/attn_viz_balanced_para_S2S-hubert-Transformer-500"
+
+    BASE_MODEL = f"<path>/<to>/<pretrained_model>"
+    EXP_DIR = f"<new_path>/<to>/<finetuned_model>"
 
     if TRAIN_FLAG:
-        yaml_src = "/home/mkperez/speechbrain/AphasiaBank/hparams/Scripts/transcription_attn_base.yml"
-        yaml_target = "/home/mkperez/speechbrain/AphasiaBank/hparams/Scripts/transcription_final.yml"
+        yaml_src = "hparams/finetune_Scripts_base.yml"
+        yaml_target = "hparams/finetune_Scripts_final.yml"
 
-        # yaml_src = "/home/mkperez/speechbrain/AphasiaBank/hparams/Scripts/binary_transcription_base.yml"
-        # yaml_target = "/home/mkperez/speechbrain/AphasiaBank/hparams/Scripts/binary_transcription_final.yml"
         start = time.time()
         
         i=1
@@ -140,11 +133,7 @@ if __name__ == "__main__":
             print(f"free port: {port}")
             cmd = ['torchrun', '--nproc_per_node=1',
                    f'--master_port={str(port)}', 
-                'train_Transcription.py', f'{yaml_target}',]
-            # cmd = ['python', '-m', 'torch.distributed.launch',
-            #        f'--master_port={str(port)}', 
-            #     'train_Transcription_binary.py', f'{yaml_target}',
-            #     '--distributed_launch', '--distributed_backend=nccl', '--find_unused_parameters']
+                'train_single-seq.py', f'{yaml_target}',]
             
             p = subprocess.run(cmd, env=env)
 
@@ -155,7 +144,6 @@ if __name__ == "__main__":
                 print("Too many retries")
                 exit()
 
-            exit()
 
             if p.returncode == 0:
                 i+=1
