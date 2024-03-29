@@ -1,1 +1,0 @@
-rm tests/samples/ASR/train.json tests/samples/ASR/valid.json tests/samples/ASR/test.json

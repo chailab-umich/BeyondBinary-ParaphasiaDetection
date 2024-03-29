@@ -6,7 +6,9 @@ We compare our work against a baseline approach which uses a seq2seq ASR and Cha
 <!-- For more details, please refer to our [paper](https://arxiv.org/abs/2312.10518). -->
 
 # Model Architecture
+## Multi-seq Model
 ![Multi-seq Model](media/multi-seq.png)
+## Single-seq Model
 ![Single-seq Model](media/single-seq.png)
 
 # Example Output
