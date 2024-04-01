@@ -74,14 +74,10 @@ valid_dataloader_opts:
 test_dataloader_opts:
     batch_size: 1
 
-
-
 # Feature parameters
 sample_rate: 16000
 n_fft: 400
 n_mels: 80
-
-
 
 ####################### Model parameters ###########################
 # Transformer
@@ -111,8 +107,6 @@ test_beam_size: 50
 valid_beam_size: 3
 
 ############################## models ################################
-
-
 Transformer: !new:speechbrain.lobes.models.transformer.TransformerASR.TransformerDecoderASR # yamllint disable-line rule:line-length
     input_size: 1280
     tgt_vocab: !ref <output_neurons>
@@ -129,11 +123,11 @@ Transformer: !new:speechbrain.lobes.models.transformer.TransformerASR.Transforme
     causal: False
 
 SSL_enc: !new:speechbrain.lobes.models.huggingface_wav2vec.HuggingFaceWav2Vec2
-   source: !ref <wav2vec2_hub>
-   output_norm: True
-   freeze: False
-   freeze_feature_extractor: True
-   save_path: !ref <save_folder>/wav2vec2_checkpoint
+    source: !ref <wav2vec2_hub>
+    output_norm: True
+    freeze: True
+    freeze_feature_extractor: True
+    save_path: !ref <save_folder>/wav2vec2_checkpoint
 
 
 ctc_lin: !new:speechbrain.nnet.linear.Linear
@@ -212,7 +206,7 @@ ctc_cost: !name:speechbrain.nnet.losses.ctc_loss
 
 
 seq_cost: !name:speechbrain.nnet.losses.nll_loss
-   label_smoothing: 0.1
+    label_smoothing: 0.1
 
 
 noam_annealing: !new:speechbrain.nnet.schedulers.NoamScheduler
@@ -220,10 +214,10 @@ noam_annealing: !new:speechbrain.nnet.schedulers.NoamScheduler
     n_warmup_steps: 25000
 
 lr_annealing: !new:speechbrain.nnet.schedulers.NewBobScheduler
-   initial_value: !ref <lr_adam>
-   improvement_threshold: 0.0025
-   annealing_factor: 0.8
-   patient: 1
+    initial_value: !ref <lr_adam>
+    improvement_threshold: 0.0025
+    annealing_factor: 0.8
+    patient: 1
 
 checkpointer: !new:speechbrain.utils.checkpoints.Checkpointer
     checkpoints_dir: !ref <save_folder>
@@ -235,15 +229,15 @@ checkpointer: !new:speechbrain.utils.checkpoints.Checkpointer
         counter: !ref <epoch_counter>
 
 epoch_counter: !new:speechbrain.utils.epoch_loop.EpochCounterWithStopper
-   limit: !ref <number_of_epochs>
-   limit_to_stop: 5
-   limit_warmup: 5
-   direction: "min"
+    limit: !ref <number_of_epochs>
+    limit_to_stop: 5
+    limit_warmup: 5
+    direction: "min"
 
 
 augmentation: !new:speechbrain.lobes.augment.TimeDomainSpecAugment
-   sample_rate: !ref <sample_rate>
-   speeds: [80, 90, 95, 100, 105, 110, 120]
+    sample_rate: !ref <sample_rate>
+    speeds: [80, 90, 95, 100, 105, 110, 120]
 
 speed_perturb: False
 
@@ -257,5 +251,5 @@ train_logger: !new:speechbrain.utils.train_logger.FileTrainLogger
 
 error_rate_computer: !name:speechbrain.utils.metric_stats.ErrorRateStats
 cer_computer: !name:speechbrain.utils.metric_stats.ErrorRateStats
-   split_tokens: True
+    split_tokens: True
 acc_computer: !name:speechbrain.utils.Accuracy.AccuracyStats

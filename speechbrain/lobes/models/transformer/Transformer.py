@@ -553,7 +553,7 @@ class TransformerDecoderLayer(nn.Module):
             self.mutihead_attn = sb.nnet.attention.RelPosMHAXL(
                 d_model, nhead, dropout, mask_pos_future=causal
             )
-        
+
         self.pos_ffn = sb.nnet.attention.PositionalwiseFeedForward(
             d_ffn=d_ffn,
             input_size=d_model,
@@ -775,7 +775,7 @@ class TransformerDecoder(nn.Module):
                 #     # if torch.isnan(param).any():
                 #     if 'mutihead_attn' in name:
                 #         print(f"{name} - {param}")
-                
+
                 exit()
             self_attns.append(self_attn)
             multihead_attns.append(multihead_attn)

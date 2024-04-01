@@ -35,6 +35,7 @@ import sys
 import torch
 import logging
 import speechbrain as sb
+
 # import speechbrain.speechbrain as sb
 from speechbrain.utils.distributed import run_on_main
 from hyperpyyaml import load_hyperpyyaml
@@ -43,7 +44,8 @@ from datasets import load_dataset, load_metric, Audio
 import re
 import time
 from speechbrain.tokenizers.SentencePiece import SentencePiece
-#multi-gpu
+
+# multi-gpu
 from speechbrain.dataio.dataloader import LoopedLoader
 from speechbrain.dataio.dataloader import SaveableDataLoader
 from torch.utils.data import DataLoader
@@ -57,10 +59,13 @@ logger = logging.getLogger(__name__)
 torch.autograd.set_detect_anomaly(True)
 
 
-def props(cls):   
-    return [i for i in cls.__dict__.keys() if i[:1] != '_']
+def props(cls):
+    return [i for i in cls.__dict__.keys() if i[:1] != "_"]
+
+
 def count_parameters(model):
     return sum(p.numel() for p in model.parameters() if p.requires_grad)
+
 
 def find_majority_element(lst):
     counts = {}
@@ -68,16 +73,19 @@ def find_majority_element(lst):
         counts[num] = counts.get(num, 0) + 1
     return max(counts, key=counts.get)
 
-def combine_AWER(hyps_para,hyps_asr,predicted_words,tokenizer, ptokenizer):
+
+def combine_AWER(hyps_para, hyps_asr, predicted_words, tokenizer, ptokenizer):
     tokenized_out = [tokenizer.IdToPiece(h) for h in hyps_asr]
-    assert len(tokenized_out) == len(hyps_para), f"Error arrs are of same size:\tokenized_out: {tokenized_out}\hyps_para: {hyps_para}"
+    assert len(tokenized_out) == len(
+        hyps_para
+    ), f"Error arrs are of same size:\tokenized_out: {tokenized_out}\hyps_para: {hyps_para}"
     # print(f"tokenized_out: {tokenized_out}")
     p_result = []
     multitoken_result = []
     for t, p in zip(tokenized_out, hyps_para):
-        
+
         # end of multiword token
-        if t == '▁':
+        if t == "▁":
             # start of multi-token word
             if len(multitoken_result) > 0:
                 if max(multitoken_result) == 0:
@@ -86,7 +94,7 @@ def combine_AWER(hyps_para,hyps_asr,predicted_words,tokenizer, ptokenizer):
                     p_result.append(find_majority_element(multitoken_result))
 
             multitoken_result = []
-        
+
         elif t.startswith("▁"):
             if len(multitoken_result) > 0:
                 if max(multitoken_result) == 0:
@@ -94,7 +102,6 @@ def combine_AWER(hyps_para,hyps_asr,predicted_words,tokenizer, ptokenizer):
                 else:
                     p_result.append(find_majority_element(multitoken_result))
             multitoken_result = [p]
-
 
         else:
             multitoken_result.append(p)
@@ -106,14 +113,16 @@ def combine_AWER(hyps_para,hyps_asr,predicted_words,tokenizer, ptokenizer):
         else:
             p_result.append(find_majority_element(multitoken_result))
 
-    assert len(predicted_words) == len(p_result), f"Error arrs are of same size:\npredicted_words: {predicted_words}\np_result: {p_result}"
+    assert len(predicted_words) == len(
+        p_result
+    ), f"Error arrs are of same size:\npredicted_words: {predicted_words}\np_result: {p_result}"
     pred_AWER_list = []
     ptokenizer = [c.upper() for c in ptokenizer]
     for w, p in zip(predicted_words, p_result):
         pred_AWER_list.append(f"{w}/{ptokenizer[p]}")
 
-
     return [pred_AWER_list]
+
 
 # Define training procedure
 class ASR(sb.Brain):
@@ -147,7 +156,6 @@ class ASR(sb.Brain):
         p_para = self.modules.para_seq_lin(out_ASR)
         para_seq = self.hparams.log_softmax(p_para)
 
-
         # Compute outputs
         hyps_para = None
         hyps_asr = None
@@ -156,17 +164,29 @@ class ASR(sb.Brain):
             hyps = None
         elif stage == sb.Stage.VALID:
             current_epoch = self.hparams.epoch_counter.current
-            if (current_epoch % self.hparams.valid_search_interval == 0):
-                hyps_asr, _, hyps_para = self.hparams.valid_search(w2v_out.detach(), wav_lens)
+            if current_epoch % self.hparams.valid_search_interval == 0:
+                hyps_asr, _, hyps_para = self.hparams.valid_search(
+                    w2v_out.detach(), wav_lens
+                )
 
         elif stage == sb.Stage.TEST:
-            hyps_asr, _, hyps_para = self.hparams.test_search(w2v_out.detach(), wav_lens)
+            hyps_asr, _, hyps_para = self.hparams.test_search(
+                w2v_out.detach(), wav_lens
+            )
 
         return p_ctc, p_seq, para_seq, wav_lens, hyps_para, hyps_asr, hyps_attn
-    
+
     def compute_objectives(self, predictions, batch, stage):
         """Computes the loss (CTC+NLL) given predictions and targets."""
-        (p_ctc, p_seq, para_seq, wav_lens, hyps_para, hyps_asr, hyps_attn) = predictions
+        (
+            p_ctc,
+            p_seq,
+            para_seq,
+            wav_lens,
+            hyps_para,
+            hyps_asr,
+            hyps_attn,
+        ) = predictions
         ids = batch.id
         tokens_eos, tokens_eos_lens = batch.tokens_eos
         ptokens_eos, ptokens_eos_lens = batch.ptokens_eos
@@ -183,7 +203,10 @@ class ASR(sb.Brain):
 
         # paraphasia loss
         loss_para_seq = self.hparams.seq_cost(
-            para_seq, ptokens_eos, length=ptokens_lens, weight=self.train_para_class_count.to(self.device)
+            para_seq,
+            ptokens_eos,
+            length=ptokens_lens,
+            weight=self.train_para_class_count.to(self.device)
             # para_seq, ptokens_eos, length=ptokens_lens
         ).sum()
 
@@ -193,22 +216,21 @@ class ASR(sb.Brain):
         # print(f"ptokens: {ptokens}")
         # exit()
         loss_asr = (
-                self.hparams.ctc_weight * loss_ctc
-                + (1 - self.hparams.ctc_weight) * loss_seq
+            self.hparams.ctc_weight * loss_ctc
+            + (1 - self.hparams.ctc_weight) * loss_seq
         )
-        
-        loss_asr_weighted = self.hparams.loss_asr_weight*loss_asr
-        loss_para_seq_weighted = (1-self.hparams.loss_asr_weight)*loss_para_seq
+
+        loss_asr_weighted = self.hparams.loss_asr_weight * loss_asr
+        loss_para_seq_weighted = (
+            1 - self.hparams.loss_asr_weight
+        ) * loss_para_seq
         # print(self.train_para_class_count.to(self.device))
         # print(f"asr: {loss_asr_weighted}")
         # print(f"para_seq: {loss_para_seq} -> {loss_para_seq_weighted}\n")
         # print(f"pred: {para_seq}")
         # print(f"true: {ptokens_eos}")
- 
 
-        loss =  loss_asr_weighted + loss_para_seq_weighted
-
-
+        loss = loss_asr_weighted + loss_para_seq_weighted
 
         if stage != sb.Stage.TRAIN:
             current_epoch = self.hparams.epoch_counter.current
@@ -217,36 +239,49 @@ class ASR(sb.Brain):
                 stage == sb.Stage.TEST
             ):
                 predicted_words = [
-                   self.tokenizer.decode_ids(utt_seq).split(" ") for utt_seq in hyps_asr
+                    self.tokenizer.decode_ids(utt_seq).split(" ")
+                    for utt_seq in hyps_asr
                 ]
-                predicted_words = [[p for p in predicted_words[0] if p != '']] # ensure padding gets trimmed
-   
+                predicted_words = [
+                    [p for p in predicted_words[0] if p != ""]
+                ]  # ensure padding gets trimmed
+
                 target_words = [wrd.split(" ") for wrd in batch.wrd]
                 self.asr_wer_metric.append(ids, predicted_words, target_words)
                 self.asr_cer_metric.append(ids, predicted_words, target_words)
 
                 # combine token-level paraphasia for AWER
-                pred_AWER = combine_AWER(hyps_para[0],hyps_asr[0],predicted_words[0],self.tokenizer, self.ptokenizer)
+                pred_AWER = combine_AWER(
+                    hyps_para[0],
+                    hyps_asr[0],
+                    predicted_words[0],
+                    self.tokenizer,
+                    self.ptokenizer,
+                )
                 target_AWER = [wrd.split(" ") for wrd in batch.aug_para]
                 self.para_wer_metric.append(ids, pred_AWER, target_AWER)
 
                 # Baseline AWER
-                baseline_AWER = [[f'{p}/C' for p_utt in predicted_words for p in p_utt]]
-                self.baseline_awer_metric.append(ids, baseline_AWER, target_AWER)
-                
-                    
+                baseline_AWER = [
+                    [f"{p}/C" for p_utt in predicted_words for p in p_utt]
+                ]
+                self.baseline_awer_metric.append(
+                    ids, baseline_AWER, target_AWER
+                )
 
             # compute the accuracy of the one-step-forward prediction
             self.asr_acc_metric.append(p_seq, tokens_eos, tokens_eos_lens)
             self.para_acc_metric.append(para_seq, ptokens_eos, ptokens_eos_lens)
-        
+
         return loss, loss_asr_weighted, loss_para_seq_weighted
 
     def evaluate_batch(self, batch, stage):
         """Computations needed for validation/test batches"""
         predictions = self.compute_forward(batch, stage=stage)
         with torch.no_grad():
-            loss, loss_asr, loss_para = self.compute_objectives(predictions, batch, stage=stage)
+            loss, loss_asr, loss_para = self.compute_objectives(
+                predictions, batch, stage=stage
+            )
         return loss.detach(), loss_asr.detach(), loss_para.detach()
 
     def on_stage_start(self, stage, epoch):
@@ -257,7 +292,7 @@ class ASR(sb.Brain):
             self.baseline_awer_metric = self.hparams.error_rate_computer()
             self.asr_cer_metric = self.hparams.cer_computer()
             self.asr_wer_metric = self.hparams.error_rate_computer()
-            
+
             self.asr_acc_metric = self.hparams.acc_computer()
             self.para_acc_metric = self.hparams.acc_computer()
 
@@ -271,39 +306,52 @@ class ASR(sb.Brain):
             # multi-gpu decoding
             if self.distributed_launch and stage == sb.Stage.TEST:
                 # stage_stats["ACC"] = self.acc_metric.summarize_dist(self.device)
-                stage_stats["asr-ACC"] = self.asr_acc_metric.summarize_dist(self.device)
-                stage_stats["p-ACC"] = self.para_acc_metric.summarize_dist(self.device)
+                stage_stats["asr-ACC"] = self.asr_acc_metric.summarize_dist(
+                    self.device
+                )
+                stage_stats["p-ACC"] = self.para_acc_metric.summarize_dist(
+                    self.device
+                )
 
-                stage_stats["asr-WER"] = self.asr_wer_metric.summarize_dist("WER","error_rate")
-                stage_stats["asr-CER"] = self.asr_cer_metric.summarize_dist("CER","error_rate")
-                stage_stats["p-AWER"] = self.para_wer_metric.summarize_dist("P-AWER","error_rate")
-                stage_stats["baseline-AWER"] = self.baseline_awer_metric.summarize_dist("B-AWER","error_rate")
+                stage_stats["asr-WER"] = self.asr_wer_metric.summarize_dist(
+                    "WER", "error_rate"
+                )
+                stage_stats["asr-CER"] = self.asr_cer_metric.summarize_dist(
+                    "CER", "error_rate"
+                )
+                stage_stats["p-AWER"] = self.para_wer_metric.summarize_dist(
+                    "P-AWER", "error_rate"
+                )
+                stage_stats[
+                    "baseline-AWER"
+                ] = self.baseline_awer_metric.summarize_dist(
+                    "B-AWER", "error_rate"
+                )
             else:
                 stage_stats["asr-ACC"] = self.asr_acc_metric.summarize()
                 stage_stats["p-ACC"] = self.para_acc_metric.summarize()
 
-            
             # create variable to track
             self.stage_stats = stage_stats
 
-
             current_epoch = self.hparams.epoch_counter.current
             valid_search_interval = self.hparams.valid_search_interval
-            if (
-                current_epoch % valid_search_interval == 0
-            ):
-                stage_stats["asr-WER"] = self.asr_wer_metric.summarize("error_rate")
-                stage_stats["asr-CER"] = self.asr_cer_metric.summarize("error_rate")
-                stage_stats["p-AWER"] = self.para_wer_metric.summarize("error_rate")
-
+            if current_epoch % valid_search_interval == 0:
+                stage_stats["asr-WER"] = self.asr_wer_metric.summarize(
+                    "error_rate"
+                )
+                stage_stats["asr-CER"] = self.asr_cer_metric.summarize(
+                    "error_rate"
+                )
+                stage_stats["p-AWER"] = self.para_wer_metric.summarize(
+                    "error_rate"
+                )
 
         # log stats and save checkpoint at end-of-epoch
         if stage == sb.Stage.VALID and sb.utils.distributed.if_main_process():
-            # lr = self.hparams.noam_annealing.current_lr 
+            # lr = self.hparams.noam_annealing.current_lr
             # newBOB
-            lr, new_lr_model = self.hparams.lr_annealing(
-                stage_stats["loss"]
-            )
+            lr, new_lr_model = self.hparams.lr_annealing(stage_stats["loss"])
             sb.nnet.schedulers.update_learning_rate(
                 self.optimizer, new_lr_model
             )
@@ -331,10 +379,12 @@ class ASR(sb.Brain):
         elif stage == sb.Stage.TEST:
             if sb.utils.distributed.if_main_process():
                 self.hparams.train_logger.log_stats(
-                    stats_meta={"Epoch loaded": self.hparams.epoch_counter.current},
+                    stats_meta={
+                        "Epoch loaded": self.hparams.epoch_counter.current
+                    },
                     test_stats=stage_stats,
                 )
-                
+
                 with open(self.hparams.asr_wer_file, "w") as w:
                     self.asr_wer_metric.write_stats(w)
 
@@ -347,14 +397,15 @@ class ASR(sb.Brain):
                 with open(self.hparams.baseline_awer_file, "w") as w:
                     self.baseline_awer_metric.write_stats(w)
 
-
     def fit_batch(self, batch):
         should_step = self.step % self.grad_accumulation_factor == 0
         # Managing automatic mixed precision
         if self.auto_mix_prec:
             with torch.cuda.amp.autocast():
                 outputs = self.compute_forward(batch, sb.Stage.TRAIN)
-                loss, loss_asr, loss_para = self.compute_objectives(outputs, batch, sb.Stage.TRAIN)
+                loss, loss_asr, loss_para = self.compute_objectives(
+                    outputs, batch, sb.Stage.TRAIN
+                )
             with self.no_sync(not should_step):
                 self.scaler.scale(
                     loss / self.grad_accumulation_factor
@@ -369,7 +420,9 @@ class ASR(sb.Brain):
                 # self.hparams.noam_annealing(self.optimizer)
         else:
             outputs = self.compute_forward(batch, sb.Stage.TRAIN)
-            loss, loss_asr, loss_para = self.compute_objectives(outputs, batch, sb.Stage.TRAIN)
+            loss, loss_asr, loss_para = self.compute_objectives(
+                outputs, batch, sb.Stage.TRAIN
+            )
             with self.no_sync(not should_step):
                 (loss / self.grad_accumulation_factor).backward()
             if should_step:
@@ -380,7 +433,11 @@ class ASR(sb.Brain):
                 # self.hparams.noam_annealing(self.optimizer)
 
         self.on_fit_batch_end(batch, outputs, loss, should_step)
-        return loss.detach().cpu(), loss_asr.detach().cpu(), loss_para.detach().cpu()
+        return (
+            loss.detach().cpu(),
+            loss_asr.detach().cpu(),
+            loss_para.detach().cpu(),
+        )
 
     def on_fit_start(self):
         """Gets called at the beginning of ``fit()``, on multiple processes
@@ -408,7 +465,9 @@ class ASR(sb.Brain):
         if self.hparams.FT_start:
             old_lr = self.hparams.lr_annealing.hyperparam_value
             self.hparams.lr_annealing.hyperparam_value = self.hparams.lr_adam
-            print(f"restart lr: {old_lr} -> {self.hparams.lr_annealing.hyperparam_value}")
+            print(
+                f"restart lr: {old_lr} -> {self.hparams.lr_annealing.hyperparam_value}"
+            )
 
     def make_dataloader(
         self, dataset, stage, ckpt_prefix="dataloader-", **loader_kwargs
@@ -469,10 +528,16 @@ class ASR(sb.Brain):
                 colour=self.tqdm_barcolor["test"],
             ):
                 self.step += 1
-                loss, loss_asr, loss_para = self.evaluate_batch(batch, stage=sb.Stage.TEST)
+                loss, loss_asr, loss_para = self.evaluate_batch(
+                    batch, stage=sb.Stage.TEST
+                )
                 avg_test_loss = self.update_average(loss, avg_test_loss)
-                avg_test_loss_asr = self.update_average(loss_asr, avg_test_loss_asr)
-                avg_test_loss_para = self.update_average(loss_para, avg_test_loss_para)
+                avg_test_loss_asr = self.update_average(
+                    loss_asr, avg_test_loss_asr
+                )
+                avg_test_loss_para = self.update_average(
+                    loss_para, avg_test_loss_para
+                )
 
                 # Profile only if desired (steps allow the profiler to know when all is warmed up)
                 if self.profiler is not None:
@@ -482,7 +547,7 @@ class ASR(sb.Brain):
                 # Debug mode only runs a few batches
                 if self.debug and self.step == self.debug_batches:
                     break
-            
+
             # on every process
             self.on_stage_end(sb.Stage.TEST, avg_test_loss, None)
         self.step = 0
@@ -524,13 +589,17 @@ class ASR(sb.Brain):
         enable = progressbar and sb.utils.distributed.if_main_process()
 
         # Reset epoch_counter for FT
-        if self.hparams.FT_start and isinstance(epoch_counter, sb.utils.epoch_loop.EpochCounterWithStopper):
-            print(f"epoch_counter:\n curr: {epoch_counter.current}\n" 
-                  f"limit: {epoch_counter.limit}\n"
-                  f"last_best_epoch: {epoch_counter.best_limit}\n"
-                  f"limit_to_stop: {epoch_counter.limit_to_stop}\n"
-                  f"limit_warmup: {epoch_counter.limit_warmup}\n"
-                  f"th: {epoch_counter.th}")
+        if self.hparams.FT_start and isinstance(
+            epoch_counter, sb.utils.epoch_loop.EpochCounterWithStopper
+        ):
+            print(
+                f"epoch_counter:\n curr: {epoch_counter.current}\n"
+                f"limit: {epoch_counter.limit}\n"
+                f"last_best_epoch: {epoch_counter.best_limit}\n"
+                f"limit_to_stop: {epoch_counter.limit_to_stop}\n"
+                f"limit_warmup: {epoch_counter.limit_warmup}\n"
+                f"th: {epoch_counter.th}"
+            )
             # # since its being FT, reset with current
             # self.epoch_counter_limit_to_stop_FT = epoch_counter.limit_to_stop
             # self.epoch_counter_limit_warmup_FT = epoch_counter.limit_warmup
@@ -538,49 +607,61 @@ class ASR(sb.Brain):
             # epoch_counter.limit_warmup = epoch_counter.current + self.epoch_counter_limit_warmup_FT
 
             self.epoch_counter_limit_warmup_FT = epoch_counter.limit_warmup
-            epoch_counter.limit_warmup = epoch_counter.current + self.epoch_counter_limit_warmup_FT
+            epoch_counter.limit_warmup = (
+                epoch_counter.current + self.epoch_counter_limit_warmup_FT
+            )
 
-
-            print(f"POST epoch_counter:\n curr: {epoch_counter.current}\n" 
-                  f"limit: {epoch_counter.limit}\n"
-                  f"last_best_epoch: {epoch_counter.best_limit}\n"
-                  f"patience: {epoch_counter.current - epoch_counter.best_limit}\n"
-                  f"limit_to_stop: {epoch_counter.limit_to_stop}\n"
-                  f"limit_warmup: {epoch_counter.limit_warmup}\n"
-                  f"th: {epoch_counter.th}")
-
-
-
+            print(
+                f"POST epoch_counter:\n curr: {epoch_counter.current}\n"
+                f"limit: {epoch_counter.limit}\n"
+                f"last_best_epoch: {epoch_counter.best_limit}\n"
+                f"patience: {epoch_counter.current - epoch_counter.best_limit}\n"
+                f"limit_to_stop: {epoch_counter.limit_to_stop}\n"
+                f"limit_warmup: {epoch_counter.limit_warmup}\n"
+                f"th: {epoch_counter.th}"
+            )
 
         # Iterate epochs
         for epoch in epoch_counter:
             self._fit_train(train_set=train_set, epoch=epoch, enable=enable)
             self._fit_valid(valid_set=valid_set, epoch=epoch, enable=enable)
 
-
-            if isinstance(epoch_counter, sb.utils.epoch_loop.EpochCounterWithStopper) and epoch_counter.should_stop(current=epoch, current_metric=self.valid_loss):
+            if isinstance(
+                epoch_counter, sb.utils.epoch_loop.EpochCounterWithStopper
+            ) and epoch_counter.should_stop(
+                current=epoch, current_metric=self.valid_loss
+            ):
                 epoch_counter.current = epoch_counter.limit
-            
-            print(f"POST epoch_counter:\n curr: {epoch_counter.current}\n" 
-                  f"limit: {epoch_counter.limit}\n"
-                  f"last_best_epoch: {epoch_counter.best_limit}\n"
-                  f"patience: {epoch_counter.current - epoch_counter.best_limit}\n"
-                  f"limit_to_stop: {epoch_counter.limit_to_stop}\n"
-                  f"limit_warmup: {epoch_counter.limit_warmup}\n"
-                  f"th: {epoch_counter.th}")
 
+            print(
+                f"POST epoch_counter:\n curr: {epoch_counter.current}\n"
+                f"limit: {epoch_counter.limit}\n"
+                f"last_best_epoch: {epoch_counter.best_limit}\n"
+                f"patience: {epoch_counter.current - epoch_counter.best_limit}\n"
+                f"limit_to_stop: {epoch_counter.limit_to_stop}\n"
+                f"limit_warmup: {epoch_counter.limit_warmup}\n"
+                f"th: {epoch_counter.th}"
+            )
 
             # tensorboard
-            self.tb.add_scalars('train_loss',{
-                "train_loss": self.tb_avg_train_loss,
-                "train_loss_asr": self.avg_train_loss_asr,
-                "train_loss_para": self.avg_train_loss_para,
-            }, epoch)
-            self.tb.add_scalars('val_loss', {
-                "valid_loss": self.valid_loss,
-                "valid_loss_asr": self.valid_loss_asr,
-                "valid_loss_para": self.valid_loss_para,
-            }, epoch)
+            self.tb.add_scalars(
+                "train_loss",
+                {
+                    "train_loss": self.tb_avg_train_loss,
+                    "train_loss_asr": self.avg_train_loss_asr,
+                    "train_loss_para": self.avg_train_loss_para,
+                },
+                epoch,
+            )
+            self.tb.add_scalars(
+                "val_loss",
+                {
+                    "valid_loss": self.valid_loss,
+                    "valid_loss_asr": self.valid_loss_asr,
+                    "valid_loss_para": self.valid_loss_para,
+                },
+                epoch,
+            )
 
             # self.tb.add_scalar("train_loss", self.tb_avg_train_loss, epoch)
             # self.tb.add_scalar("train_loss_asr", self.avg_train_loss_asr, epoch)
@@ -613,10 +694,16 @@ class ASR(sb.Brain):
                     colour=self.tqdm_barcolor["valid"],
                 ):
                     self.step += 1
-                    loss, loss_asr,loss_para = self.evaluate_batch(batch, stage=sb.Stage.VALID)
+                    loss, loss_asr, loss_para = self.evaluate_batch(
+                        batch, stage=sb.Stage.VALID
+                    )
                     avg_valid_loss = self.update_average(loss, avg_valid_loss)
-                    avg_valid_loss_asr = self.update_average(loss_asr, avg_valid_loss_asr)
-                    avg_valid_loss_para = self.update_average(loss_para, avg_valid_loss_para)
+                    avg_valid_loss_asr = self.update_average(
+                        loss_asr, avg_valid_loss_asr
+                    )
+                    avg_valid_loss_para = self.update_average(
+                        loss_para, avg_valid_loss_para
+                    )
 
                     # Profile only if desired (steps allow the profiler to know when all is warmed up)
                     if self.profiler is not None:
@@ -629,9 +716,15 @@ class ASR(sb.Brain):
 
                 # Only run validation "on_stage_end" on main process
                 self.step = 0
-                self.valid_loss = avg_valid_loss # needed for epoch_counter_Stop
-                self.valid_loss_asr = avg_valid_loss_asr # needed for epoch_counter_Stop
-                self.valid_loss_para = avg_valid_loss_para # needed for epoch_counter_Stop
+                self.valid_loss = (
+                    avg_valid_loss  # needed for epoch_counter_Stop
+                )
+                self.valid_loss_asr = (
+                    avg_valid_loss_asr  # needed for epoch_counter_Stop
+                )
+                self.valid_loss_para = (
+                    avg_valid_loss_para  # needed for epoch_counter_Stop
+                )
                 run_on_main(
                     self.on_stage_end,
                     args=[sb.Stage.VALID, avg_valid_loss, epoch],
@@ -648,7 +741,6 @@ class ASR(sb.Brain):
 
         self.avg_train_loss_asr = 0.0
         self.avg_train_loss_para = 0.0
-
 
         if self.train_sampler is not None and hasattr(
             self.train_sampler, "set_epoch"
@@ -670,10 +762,16 @@ class ASR(sb.Brain):
                     break
                 self.step += 1
                 loss, loss_asr, loss_para = self.fit_batch(batch)
-                self.avg_train_loss = self.update_average(loss, self.avg_train_loss)
-                self.avg_train_loss_asr = self.update_average(loss_asr, self.avg_train_loss_asr)
-                self.avg_train_loss_para = self.update_average(loss_para, self.avg_train_loss_para)
-                
+                self.avg_train_loss = self.update_average(
+                    loss, self.avg_train_loss
+                )
+                self.avg_train_loss_asr = self.update_average(
+                    loss_asr, self.avg_train_loss_asr
+                )
+                self.avg_train_loss_para = self.update_average(
+                    loss_para, self.avg_train_loss_para
+                )
+
                 t.set_postfix(train_loss=self.avg_train_loss)
 
                 # Profile only if desired (steps allow the profiler to know when all is warmed up)
@@ -709,29 +807,30 @@ class ASR(sb.Brain):
         self.step = 0
 
 
-
 def align_labels_to_tokenized_input(wrd, labels, tokenizer, paraphasia_dict):
     words = wrd.split()
     labels = labels.split()
-    assert len(words) == len(labels), "Sentences and labels lists should be of same size."
-    
+    assert len(words) == len(
+        labels
+    ), "Sentences and labels lists should be of same size."
+
     return_labels = []
     return_tokens = []
     for w, l in zip(words, labels):
         # print(f"w: {w} | l: {l}")
         tokenized_word = tokenizer.sp.encode(w, out_type=str)
-        tokenized_label = [paraphasia_dict[l]] *len(tokenized_word)
+        tokenized_label = [paraphasia_dict[l]] * len(tokenized_word)
 
         return_labels.extend(tokenized_label)
         return_tokens.extend(tokenized_word)
 
     return return_tokens, return_labels
 
+
 def dataio_prepare(hparams, tokenizer, ptoknizer):
     """This function prepares the datasets to be used in the brain class.
     It also defines the data processing pipeline through user-defined functions."""
     data_folder = hparams["data_folder"]
-
 
     train_data = sb.dataio.dataset.DynamicItemDataset.from_csv(
         csv_path=hparams["train_csv"], replacements={"data_root": data_folder},
@@ -739,7 +838,8 @@ def dataio_prepare(hparams, tokenizer, ptoknizer):
 
     if hparams["sorting"] == "ascending":
         # we sort training data to speed up training and get better results.
-        train_data = train_data.filtered_sorted(sort_key="duration",
+        train_data = train_data.filtered_sorted(
+            sort_key="duration",
             key_max_value={"duration": hparams["max_length"]},
             # key_max_value={"duration": 0.8},
             key_min_value={"duration": hparams["min_length"]},
@@ -748,7 +848,8 @@ def dataio_prepare(hparams, tokenizer, ptoknizer):
         hparams["train_dataloader_opts"]["shuffle"] = False
     elif hparams["sorting"] == "descending":
         train_data = train_data.filtered_sorted(
-            sort_key="duration", reverse=True,
+            sort_key="duration",
+            reverse=True,
             key_max_value={"duration": hparams["max_length"]},
             # key_max_value={"duration": 0.8},
             key_min_value={"duration": hparams["min_length"]},
@@ -756,26 +857,28 @@ def dataio_prepare(hparams, tokenizer, ptoknizer):
         # when sorting do not shuffle in dataloader ! otherwise is pointless
         hparams["train_dataloader_opts"]["shuffle"] = False
 
-
     valid_data = sb.dataio.dataset.DynamicItemDataset.from_csv(
         csv_path=hparams["valid_csv"], replacements={"data_root": data_folder}
     )
-    valid_data = valid_data.filtered_sorted(sort_key="duration", reverse=True,
+    valid_data = valid_data.filtered_sorted(
+        sort_key="duration",
+        reverse=True,
         key_max_value={"duration": hparams["max_length"]},
         # key_max_value={"duration": 0.8},
-        key_min_value={"duration": hparams["min_length"]}
+        key_min_value={"duration": hparams["min_length"]},
     )
 
     test_data = sb.dataio.dataset.DynamicItemDataset.from_csv(
         csv_path=hparams["test_csv"], replacements={"data_root": data_folder}
     )
-    test_data = test_data.filtered_sorted(sort_key="duration",
+    test_data = test_data.filtered_sorted(
+        sort_key="duration",
         key_max_value={"duration": hparams["max_length"]},
-        key_min_value={"duration": hparams["min_length"]}
+        key_min_value={"duration": hparams["min_length"]},
     )
 
     datasets = [train_data, valid_data, test_data]
-    valtest_datasets = [valid_data,test_data]
+    valtest_datasets = [valid_data, test_data]
 
     # 2. Define audio pipeline:
     @sb.utils.data_pipeline.takes("wav")
@@ -806,15 +909,25 @@ def dataio_prepare(hparams, tokenizer, ptoknizer):
     sb.dataio.dataset.add_dynamic_item([train_data], audio_pipeline_train)
 
     # 3. Define text pipeline:
-    @sb.utils.data_pipeline.takes("wrd","aug_para","paraphasia","id")
+    @sb.utils.data_pipeline.takes("wrd", "aug_para", "paraphasia", "id")
     @sb.utils.data_pipeline.provides(
-        "wrd", "tokens_list", "tokens_bos", "tokens_eos", "tokens",
-        "aug_para", "paraphasia_word_level", "ptokens_bos","ptokens_eos","ptokens"
+        "wrd",
+        "tokens_list",
+        "tokens_bos",
+        "tokens_eos",
+        "tokens",
+        "aug_para",
+        "paraphasia_word_level",
+        "ptokens_bos",
+        "ptokens_eos",
+        "ptokens",
     )
-    def text_pipeline(wrd,aug_para,paraphasia,id):
+    def text_pipeline(wrd, aug_para, paraphasia, id):
         yield wrd
         # align paraphasia labels to tokenized text output
-        _, ptokens_list = align_labels_to_tokenized_input(wrd, paraphasia, tokenizer, ptokenizer)
+        _, ptokens_list = align_labels_to_tokenized_input(
+            wrd, paraphasia, tokenizer, ptokenizer
+        )
         tokens_list = tokenizer.sp.encode_as_ids(wrd)
         yield tokens_list
         tokens_bos = torch.LongTensor([hparams["bos_index"]] + (tokens_list))
@@ -834,14 +947,26 @@ def dataio_prepare(hparams, tokenizer, ptoknizer):
         yield ptokens_eos
         ptokens = torch.LongTensor(ptokens_list)
         yield ptokens
-    sb.dataio.dataset.add_dynamic_item(datasets, text_pipeline)
 
+    sb.dataio.dataset.add_dynamic_item(datasets, text_pipeline)
 
     # 4. Set output:
     sb.dataio.dataset.set_output_keys(
-        datasets, ["id", "sig", "wrd", "tokens_bos", "tokens_eos", "tokens","aug_para","paraphasia_word_level", "ptokens_bos","ptokens_eos","ptokens"],
+        datasets,
+        [
+            "id",
+            "sig",
+            "wrd",
+            "tokens_bos",
+            "tokens_eos",
+            "tokens",
+            "aug_para",
+            "paraphasia_word_level",
+            "ptokens_bos",
+            "ptokens_eos",
+            "ptokens",
+        ],
     )
-
 
     return (
         train_data,
@@ -849,11 +974,13 @@ def dataio_prepare(hparams, tokenizer, ptoknizer):
         test_data,
     )
 
+
 def prep_exp_dir(hparams):
-    save_folder = hparams['save_folder']
+    save_folder = hparams["save_folder"]
     # Saving folder
     if not os.path.exists(save_folder):
         os.makedirs(save_folder)
+
 
 if __name__ == "__main__":
     # CLI:
@@ -874,7 +1001,6 @@ if __name__ == "__main__":
         overrides=overrides,
     )
 
-
     prep_exp_dir(hparams)
 
     # Defining tokenizer and loading it
@@ -890,15 +1016,17 @@ if __name__ == "__main__":
         pad_id=hparams["pad_index"],
         unk_id=hparams["unk_index"],
     )
-    ptokenizer = { 
-                  'c':0,
-                  'p':1,
-                  'n':2,
-                  's':3,
-                }
-    reverse_ptokenizer = ['c','p', 'n', 's']
+    ptokenizer = {
+        "c": 0,
+        "p": 1,
+        "n": 2,
+        "s": 3,
+    }
+    reverse_ptokenizer = ["c", "p", "n", "s"]
 
-    train_data,valid_data,test_data = dataio_prepare(hparams, tokenizer, ptokenizer)
+    train_data, valid_data, test_data = dataio_prepare(
+        hparams, tokenizer, ptokenizer
+    )
 
     # Trainer initialization
     asr_brain = ASR(
@@ -909,34 +1037,39 @@ if __name__ == "__main__":
         checkpointer=hparams["checkpointer"],
     )
 
-
-
     train_dataloader_opts = hparams["train_dataloader_opts"]
     valid_dataloader_opts = hparams["valid_dataloader_opts"]
     asr_brain.tokenizer = tokenizer.sp
     asr_brain.ptokenizer = reverse_ptokenizer
-    tokens = {i:asr_brain.tokenizer.id_to_piece(i) for i in range(asr_brain.tokenizer.get_piece_size())}
-    
+    tokens = {
+        i: asr_brain.tokenizer.id_to_piece(i)
+        for i in range(asr_brain.tokenizer.get_piece_size())
+    }
+
     if sb.utils.distributed.if_main_process():
         # print(f"tokenizer: {tokens} | {len(tokens.keys())}")
         count_parameters(asr_brain.modules)
 
-    asr_brain.tb = SummaryWriter(hparams['tb_logs'])
+    asr_brain.tb = SummaryWriter(hparams["tb_logs"])
 
     # Initialize inverse paraphasia class count
     asr_brain.train_para_class_count = [0 for i in range(4)]
     for t in train_data:
-        for p in t['paraphasia_word_level']:
-            asr_brain.train_para_class_count[p]+=1
-    asr_brain.train_para_class_count = 1. / torch.tensor(asr_brain.train_para_class_count, dtype=torch.float)
-    asr_brain.train_para_class_count = asr_brain.train_para_class_count / min(asr_brain.train_para_class_count)
+        for p in t["paraphasia_word_level"]:
+            asr_brain.train_para_class_count[p] += 1
+    asr_brain.train_para_class_count = 1.0 / torch.tensor(
+        asr_brain.train_para_class_count, dtype=torch.float
+    )
+    asr_brain.train_para_class_count = asr_brain.train_para_class_count / min(
+        asr_brain.train_para_class_count
+    )
     print(asr_brain.train_para_class_count)
     asr_brain.train_para_class_count = torch.tensor([1.0, 2.0, 4.0, 8.0])
     print(asr_brain.train_para_class_count)
     # exit()
 
     # with torch.autograd.detect_anomaly():
-    if hparams['train_flag']:
+    if hparams["train_flag"]:
         asr_brain.fit(
             asr_brain.hparams.epoch_counter,
             train_data,
@@ -944,7 +1077,7 @@ if __name__ == "__main__":
             train_loader_kwargs=hparams["train_dataloader_opts"],
             valid_loader_kwargs=hparams["valid_dataloader_opts"],
         )
-        
+
     print("\nEVALUATE\n")
     # Testing
 
@@ -967,5 +1100,3 @@ if __name__ == "__main__":
     asr_brain.evaluate(
         test_data, test_loader_kwargs=hparams["test_dataloader_opts"]
     )
-
-

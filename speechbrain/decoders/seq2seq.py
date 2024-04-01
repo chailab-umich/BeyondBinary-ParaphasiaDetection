@@ -1520,6 +1520,7 @@ def batch_filter_seq2seq_output(prediction, eos_id=-1):
         outputs.append(res)
     return outputs
 
+
 def batch_filter_seq2seq_output_para(prediction, para, eos_id=-1):
     """
     Filter prediction based on eos
@@ -1529,7 +1530,7 @@ def batch_filter_seq2seq_output_para(prediction, para, eos_id=-1):
     output_para = []
     for p, pa in zip(prediction, para):
         res = filter_seq2seq_output(p.tolist(), eos_id=eos_id)
-        res_para = pa.int().tolist()[:len(res)]
+        res_para = pa.int().tolist()[: len(res)]
         # filter para
         outputs.append(res)
         output_para.append(res_para)
@@ -1650,6 +1651,7 @@ def _update_mem(inp_tokens, memory):
         return inp_tokens.unsqueeze(1)
     return torch.cat([memory, inp_tokens.unsqueeze(1)], dim=-1)
 
+
 class S2STransformerBeamSearchPara(S2SBeamSearcher):
     """This class implements the beam search decoding
     for Transformer.
@@ -1708,7 +1710,7 @@ class S2STransformerBeamSearchPara(S2SBeamSearcher):
         fc_out = self.fc(pred)
         para_out = self.fc_para(pred)
         prob_dist = self.softmax(fc_out / self.temperature)
-        return prob_dist[:, -1, :], memory, attn, para_out[:,-1,:]
+        return prob_dist[:, -1, :], memory, attn, para_out[:, -1, :]
 
     def lm_forward_step(self, inp_tokens, memory):
         """Performs a step in the implemented LM module."""
@@ -1770,12 +1772,18 @@ class S2STransformerBeamSearchPara(S2SBeamSearcher):
         topk_log_probs = [top_log_probs[index.item()] for index in indices]
 
         # Select corresponding topk para_seq
-        topk_para_seq = torch.index_select(para_seqs, dim=0, index=indices.view(-1))
+        topk_para_seq = torch.index_select(
+            para_seqs, dim=0, index=indices.view(-1)
+        )
         topk_para_seq = topk_para_seq.view(batch_size, self.topk, -1)
 
-
-        return topk_hyps, topk_scores, topk_lengths, topk_log_probs, topk_para_seq
-
+        return (
+            topk_hyps,
+            topk_scores,
+            topk_lengths,
+            topk_log_probs,
+            topk_para_seq,
+        )
 
     def forward(self, enc_states, wav_len):  # noqa: C901
         """Applies beamsearch and returns the predicted tokens."""
@@ -1852,7 +1860,9 @@ class S2STransformerBeamSearchPara(S2SBeamSearcher):
         # This variable will be used when using_max_attn_shift=True
         prev_attn_peak = torch.zeros(batch_size * self.beam_size, device=device)
 
-        para_seq = torch.empty(batch_size * self.beam_size, 0, device=device)  # Initialize para_seq
+        para_seq = torch.empty(
+            batch_size * self.beam_size, 0, device=device
+        )  # Initialize para_seq
 
         # print(f"max_decode_steps: {max_decode_steps}")
         for t in range(max_decode_steps):
@@ -2057,14 +2067,17 @@ class S2STransformerBeamSearchPara(S2SBeamSearcher):
             topk_lengths,
             log_probs,
             topk_para_seq,
-        ) = self._get_top_score_prediction(hyps_and_scores, topk=self.topk, para_seqs=para_seq)
+        ) = self._get_top_score_prediction(
+            hyps_and_scores, topk=self.topk, para_seqs=para_seq
+        )
         # pick the best hyp
         predictions = topk_hyps[:, 0, :]
 
         # Get top1 para_seq for each batch
         top1_para_seq_indices = topk_scores.argmax(dim=-1)  # get top1 indices
-        top1_para_seq = topk_para_seq[torch.arange(batch_size), top1_para_seq_indices]
-
+        top1_para_seq = topk_para_seq[
+            torch.arange(batch_size), top1_para_seq_indices
+        ]
 
         # filter para and pred using eos
         predictions, top1_para_seq = batch_filter_seq2seq_output_para(
@@ -2078,6 +2091,7 @@ class S2STransformerBeamSearchPara(S2SBeamSearcher):
             # print(f"top1_para_seq: {top1_para_seq} | {len(top1_para_seq[0])}")`
             # pred. 1st dim is beam search, can choose any for the pred.
             return predictions, topk_scores, top1_para_seq
+
 
 class S2STransformerBeamSearchAttention(S2STransformerBeamSearch):
     """This class implements the beam search decoding
@@ -2172,7 +2186,7 @@ class S2STransformerBeamSearchAttention(S2STransformerBeamSearch):
         # Initialize the previous attention peak to zero
         # This variable will be used when using_max_attn_shift=True
         prev_attn_peak = torch.zeros(batch_size * self.beam_size, device=device)
-        
+
         # Store attention weights
         attention_weights = []
 
@@ -2376,12 +2390,12 @@ class S2STransformerBeamSearchAttention(S2STransformerBeamSearch):
             topk_lengths,
             log_probs,
             topk_attention_weights,
-        ) = self._get_top_score_prediction(hyps_and_scores, topk=self.topk, attention_weights=attn)
+        ) = self._get_top_score_prediction(
+            hyps_and_scores, topk=self.topk, attention_weights=attn
+        )
         # pick the best hyp
         predictions = topk_hyps[:, 0, :]
 
-
-   
         predictions = batch_filter_seq2seq_output(
             predictions, eos_id=self.eos_index
         )
@@ -2390,8 +2404,10 @@ class S2STransformerBeamSearchAttention(S2STransformerBeamSearch):
             return predictions, topk_scores, log_probs
         else:
             return predictions, topk_scores, topk_attention_weights
-    
-    def _get_top_score_prediction(self, hyps_and_scores, topk, attention_weights):
+
+    def _get_top_score_prediction(
+        self, hyps_and_scores, topk, attention_weights
+    ):
         """This method sorts the scores and return corresponding hypothesis and log probs.
 
         Arguments
@@ -2400,7 +2416,7 @@ class S2STransformerBeamSearchAttention(S2STransformerBeamSearch):
             To store generated hypotheses and scores.
         topk : int
             Number of hypothesis to return.
-        
+
         attention_weights : torch.Tensor
             Use attention from last decoding step
             3D tensor of attention weights for all hypotheses with shape [Num_beams, num_tokens, num_frames].
@@ -2416,7 +2432,13 @@ class S2STransformerBeamSearchAttention(S2STransformerBeamSearch):
         topk_log_probs : list
             The log probabilities of each hypotheses.
         """
-        top_hyps, top_log_probs, top_scores, top_lengths, top_att_weights = [], [], [], [], []
+        top_hyps, top_log_probs, top_scores, top_lengths, top_att_weights = (
+            [],
+            [],
+            [],
+            [],
+            [],
+        )
         batch_size = len(hyps_and_scores)
 
         # Collect hypotheses
@@ -2427,7 +2449,7 @@ class S2STransformerBeamSearchAttention(S2STransformerBeamSearch):
             top_log_probs += log_probs
             top_lengths += [len(hyp) for hyp in hyps]
             # top_att_weights += [all_attention_weights[j] for j in range(len(hyps))]
-        
+
         top_hyps = torch.nn.utils.rnn.pad_sequence(
             top_hyps, batch_first=True, padding_value=0
         )
@@ -2447,6 +2469,14 @@ class S2STransformerBeamSearchAttention(S2STransformerBeamSearch):
         topk_lengths = topk_lengths.view(batch_size, self.topk)
         topk_log_probs = [top_log_probs[index.item()] for index in indices]
 
-        topk_attention_weights = attention_weights.index_select(0, indices.view(-1) // attention_weights.shape[1]).view(batch_size, topk, -1, attention_weights.shape[-1])
+        topk_attention_weights = attention_weights.index_select(
+            0, indices.view(-1) // attention_weights.shape[1]
+        ).view(batch_size, topk, -1, attention_weights.shape[-1])
 
-        return topk_hyps, topk_scores, topk_lengths, topk_log_probs, topk_attention_weights
+        return (
+            topk_hyps,
+            topk_scores,
+            topk_lengths,
+            topk_log_probs,
+            topk_attention_weights,
+        )

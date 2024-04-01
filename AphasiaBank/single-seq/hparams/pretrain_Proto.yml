@@ -36,10 +36,6 @@ data_folder: !ref <data_dir>
 user_defined_symbols: "[p],[n],[s]"
 tb_logs: !ref <output_folder>/tb_logs
 
-
-
-
-
 # Data files
 train_splits: ["train"]
 dev_splits: ["dev"]
@@ -99,13 +95,10 @@ dynamic_batch_sampler:
     batch_ordering: random
     max_batch_ex: 64
 
-
 # Feature parameters
 sample_rate: 16000
 n_fft: 400
 n_mels: 80
-
-
 
 #SP
 ####################### Model parameters ###########################
@@ -132,11 +125,8 @@ max_decode_ratio: 1.0
 valid_search_interval: 50
 valid_beam_size: 3
 test_beam_size: 50
-val_attn_ids: ['wright99a-97','MSUC01a-109', 'capilouto33a-494', 'richardson200-69','wright08a-140','ACWT09a-13','adler15a-546','BU10a-508','kurland23b-574','scale05a-91']
 
 ############################## models ################################
-
-
 Transformer: !new:speechbrain.lobes.models.transformer.TransformerASR.TransformerDecoderASR # yamllint disable-line rule:line-length
     input_size: 1280
     tgt_vocab: !ref <output_neurons>
@@ -151,15 +141,13 @@ Transformer: !new:speechbrain.lobes.models.transformer.TransformerASR.Transforme
     attention_type: regularMHA
     normalize_before: True
     causal: False
-    # ssl_path: !ref <wav2vec2_hub>
-    # save_path: !ref <save_folder>/wav2vec2_checkpoint
 
 SSL_enc: !new:speechbrain.lobes.models.huggingface_wav2vec.HuggingFaceWav2Vec2
-   source: !ref <wav2vec2_hub>
-   output_norm: True
-   freeze: True
-   freeze_feature_extractor: True
-   save_path: !ref <save_folder>/wav2vec2_checkpoint
+    source: !ref <wav2vec2_hub>
+    output_norm: True
+    freeze: True
+    freeze_feature_extractor: True
+    save_path: !ref <save_folder>/wav2vec2_checkpoint
 
 ctc_lin: !new:speechbrain.nnet.linear.Linear
     input_size: !ref <d_model>
@@ -250,7 +238,7 @@ ctc_cost: !name:speechbrain.nnet.losses.ctc_loss
 #     reduction: !ref <loss_reduction>
 
 seq_cost: !name:speechbrain.nnet.losses.nll_loss
-   label_smoothing: 0.1
+    label_smoothing: 0.1
 
 
 noam_annealing: !new:speechbrain.nnet.schedulers.NoamScheduler
@@ -258,10 +246,10 @@ noam_annealing: !new:speechbrain.nnet.schedulers.NoamScheduler
     n_warmup_steps: 25000
 
 lr_annealing: !new:speechbrain.nnet.schedulers.NewBobScheduler
-   initial_value: !ref <lr_adam>
-   improvement_threshold: 0.0025
-   annealing_factor: 0.8
-   patient: 1
+    initial_value: !ref <lr_adam>
+    improvement_threshold: 0.0025
+    annealing_factor: 0.8
+    patient: 1
 
 checkpointer: !new:speechbrain.utils.checkpoints.Checkpointer
     checkpoints_dir: !ref <save_folder>
@@ -275,14 +263,14 @@ checkpointer: !new:speechbrain.utils.checkpoints.Checkpointer
 #    limit: !ref <number_of_epochs>
 
 epoch_counter: !new:speechbrain.utils.epoch_loop.EpochCounterWithStopper
-   limit: !ref <number_of_epochs>
-   limit_to_stop: 7
-   limit_warmup: 5
-   direction: "max"
+    limit: !ref <number_of_epochs>
+    limit_to_stop: 7
+    limit_warmup: 5
+    direction: "max"
 
 augmentation: !new:speechbrain.lobes.augment.TimeDomainSpecAugment
-   sample_rate: !ref <sample_rate>
-   speeds: [80, 90, 95, 100, 105, 110, 120]
+    sample_rate: !ref <sample_rate>
+    speeds: [80, 90, 95, 100, 105, 110, 120]
 
 speed_perturb: False
 
@@ -296,6 +284,5 @@ train_logger: !new:speechbrain.utils.train_logger.FileTrainLogger
 
 error_rate_computer: !name:speechbrain.utils.metric_stats.ErrorRateStats
 cer_computer: !name:speechbrain.utils.metric_stats.ErrorRateStats
-   split_tokens: True
+    split_tokens: True
 acc_computer: !name:speechbrain.utils.Accuracy.AccuracyStats
-

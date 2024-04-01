@@ -29,6 +29,7 @@ import sys
 import torch
 import logging
 import speechbrain as sb
+
 # import speechbrain.speechbrain as sb
 from speechbrain.utils.distributed import run_on_main, if_main_process
 from hyperpyyaml import load_hyperpyyaml
@@ -41,7 +42,7 @@ from torch.utils.tensorboard import SummaryWriter
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-#multi-gpu
+# multi-gpu
 from speechbrain.dataio.dataloader import LoopedLoader
 from speechbrain.dataio.dataloader import SaveableDataLoader
 from torch.utils.data import DataLoader
@@ -52,6 +53,7 @@ import gc
 logger = logging.getLogger(__name__)
 
 torch.autograd.set_detect_anomaly(True)
+
 
 def plot_attention_weights(attention_weights, outputfile, xtick_tokens, utt_id):
     """
@@ -66,13 +68,12 @@ def plot_attention_weights(attention_weights, outputfile, xtick_tokens, utt_id):
     if not isinstance(attention_weights, np.ndarray):
         attention_weights = attention_weights.cpu().numpy()
 
-
     plt.clf()
     ax = sns.heatmap(attention_weights, fmt=".2f", cmap="YlGnBu", cbar=True)
-    ax.set(xlabel='x', ylabel='y', title=f'{utt_id} Attention Weights Heatmap')
+    ax.set(xlabel="x", ylabel="y", title=f"{utt_id} Attention Weights Heatmap")
     plt.xticks(ticks=range(len(xtick_tokens)), labels=xtick_tokens)
     # Rotate x-tick labels and adjust their size
-    plt.xticks(rotation=90, fontsize='small')
+    plt.xticks(rotation=90, fontsize="small")
     # Remove the legend
     plt.legend().remove()
     plt.tight_layout()
@@ -81,10 +82,13 @@ def plot_attention_weights(attention_weights, outputfile, xtick_tokens, utt_id):
     fig.savefig(outputfile)
 
 
-def props(cls):   
-    return [i for i in cls.__dict__.keys() if i[:1] != '_']
+def props(cls):
+    return [i for i in cls.__dict__.keys() if i[:1] != "_"]
+
+
 def count_parameters(model):
     return sum(p.numel() for p in model.parameters() if p.requires_grad)
+
 
 # Define training procedure
 class ASR(sb.Brain):
@@ -114,7 +118,6 @@ class ASR(sb.Brain):
         pred = self.modules.seq_lin(out_ASR)
         p_seq = self.hparams.log_softmax(pred)
 
-
         # Compute outputs
         hyps_asr = None
         hyps_attn = None
@@ -122,18 +125,25 @@ class ASR(sb.Brain):
             hyps = None
         elif stage == sb.Stage.VALID:
             current_epoch = self.hparams.epoch_counter.current
-            if (current_epoch % self.hparams.valid_search_interval == 0):
+            if current_epoch % self.hparams.valid_search_interval == 0:
 
-                if isinstance(self.hparams.valid_search, sb.decoders.S2STransformerBeamSearchAttention):
-                    hyps_asr, _, hyps_attn = self.hparams.valid_search(w2v_out.detach(), wav_lens)
+                if isinstance(
+                    self.hparams.valid_search,
+                    sb.decoders.S2STransformerBeamSearchAttention,
+                ):
+                    hyps_asr, _, hyps_attn = self.hparams.valid_search(
+                        w2v_out.detach(), wav_lens
+                    )
                 else:
-                    hyps_asr, _ = self.hparams.valid_search(w2v_out.detach(), wav_lens)
+                    hyps_asr, _ = self.hparams.valid_search(
+                        w2v_out.detach(), wav_lens
+                    )
 
         elif stage == sb.Stage.TEST:
             hyps_asr, _ = self.hparams.test_search(w2v_out.detach(), wav_lens)
 
         return p_ctc, p_seq, wav_lens, hyps_asr, hyps_attn
-    
+
     def compute_objectives(self, predictions, batch, stage):
         """Computes the loss (CTC+NLL) given predictions and targets."""
 
@@ -144,7 +154,10 @@ class ASR(sb.Brain):
         tokens, tokens_lens = batch.tokens
 
         loss_seq = self.hparams.seq_cost(
-            p_seq, tokens_eos, length=tokens_eos_lens, weight=self.tokenizer_weight.to(self.device),
+            p_seq,
+            tokens_eos,
+            length=tokens_eos_lens,
+            weight=self.tokenizer_weight.to(self.device),
         ).sum()
 
         # now as training progresses we use real prediction from the prev step instead of teacher forcing
@@ -162,23 +175,31 @@ class ASR(sb.Brain):
             current_epoch = self.hparams.epoch_counter.current
             valid_search_interval = self.hparams.valid_search_interval
 
-            if current_epoch % valid_search_interval == 0 or stage == sb.Stage.TEST:
-            
+            if (
+                current_epoch % valid_search_interval == 0
+                or stage == sb.Stage.TEST
+            ):
+
                 predicted_words = [
-                    self.tokenizer.decode_ids(utt_seq).split(" ") for utt_seq in hyps
+                    self.tokenizer.decode_ids(utt_seq).split(" ")
+                    for utt_seq in hyps
                 ]
                 # target_words = [wrd.split(" ") for wrd in batch.wrd] # AB
-                target_words = [wrd.split(" ") for wrd in batch.transcription_para]
+                target_words = [
+                    wrd.split(" ") for wrd in batch.transcription_para
+                ]
 
                 self.wer_metric.append(ids, predicted_words, target_words)
                 self.cer_metric.append(ids, predicted_words, target_words)
 
                 # plot metrics
-                if ids[0] in self.hparams.vis_dev_speakers and stage != sb.Stage.TEST:
+                if (
+                    ids[0] in self.hparams.vis_dev_speakers
+                    and stage != sb.Stage.TEST
+                ):
                     viz_dir = f"{self.hparams.output_folder}/attn_viz/epoch_{self.epoch}"
                     if not os.path.exists(viz_dir):
                         os.makedirs(viz_dir)
-
 
                     # remove extra dims
                     print(f"hyps[0]: {hyps[0]}")
@@ -187,16 +208,22 @@ class ASR(sb.Brain):
                     attention_two_d = torch.squeeze(hyps_attn[0])
 
                     # get token (str)
-                    predicted_tokens = [self.tokenizer.IdToPiece(token_id) for token_id in hyps[0]]
+                    predicted_tokens = [
+                        self.tokenizer.IdToPiece(token_id)
+                        for token_id in hyps[0]
+                    ]
 
                     # flip dims for seaborn plot
                     attention_two_d = torch.transpose(attention_two_d, 0, 1)
                     # reduce dim to eos (mirrors seq2seq - filter_seq2seq_output())
-                    attention_two_d = attention_two_d[:,:len(predicted_tokens)] # filter eos token
+                    attention_two_d = attention_two_d[
+                        :, : len(predicted_tokens)
+                    ]  # filter eos token
 
                     output_file = f"{viz_dir}/{ids[0]}.png"
-                    plot_attention_weights(attention_two_d, output_file, predicted_tokens, ids[0])
-                    
+                    plot_attention_weights(
+                        attention_two_d, output_file, predicted_tokens, ids[0]
+                    )
 
             # compute the accuracy of the one-step-forward prediction
             self.acc_metric.append(p_seq, tokens_eos, tokens_eos_lens)
@@ -240,9 +267,7 @@ class ASR(sb.Brain):
 
             # lr = self.hparams.noam_annealing.current_lr
             # newBOB
-            lr, new_lr_model = self.hparams.lr_annealing(
-                stage_stats["loss"]
-            )
+            lr, new_lr_model = self.hparams.lr_annealing(stage_stats["loss"])
             sb.nnet.schedulers.update_learning_rate(
                 self.optimizer, new_lr_model
             )
@@ -261,13 +286,19 @@ class ASR(sb.Brain):
                 train_stats=self.train_stats,
                 valid_stats=stage_stats,
             )
-            if hasattr(self.hparams, "loss_optimizer") and self.hparams.loss_optimizer == 'acc':
+            if (
+                hasattr(self.hparams, "loss_optimizer")
+                and self.hparams.loss_optimizer == "acc"
+            ):
                 self.checkpointer.save_and_keep_only(
                     meta={"ACC": stage_stats["ACC"], "epoch": epoch},
                     max_keys=["ACC"],
                     num_to_keep=1,
                 )
-            elif hasattr(self.hparams, "loss_optimizer") and self.hparams.loss_optimizer == 'loss':
+            elif (
+                hasattr(self.hparams, "loss_optimizer")
+                and self.hparams.loss_optimizer == "loss"
+            ):
                 self.checkpointer.save_and_keep_only(
                     meta={"loss": stage_stats["loss"], "epoch": epoch},
                     min_keys=["loss"],
@@ -281,7 +312,7 @@ class ASR(sb.Brain):
             )
             with open(self.hparams.wer_file, "w") as w:
                 self.wer_metric.write_stats(w)
-    
+
     def on_evaluate_start(self, max_key=None, min_key=None):
         """perform checkpoint averge if needed"""
         super().on_evaluate_start()
@@ -330,7 +361,9 @@ class ASR(sb.Brain):
         self.on_fit_batch_end(batch, outputs, loss, should_step)
         return loss.detach().cpu()
 
-    def make_dataloader(self, dataset, stage, ckpt_prefix="dataloader-", **loader_kwargs):
+    def make_dataloader(
+        self, dataset, stage, ckpt_prefix="dataloader-", **loader_kwargs
+    ):
         # TRAIN stage is handled specially.
         if stage == sb.Stage.TRAIN or stage == sb.Stage.TEST:
             loader_kwargs = self._train_loader_specifics(dataset, loader_kwargs)
@@ -360,7 +393,7 @@ class ASR(sb.Brain):
         progressbar=None,
         stage=sb.Stage.TEST,
         test_loader_kwargs={},
-        ):
+    ):
         if progressbar is None:
             progressbar = not self.noprogressbar
 
@@ -404,7 +437,7 @@ class ASR(sb.Brain):
 
         self.step = 0
         return avg_test_loss
-    
+
     def fit(
         self,
         epoch_counter,
@@ -441,11 +474,17 @@ class ASR(sb.Brain):
         enable = progressbar and sb.utils.distributed.if_main_process()
 
         # Reset epoch_counter for FT
-        if self.hparams.FT_start and isinstance(epoch_counter, sb.utils.epoch_loop.EpochCounterWithStopper):
+        if self.hparams.FT_start and isinstance(
+            epoch_counter, sb.utils.epoch_loop.EpochCounterWithStopper
+        ):
             self.epoch_counter_limit_to_stop_FT = epoch_counter.limit_to_stop
             self.epoch_counter_limit_warmup_FT = epoch_counter.limit_warmup
-            epoch_counter.limit_to_stop = epoch_counter.current + self.epoch_counter_limit_to_stop_FT
-            epoch_counter.limit_warmup = epoch_counter.current + self.epoch_counter_limit_warmup_FT
+            epoch_counter.limit_to_stop = (
+                epoch_counter.current + self.epoch_counter_limit_to_stop_FT
+            )
+            epoch_counter.limit_warmup = (
+                epoch_counter.current + self.epoch_counter_limit_warmup_FT
+            )
 
         # Iterate epochs
         for epoch in epoch_counter:
@@ -454,10 +493,24 @@ class ASR(sb.Brain):
             self._fit_valid(valid_set=valid_set, epoch=epoch, enable=enable)
 
             # epoch_counter.update_metric(self.valid_loss)
-            if isinstance(epoch_counter, sb.utils.epoch_loop.EpochCounterWithStopper):
-                if hasattr(self.hparams, "loss_optimizer") and self.hparams.loss_optimizer == 'acc' and epoch_counter.should_stop(current=epoch, current_metric=self.valid_acc):
+            if isinstance(
+                epoch_counter, sb.utils.epoch_loop.EpochCounterWithStopper
+            ):
+                if (
+                    hasattr(self.hparams, "loss_optimizer")
+                    and self.hparams.loss_optimizer == "acc"
+                    and epoch_counter.should_stop(
+                        current=epoch, current_metric=self.valid_acc
+                    )
+                ):
                     epoch_counter.current = epoch_counter.limit
-                elif hasattr(self.hparams, "loss_optimizer") and self.hparams.loss_optimizer == 'loss' and epoch_counter.should_stop(current=epoch, current_metric=self.valid_loss):
+                elif (
+                    hasattr(self.hparams, "loss_optimizer")
+                    and self.hparams.loss_optimizer == "loss"
+                    and epoch_counter.should_stop(
+                        current=epoch, current_metric=self.valid_loss
+                    )
+                ):
                     epoch_counter.current = epoch_counter.limit
 
             # tensorboard
@@ -501,11 +554,16 @@ class ASR(sb.Brain):
 
                 # Only run validation "on_stage_end" on main process
                 self.step = 0
-                
-                if hasattr(self.hparams, "loss_optimizer") and self.hparams.loss_optimizer == 'acc':
+
+                if (
+                    hasattr(self.hparams, "loss_optimizer")
+                    and self.hparams.loss_optimizer == "acc"
+                ):
                     self.valid_acc = self.acc_metric.summarize()
-                self.valid_loss = avg_valid_loss # needed for epoch_counter_Stop
-                
+                self.valid_loss = (
+                    avg_valid_loss  # needed for epoch_counter_Stop
+                )
+
                 run_on_main(
                     self.on_stage_end,
                     args=[sb.Stage.VALID, avg_valid_loss, epoch],
@@ -578,7 +636,7 @@ class ASR(sb.Brain):
         self.step = 0
 
 
-def dataio_prepare(hparams,tokenizer):
+def dataio_prepare(hparams, tokenizer):
     """This function prepares the datasets to be used in the brain class.
     It also defines the data processing pipeline through user-defined functions."""
     data_folder = hparams["data_folder"]
@@ -589,16 +647,17 @@ def dataio_prepare(hparams,tokenizer):
 
     if hparams["sorting"] == "ascending":
         # we sort training data to speed up training and get better results.
-        train_data = train_data.filtered_sorted(sort_key="duration",
+        train_data = train_data.filtered_sorted(
+            sort_key="duration",
             key_max_value={"duration": hparams["max_length"]},
             key_min_value={"duration": hparams["min_length"]},
-
         )
         # when sorting do not shuffle in dataloader ! otherwise is pointless
         hparams["train_dataloader_opts"]["shuffle"] = False
     elif hparams["sorting"] == "descending":
         train_data = train_data.filtered_sorted(
-            sort_key="duration", reverse=True,
+            sort_key="duration",
+            reverse=True,
             # key_max_value={"duration": hparams["max_length"]}
         )
         # when sorting do not shuffle in dataloader ! otherwise is pointless
@@ -614,24 +673,25 @@ def dataio_prepare(hparams,tokenizer):
     valid_data = sb.dataio.dataset.DynamicItemDataset.from_csv(
         csv_path=hparams["valid_csv"], replacements={"data_root": data_folder}
     )
-    
-    valid_data = valid_data.filtered_sorted(sort_key="duration",
-        key_max_value={"duration": hparams["val_max_length"]},
-        key_min_value={"duration": hparams["val_min_length"]}
-    )
 
+    valid_data = valid_data.filtered_sorted(
+        sort_key="duration",
+        key_max_value={"duration": hparams["val_max_length"]},
+        key_min_value={"duration": hparams["val_min_length"]},
+    )
 
     test_data = sb.dataio.dataset.DynamicItemDataset.from_csv(
         csv_path=hparams["test_csv"], replacements={"data_root": data_folder}
     )
-    test_data = test_data.filtered_sorted(sort_key="duration",
+    test_data = test_data.filtered_sorted(
+        sort_key="duration",
         # key_max_value={"duration": 1},
         key_max_value={"duration": hparams["max_length"]},
-        key_min_value={"duration": hparams["min_length"]}
+        key_min_value={"duration": hparams["min_length"]},
     )
 
     datasets = [train_data, valid_data, test_data]
-    valtest_datasets = [valid_data,test_data]
+    valtest_datasets = [valid_data, test_data]
 
     # 2. Define audio pipeline:
     @sb.utils.data_pipeline.takes("wav")
@@ -662,16 +722,21 @@ def dataio_prepare(hparams,tokenizer):
     sb.dataio.dataset.add_dynamic_item([train_data], audio_pipeline_train)
 
     # 3. Define text pipeline:
-    @sb.utils.data_pipeline.takes("wrd","aug_para")
+    @sb.utils.data_pipeline.takes("wrd", "aug_para")
     @sb.utils.data_pipeline.provides(
-        "wrd", "transcription_para", "tokens_list", "tokens_bos", "tokens_eos", "tokens"
+        "wrd",
+        "transcription_para",
+        "tokens_list",
+        "tokens_bos",
+        "tokens_eos",
+        "tokens",
     )
-    def text_pipeline(wrd,aug_para):
+    def text_pipeline(wrd, aug_para):
         yield wrd
-        transcription_para = aug_para.replace("/c","")
-        transcription_para = transcription_para.replace("/n"," [n]")
-        transcription_para = transcription_para.replace("/p"," [p]")
-        transcription_para = transcription_para.replace("/s"," [s]")
+        transcription_para = aug_para.replace("/c", "")
+        transcription_para = transcription_para.replace("/n", " [n]")
+        transcription_para = transcription_para.replace("/p", " [p]")
+        transcription_para = transcription_para.replace("/s", " [s]")
         yield transcription_para
         tokens_list = tokenizer.sp.encode_as_ids(transcription_para)
         yield tokens_list
@@ -681,26 +746,32 @@ def dataio_prepare(hparams,tokenizer):
         yield tokens_eos
         tokens = torch.LongTensor(tokens_list)
         yield tokens
+
     sb.dataio.dataset.add_dynamic_item(datasets, text_pipeline)
 
     # 4. Set output:
     sb.dataio.dataset.set_output_keys(
-        datasets, ["id", "sig", "wrd", "transcription_para", "tokens_bos", "tokens_eos", "tokens"],
+        datasets,
+        [
+            "id",
+            "sig",
+            "wrd",
+            "transcription_para",
+            "tokens_bos",
+            "tokens_eos",
+            "tokens",
+        ],
     )
 
-
-    return (
-        train_data,
-        valid_data,
-        test_data
-    )
+    return (train_data, valid_data, test_data)
 
 
 def prep_exp_dir(hparams):
-    save_folder = hparams['save_folder']
+    save_folder = hparams["save_folder"]
     # Saving folder
     if not os.path.exists(save_folder):
         os.makedirs(save_folder)
+
 
 if __name__ == "__main__":
     # CLI:
@@ -721,10 +792,7 @@ if __name__ == "__main__":
         overrides=overrides,
     )
 
-
     prep_exp_dir(hparams)
-
-
 
     tokenizer = SentencePiece(
         model_dir=hparams["save_folder"],
@@ -741,9 +809,9 @@ if __name__ == "__main__":
     )
     # vocab_check(tokenizer, hparams)
 
-
-
-    train_data,valid_data,test_data = dataio_prepare(hparams,tokenizer=tokenizer)
+    train_data, valid_data, test_data = dataio_prepare(
+        hparams, tokenizer=tokenizer
+    )
     print("check")
     # Trainer initialization
     asr_brain = ASR(
@@ -754,48 +822,53 @@ if __name__ == "__main__":
         checkpointer=hparams["checkpointer"],
     )
 
-
     asr_brain.tokenizer = tokenizer.sp
     train_dataloader_opts = hparams["train_dataloader_opts"]
     valid_dataloader_opts = hparams["valid_dataloader_opts"]
-    tokens = {i:asr_brain.tokenizer.id_to_piece(i) for i in range(asr_brain.tokenizer.get_piece_size())}
+    tokens = {
+        i: asr_brain.tokenizer.id_to_piece(i)
+        for i in range(asr_brain.tokenizer.get_piece_size())
+    }
     print(f"tokenizer: {tokens} | {len(tokens.keys())}")
-    
+
     # asr_brain.modules = asr_brain.modules.float()
     count_parameters(asr_brain.modules)
-    asr_brain.tb = SummaryWriter(hparams['tb_logs'])
+    asr_brain.tb = SummaryWriter(hparams["tb_logs"])
 
     # Initialize inverse paraphasia class count
     asr_brain.tokenizer_weight = [1 for i in range(len(tokens))]
     asr_brain.train_para_class_count = [0 for _ in range(3)]
-    PARA2INDEX = {p:i for i,p in enumerate(['[p]','[n]','[s]'])}
+    PARA2INDEX = {p: i for i, p in enumerate(["[p]", "[n]", "[s]"])}
     for t in train_data:
-        for p in t['transcription_para'].split():
-            if p in ['[p]','[n]','[s]']:
+        for p in t["transcription_para"].split():
+            if p in ["[p]", "[n]", "[s]"]:
                 asr_brain.train_para_class_count[PARA2INDEX[p]] += 1
 
-    asr_brain.train_para_class_count = 1. / torch.tensor(asr_brain.train_para_class_count, dtype=torch.float)
-    asr_brain.train_para_class_count = asr_brain.train_para_class_count / min(asr_brain.train_para_class_count)
-    
+    asr_brain.train_para_class_count = 1.0 / torch.tensor(
+        asr_brain.train_para_class_count, dtype=torch.float
+    )
+    asr_brain.train_para_class_count = asr_brain.train_para_class_count / min(
+        asr_brain.train_para_class_count
+    )
+
     # attach to tokenizer_weight
-    for i,p in enumerate(['[p]','[n]','[s]']):
+    for i, p in enumerate(["[p]", "[n]", "[s]"]):
         para_weight = asr_brain.train_para_class_count[i]
         para_id = asr_brain.tokenizer.piece_to_id(p)
         asr_brain.tokenizer_weight[para_id] = para_weight
-    asr_brain.tokenizer_weight = torch.tensor(asr_brain.tokenizer_weight, dtype=torch.float)
-
+    asr_brain.tokenizer_weight = torch.tensor(
+        asr_brain.tokenizer_weight, dtype=torch.float
+    )
 
     # Initialize inverse paraphasia class count
     asr_brain.train_para_class_count = [1 for i in range(len(tokens.keys()))]
-    weight_dict = {'[p]': 2, '[n]':4, '[s]':10}
-    for para,weight in weight_dict.items():
+    weight_dict = {"[p]": 2, "[n]": 4, "[s]": 10}
+    for para, weight in weight_dict.items():
         para_index = asr_brain.tokenizer.piece_to_id(para)
         asr_brain.train_para_class_count[para_index] = weight
 
-
-
     with torch.autograd.detect_anomaly():
-        if hparams['train_flag']:
+        if hparams["train_flag"]:
             print("training model")
             asr_brain.fit(
                 asr_brain.hparams.epoch_counter,
@@ -804,7 +877,6 @@ if __name__ == "__main__":
                 train_loader_kwargs=hparams["train_dataloader_opts"],
                 valid_loader_kwargs=hparams["valid_dataloader_opts"],
             )
-
 
     # Testing
     print("Run Eval")
@@ -815,13 +887,12 @@ if __name__ == "__main__":
         hparams["output_folder"], "cer.txt"
     )
 
-
-     ## LM sweep ##
+    ## LM sweep ##
     print("LM SWEEP")
-    best_wer = float('inf')
+    best_wer = float("inf")
     best_ctc = torch.Tensor([0.0]).cuda()
     best_lm = torch.Tensor([0.0]).cuda()
-    for ctc_weight in [0.2,0.3,0.4]:
+    for ctc_weight in [0.2, 0.3, 0.4]:
         for lm_weight in [0.0]:
             asr_brain.hparams.test_search.ctc_weight = ctc_weight
             asr_brain.hparams.test_search.lm_weight = lm_weight
@@ -831,14 +902,15 @@ if __name__ == "__main__":
             )
             # print(f"stage_stats: {asr_brain.stage_stats} | {os.environ['RANK']}")
             if if_main_process():
-                val_wer = asr_brain.stage_stats['WER']
+                val_wer = asr_brain.stage_stats["WER"]
                 if val_wer < best_wer:
                     best_wer = val_wer
                     best_ctc = torch.Tensor([ctc_weight]).cuda()
                     best_lm = torch.Tensor([lm_weight]).cuda()
-                print(f"ctc: {asr_brain.hparams.test_search.ctc_weight} | lm: {asr_brain.hparams.test_search.lm_weight} | wer: {val_wer} | best_wer: {best_wer}")
+                print(
+                    f"ctc: {asr_brain.hparams.test_search.ctc_weight} | lm: {asr_brain.hparams.test_search.lm_weight} | wer: {val_wer} | best_wer: {best_wer}"
+                )
             torch.cuda.empty_cache()
-
 
     asr_brain.hparams.test_search.ctc_weight = best_ctc
     asr_brain.hparams.test_search.lm_weight = best_lm

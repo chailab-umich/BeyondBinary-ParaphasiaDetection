@@ -1,4 +1,4 @@
-#!/bin/bash                                                                                  
+#!/bin/bash
 srun \
  --job-name=interactive \
  --mail-user=mkperez@umich.edu \

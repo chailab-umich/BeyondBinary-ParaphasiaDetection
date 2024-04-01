@@ -14,7 +14,7 @@ from speechbrain.lobes.models.transformer.Transformer import (
     get_lookahead_mask,
     get_key_padding_mask,
     NormalizedEmbedding,
-    TransformerDecoder
+    TransformerDecoder,
 )
 from speechbrain.nnet.activations import Swish
 from speechbrain.dataio.dataio import length_to_mask
@@ -310,12 +310,13 @@ class TransformerASR(TransformerInterface):
             pos_embs=pos_embs_source,
         )
         # print(f"lne: {len(attn)}")
-        return encoder_out,attn[-1]
+        return encoder_out, attn[-1]
 
     def _init_params(self):
         for p in self.parameters():
             if p.dim() > 1:
                 torch.nn.init.xavier_normal_(p)
+
 
 class EncoderWrapper(nn.Module):
     """This is a wrapper of any ASR transformer encoder. By default, the
@@ -350,6 +351,7 @@ class EncoderWrapper(nn.Module):
         """ Processes the input tensor x and returns an output tensor."""
         x = self.transformer.encode(x, wav_lens)
         return x
+
 
 class TransformerDecoderASR(TransformerInterface):
     """
@@ -439,7 +441,6 @@ class TransformerDecoderASR(TransformerInterface):
         attention_type: Optional[str] = "regularMHA",
         max_length: Optional[int] = 2500,
         causal: Optional[bool] = True,
-
     ):
         super().__init__(
             d_model=d_model,
@@ -495,8 +496,6 @@ class TransformerDecoderASR(TransformerInterface):
         pad_idx : int, optional
             The index for <pad> token (default=0).
         """
-
-
 
         (
             src_key_padding_mask,
@@ -636,7 +635,6 @@ class TransformerScriptParaDecoder(TransformerInterface):
         attention_type: Optional[str] = "regularMHA",
         max_length: Optional[int] = 2500,
         causal: Optional[bool] = True,
-
     ):
         super().__init__(
             d_model=d_model,
@@ -656,7 +654,6 @@ class TransformerScriptParaDecoder(TransformerInterface):
             max_length=max_length,
             causal=causal,
         )
-
 
         self.custom_src_module = ModuleList(
             Linear(
@@ -695,8 +692,6 @@ class TransformerScriptParaDecoder(TransformerInterface):
             The index for <pad> token (default=0).
         """
 
-
-
         (
             src_key_padding_mask,
             tgt_key_padding_mask,
@@ -704,16 +699,14 @@ class TransformerScriptParaDecoder(TransformerInterface):
             tgt_mask,
         ) = self.make_masks(src, tgt, wav_len, pad_idx=pad_idx)
 
-
         # src mask = None
-        
+
         src = self.custom_src_module(src)
 
         if self.positional_encoding_type == "fixed_abs_sine":
             src = src + self.positional_encoding(src)
             pos_embs_target = None
             pos_embs_encoder = None
-
 
         # print(f"src: {src.shape}")
         # print(f"tgt: {tgt.shape}")
@@ -727,8 +720,6 @@ class TransformerScriptParaDecoder(TransformerInterface):
             pos_embs_tgt=pos_embs_target,
             pos_embs_src=pos_embs_encoder,
         )
-
-
 
         return decoder_out, mh_attn
 
