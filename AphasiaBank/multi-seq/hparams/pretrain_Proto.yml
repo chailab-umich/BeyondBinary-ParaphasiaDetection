@@ -16,10 +16,6 @@ token_type: "bpe" # unigram / bpe
 output_neurons: 500
 para_output_neurons: 4
 
-# Control MTL or STL objective
-MTL_bool: True
-
-
 __set_seed: !apply:torch.manual_seed [!ref <seed>]
 w2v_model: hubert-large-ls960-ft
 wav2vec2_hub: !ref facebook/<w2v_model>
@@ -108,10 +104,10 @@ unk_index: 3
 # Decoding parameters
 min_decode_ratio: 0.0
 max_decode_ratio: 1.0
-valid_search_interval: 100
+valid_search_interval: 50
 lm_weight: 0.10
 ctc_weight_decode: 0.2
-test_beam_size: 75
+test_beam_size: 50
 valid_beam_size: 3
 
 ############################## models ################################

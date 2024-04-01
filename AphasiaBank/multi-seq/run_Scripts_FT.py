@@ -1,7 +1,6 @@
 '''
 Run through all folds of Fridriksson
 S2S model jointly optimized for both ASR and paraphasia detection
-Model is first trained on proto dataset and PD is on 'pn'
 '''
 import os
 import shutil
@@ -110,22 +109,18 @@ if __name__ == "__main__":
     FREEZE_ARCH = False
     loss_asr_weight = 0.5 # between 0 and 1
 
-    if FREEZE_ARCH:
-        BASE_MODEL = f"ISresults/MTL_proto/S2S-hubert-Transformer-500"
-        EXP_DIR = f"ISresults/MTL_Scripts/S2S-hubert-Transformer-500"
-    else:
-        BASE_MODEL = f"ISresults/full_FT_MTL_proto/S2S-hubert-Transformer-500"
-        # EXP_DIR = f"ISresults/full_FT_MTL_Scripts/MTL-loss_S2S-hubert-Transformer-500"
-        EXP_DIR = f"ISresults/full_FT_MTL_Scripts/MTL-weighted_para/reduce-w_asr_w-{loss_asr_weight}_S2S-hubert-Transformer-500"
+    BASE_MODEL = f"<path>/<to>/<pretrained_model>"
+    EXP_DIR = f"<new_path>/<to>/<finetuned_model>"
+
 
     if TRAIN_FLAG:
-        yaml_src = "/home/mkperez/speechbrain/AphasiaBank/hparams/Scripts/MTL_base.yml"
-        yaml_target = "/home/mkperez/speechbrain/AphasiaBank/hparams/Scripts/MTL_fold.yml"
+        yaml_src = "hparams/finetune_Scripts_base.yml"
+        yaml_target = "hparams/finetune_Scripts_final.yml"
         start = time.time()
         
-        i=8
+        i=1
         count=0
-        while i <=8:
+        while i <=12:
             data_fold_dir = f"{DATA_ROOT}/Fold_{i}"
 
             change_yaml(yaml_src,yaml_target,data_fold_dir,i,OUTPUT_NEURONS,EXP_DIR,BASE_MODEL,FREEZE_ARCH,loss_asr_weight)
@@ -138,7 +133,7 @@ if __name__ == "__main__":
             print(f"free port: {port}")
             cmd = ['python', '-m', 'torch.distributed.launch',
                    f'--master_port={str(port)}', 
-                'train_MTL.py', f'{yaml_target}']
+                'train_multi-seq.py', f'{yaml_target}']
             
             p = subprocess.run(cmd, env=env)
 
