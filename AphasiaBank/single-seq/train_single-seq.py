@@ -21,7 +21,6 @@ import numpy as np
 from scipy.io import wavfile
 import wave
 from tqdm import tqdm
-import librosa
 import pandas as pd
 import math
 import os
@@ -30,11 +29,9 @@ import torch
 import logging
 import speechbrain as sb
 
-# import speechbrain.speechbrain as sb
 from speechbrain.utils.distributed import run_on_main, if_main_process
 from hyperpyyaml import load_hyperpyyaml
 from pathlib import Path
-from datasets import load_dataset, load_metric, Audio
 import re
 import time
 from speechbrain.tokenizers.SentencePiece import SentencePiece
@@ -812,7 +809,6 @@ if __name__ == "__main__":
     train_data, valid_data, test_data = dataio_prepare(
         hparams, tokenizer=tokenizer
     )
-    print("check")
     # Trainer initialization
     asr_brain = ASR(
         modules=hparams["modules"],
@@ -837,19 +833,11 @@ if __name__ == "__main__":
 
     # Initialize inverse paraphasia class count
     asr_brain.tokenizer_weight = [1 for i in range(len(tokens))]
-    asr_brain.train_para_class_count = [0 for _ in range(3)]
-    PARA2INDEX = {p: i for i, p in enumerate(["[p]", "[n]", "[s]"])}
-    for t in train_data:
-        for p in t["transcription_para"].split():
-            if p in ["[p]", "[n]", "[s]"]:
-                asr_brain.train_para_class_count[PARA2INDEX[p]] += 1
-
-    asr_brain.train_para_class_count = 1.0 / torch.tensor(
-        asr_brain.train_para_class_count, dtype=torch.float
-    )
-    asr_brain.train_para_class_count = asr_brain.train_para_class_count / min(
-        asr_brain.train_para_class_count
-    )
+    asr_brain.train_para_class_count = [1 for i in range(len(tokens.keys()))]
+    weight_dict = {"[p]": 2, "[n]": 4, "[s]": 10}
+    for para, weight in weight_dict.items():
+        para_index = asr_brain.tokenizer.piece_to_id(para)
+        asr_brain.train_para_class_count[para_index] = weight
 
     # attach to tokenizer_weight
     for i, p in enumerate(["[p]", "[n]", "[s]"]):
@@ -859,13 +847,6 @@ if __name__ == "__main__":
     asr_brain.tokenizer_weight = torch.tensor(
         asr_brain.tokenizer_weight, dtype=torch.float
     )
-
-    # Initialize inverse paraphasia class count
-    asr_brain.train_para_class_count = [1 for i in range(len(tokens.keys()))]
-    weight_dict = {"[p]": 2, "[n]": 4, "[s]": 10}
-    for para, weight in weight_dict.items():
-        para_index = asr_brain.tokenizer.piece_to_id(para)
-        asr_brain.train_para_class_count[para_index] = weight
 
     with torch.autograd.detect_anomaly():
         if hparams["train_flag"]:
