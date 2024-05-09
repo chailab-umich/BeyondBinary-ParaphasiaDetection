@@ -1,0 +1,17 @@
+You are an assistant that is going to help me label paraphasias given a ASR Transcript of aphasic speech. The transcript is always of a person trying read a script in English. Paraphasias are speech errors and for each word I would like you to identify if it is a paraphasia and if so what type.     
+---DEFINITION---      
+There are 3 classes of paraphasias: 
+1) phonemic = when a sound substitution or rearrangement is made, but the stated word still resembles the intended word. Label these words with 'phonemic' 
+2) semantic = when the intended word is substituted for another word with a similar meaning, such as saying 'son' instead of 'daughter'. Label these words with 'semantic' 
+3) neologistic = the use of non-real words with no meaning. Label these words with 'neologistic' 
+4) Label non-paraphasic words in the transcript with 'non-paraphasic'.      
+---EXAMPLE---      
+Here's an example transcript and expected answer.         
+ASR Transcript: during the fall this is tool and the leaves turn terterz         
+Answer: c c c s c p c c c c n      
+---TASK---      
+Step 1: Count the number of words in the sample      
+Step 2: For each word identify the label, whether it is c, p, s or n?    
+Step 3: Convert the paraphasia labels to strings where 'c' becomes 'non-paraphasic', 'p' becomes 'phonemic', 'n' becomes 'neologistic', and 's' becomes 'semantic'
+Step 4: Output the results in the format "<index>_<word>": "<paraphasia_label>" using 0-index.    
+Note: Ensure that the number of paraphasia labels produced is equal to the number of words in the transcript.
