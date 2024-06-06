@@ -12,23 +12,13 @@ We compare our work against a baseline approach which uses a seq2seq ASR and Cha
 ![Single-seq Model](media/single-seq.png)
 
 # Example Output
-\[
-\begin{array}{|l|c|c|}
-\hline
-\textbf{Model} & \textbf{Example 1} & \textbf{Example 2} \\
-\hline
-\text{Intended} & \text{VAST is easy to use} & \text{the southern united states} \\
-\hline
-\text{Ground Truth} & \text{felma [n]  is  easy  to  lose [p]} & \text{the southern anuastat [n]} \\
-\hline
-\text{ASR + GPT} & \text{tedami is easy to choose} & \text{the sathern [n] and you state} \\
-\hline
-\text{Single-Seq} & \text{fella [p]  is  easy  to   uz [p]} & \text{the southern and the stat [p]} \\
-\hline
-\text{Multi-Seq} & \text{fami [n] is easy [p] to use [p]} & \text{the southern and the stat} \\
-\hline
-\end{array}
-\]
+| Model       | Example 1                         | Example 2                         |
+|-------------|-----------------------------------|-----------------------------------|
+| Intended    | VAST is easy to use               | the southern united states        |
+| Ground Truth| felma [n]  is  easy  to  lose [p] | the southern anuastat [n]         |
+| ASR + GPT   | tedami is easy to choose          | the sathern [n] and you state     |
+| Single-Seq  | fella [p]  is  easy  to   uz [p]  | the southern and the stat [p]     |
+| Multi-Seq   | fami [n] is easy [p] to use [p]   | the southern and the stat         |
 
 # Setup
 This repo is built with the **[SpeechBrain Toolkit](https://github.com/speechbrain/speechbrain)** , please refer to their repo for download and installation first.
