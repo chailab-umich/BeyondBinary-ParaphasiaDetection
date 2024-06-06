@@ -12,7 +12,23 @@ We compare our work against a baseline approach which uses a seq2seq ASR and Cha
 ![Single-seq Model](media/single-seq.png)
 
 # Example Output
-TODO
+\[
+\begin{array}{|l|c|c|}
+\hline
+\textbf{Model} & \textbf{Example 1} & \textbf{Example 2} \\
+\hline
+\text{Intended} & \text{VAST is easy to use} & \text{the southern united states} \\
+\hline
+\text{Ground Truth} & \text{felma [n]  is  easy  to  lose [p]} & \text{the southern anuastat [n]} \\
+\hline
+\text{ASR + GPT} & \text{tedami is easy to choose} & \text{the sathern [n] and you state} \\
+\hline
+\text{Single-Seq} & \text{fella [p]  is  easy  to   uz [p]} & \text{the southern and the stat [p]} \\
+\hline
+\text{Multi-Seq} & \text{fami [n] is easy [p] to use [p]} & \text{the southern and the stat} \\
+\hline
+\end{array}
+\]
 
 # Setup
 This repo is built with the **[SpeechBrain Toolkit](https://github.com/speechbrain/speechbrain)** , please refer to their repo for download and installation first.
