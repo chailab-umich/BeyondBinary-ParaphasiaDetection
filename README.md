@@ -24,8 +24,9 @@ We compare our work against a baseline approach which uses a seq2seq ASR and Cha
 # Setup
 This repo is built with the **[SpeechBrain Toolkit](https://github.com/speechbrain/speechbrain)** , please refer to their repo for download and installation first.
 
+All information is contained in the `AphasiaBank` subdirectory. 
 
-Please refer to the README files in `AphasiaBank/single-seq` or `AphasiaBank/multi-seq` for additional details on how to run these models.
+For example, data preparation is located in `AphasiaBank/kaldi_data_prep` while `AphasiaBank/single-seq` and `AphasiaBank/multi-seq` are for the individual models.
 
 # Citing
 If you found this work helpful, please cite using the following bibtex entry:
